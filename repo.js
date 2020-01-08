@@ -1,6 +1,6 @@
 {
 	"contact": "khanglegos+you.should.contact.my.discord.khangaroo.5062@gmail.com",
-	"id": "touhou-patches",
+	"id": "Khangaroo",
 	"patches": {
 		"resizable-window": "Resizable Window"
 	},
