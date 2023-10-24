@@ -1,1 +1,4 @@
 update.bat
+*.obj
+.vscode/
+.clangd

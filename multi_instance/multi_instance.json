@@ -1,0 +1,23 @@
+{
+    "input": "multi_instance.obj",
+    "output": "global.js",
+    "prefix": "multi_instance",
+    "externs": {
+        "_g_base": {
+            "addr": "Rx0"
+        }
+    },
+    "imports": {
+        "kernel32.dll": {
+            "VirtualProtect": {
+                "alias": "_VirtualProtect@16"
+            },
+            "CreateMutexA": {
+                "alias": "_CreateMutexA@12"
+            },
+            "CreateMutexW": {
+                "alias": "_CreateMutexW@12"
+            }
+        }
+    }
+}
