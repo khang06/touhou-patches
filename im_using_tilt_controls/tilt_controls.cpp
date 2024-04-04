@@ -431,18 +431,24 @@ int __fastcall calc_func(void*) {
     }
 
     // BOO!!!! D3DX FUNCTIONS IN GAME UPDATE CODE!!!!
-    D3DXQUATERNION tilt = {1.0, 0.0, 0.0, 0.0};
+    D3DXQUATERNION forward = {1.0, 0.0, 0.0, 0.0};
+    D3DXQUATERNION up = {0.0, 1.0, 0.0, 0.0};
+    D3DXQUATERNION right = {0.0, 0.0, 1.0, 0.0};
     D3DXQUATERNION inv;
     D3DXQuaternionInverse(&inv, &g_controller.quat);
-    D3DXQuaternionMultiply(&tilt, D3DXQuaternionMultiply(&tilt, &inv, &tilt), &g_controller.quat);
-    g_tilt[0] = tilt.z;
-    g_tilt[1] = -tilt.x;
-    g_tilt[2] = tilt.y;
+    D3DXQuaternionMultiply(&forward, D3DXQuaternionMultiply(&forward, &inv, &forward), &g_controller.quat);
+    D3DXQuaternionMultiply(&up, D3DXQuaternionMultiply(&up, &inv, &up), &g_controller.quat);
+    D3DXQuaternionMultiply(&right, D3DXQuaternionMultiply(&right, &inv, &right), &g_controller.quat);
+    g_tilt[0] = forward.z;
+    g_tilt[1] = -forward.x;
+    g_tilt[2] = forward.y;
 
     // Too lazy to scale this to the actual move/focus speed per character
     float multiplier = (g_input & 8) ? 750 : 1500;
-    g_vel[0] = g_tilt[0] * multiplier * -copysignf(1.0f, g_tilt[2]); // Seija joke hack
-    g_vel[1] = g_tilt[1] * multiplier;
+    bool flip_x = right.z > 0.0f; // Seija joke hack
+    bool flip_y = up.x > 0.0f;
+    g_vel[0] = g_tilt[0] * multiplier * (flip_x ? -1.0f : 1.0f);
+    g_vel[1] = g_tilt[1] * multiplier * (flip_y ? -1.0f : 1.0f);
     return 1;
 }
 
