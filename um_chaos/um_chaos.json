@@ -1,0 +1,166 @@
+{
+    "input": "build/linked.obj",
+    "output": "th18.v1.00a.js",
+    "prefix": "um_chaos",
+    "options": {
+        
+    },
+    "externs": {
+        "?AddVertices@AnmManager@@QAEHPAUZunVertex@@@Z": {
+            "addr": "0x47E800"
+        },
+        "?DrawSprite@AnmManager@@QAEHPAVAnmVM@@@Z": {
+            "addr": "0x481210"
+        },
+        "?Instance@Main@@2V1@A": {
+            "addr": "0x4CCDF0"
+        },
+        "?LoadFile@GameUtil@@YIPAXPBDPAII@Z": {
+            "addr": "0x402060"
+        },
+        "?RegisterCalc@CalcChain@@SGHPAXH@Z": {
+            "addr": "0x401180"
+        },
+        "?Create@CalcChain@@SGPAV1@P6IHPAX@Z@Z": {
+            "addr": "0x401530"
+        },
+        "?orig_threadproc@@YAHXZ": {
+            "addr": "0x4432B0"
+        },
+        "?SwitchMode@Main@@QAEHXZ": {
+            "addr": "0x455040"
+        },
+        "?Instance@Player@@2PAV1@A": {
+            "addr": "0x4CF410"
+        },
+        "?Window@Main@@2PAUHWND__@@A": {
+            "addr": "0x568C30"
+        },
+        "?Instance@GameState@@2PAV1@A": {
+            "addr": "0x4CF2E4"
+        },
+        "?GameSpeed@Globals@@3MA": {
+            "addr": "0x4CCBF0"
+        },
+        "?Instance@AbilityManager@@2PAV1@A": {
+            "addr": "0x4CF298"
+        }
+    },
+    "imports": {
+        "d3dx9_43.dll": {
+            "D3DXCreateTextureFromFileInMemory": {
+                "alias": "_D3DXCreateTextureFromFileInMemory@16"
+            }
+        },
+        "kernel32.dll": {
+            "AllocConsole": {
+                "alias": "_AllocConsole@0"
+            },
+            "CreateThread": {
+                "alias": "_CreateThread@24"
+            },
+            "VirtualProtect": {
+                "alias": "_VirtualProtect@16"
+            },
+            "DebugBreak": {
+                "alias": "_DebugBreak@0"
+            },
+            "ExitProcess": {
+                "alias": "_ExitProcess@4"
+            }
+        },
+        "ucrtbase.dll": {
+            "__stdio_common_vfprintf": {
+                "alias": "___stdio_common_vfprintf"
+            },
+            "__acrt_iob_func": {
+                "alias": "___acrt_iob_func"
+            },
+            "freopen": {
+                "alias": "_freopen"
+            },
+            "__stdio_common_vfscanf": {
+                "alias": "___stdio_common_vfscanf"
+            },
+            "strtol": {
+                "alias": "_strtol"
+            },
+            "fgets": {
+                "alias": "_fgets"
+            }
+        },
+        "winmm.dll": {
+            "timeGetTime": {
+                "alias": "_timeGetTime@0"
+            }
+        },
+        "user32.dll": {
+            "SetForegroundWindow": {
+                "alias": "_SetForegroundWindow@4"
+            },
+            "PostMessageA": {
+                "alias": "_PostMessageA@16"
+            }
+        }
+    },
+    "binhacks": {
+        "um_chaos_entry_hook": {
+            "addr": "0x453F34",
+            "code": "E9 [obj:_entry_hook]"
+        },
+        "um_chaos_threadproc_hook": {
+            "addr": "0x443804",
+            "code": "<obj:_game_threadproc_hook>"
+        },
+        "um_chaos_switch_mode_hook": {
+            "addr": "0x453600",
+            "code": "E8 [obj:_switch_mode_hook]"
+        },
+        "lesanae_add_vertices_hook": {
+            "addr": "0x47E6B5",
+            "code": "E8 [obj:_lesanae_add_vertices_hook]"
+        },
+        "lesanae_draw_sprite_hook1": {
+            "addr": "0x4555B9",
+            "code": "E8 [obj:_lesanae_draw_sprite_playfield_hook]"
+        },
+        "lesanae_draw_sprite_hook2": {
+            "addr": "0x455A29",
+            "code": "E8 [obj:_lesanae_draw_sprite_playfield_hook]"
+        },
+        "lesanae_draw_sprite_hook3": {
+            "addr": "0x455B80",
+            "code": "E8 [obj:_lesanae_draw_sprite_playfield_hook]"
+        },
+        "lesanae_draw_sprite_hook4": {
+            "addr": "0x455CB7",
+            "code": "E8 [obj:_lesanae_draw_sprite_playfield_hook]"
+        },
+        "lesanae_set_texture_hook1": {
+            "addr": "0x47E1B6",
+            "code": "E8 [obj:_lesanae_set_texture_hook@12] 90"
+        },
+        "lesanae_set_texture_hook2": {
+            "addr": "0x480835",
+            "code": "E8 [obj:_lesanae_set_texture_hook@12] 90"
+        },
+        "lesanae_set_texture_hook3": {
+            "addr": "0x480D92",
+            "code": "E8 [obj:_lesanae_set_texture_hook@12] 90"
+        },
+        "lesanae_set_texture_hook4": {
+            "addr": "0x481002",
+            "code": "E8 [obj:_lesanae_set_texture_hook@12] 90"
+        },
+        "lesanae_set_texture_hook5": {
+            "addr": "0x481171",
+            "code": "E8 [obj:_lesanae_set_texture_hook@12] 90"
+        }
+    },
+    "codecaves": {
+        "doublebullets_etcount_hook": {
+            "access": "rx",
+            "code": ""
+        }
+    }
+}
