@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define DEFINE_EFFECT(type_name) \
+#define REGISTER_EFFECT(type_name) \
     Effect* effect_init_##type_name() { \
         return new type_name; \
     } \

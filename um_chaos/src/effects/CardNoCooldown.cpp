@@ -5,7 +5,7 @@
 class CardNoCooldown : public Effect {
 public:
     // Not sure if people will even notice this being active...
-    size_t timer = Rand::Range(10 * 60, 5 * 60 * 60);
+    size_t timer = Rand::RangeFrames(10, 5 * 60);
 
     virtual bool Update() {
         auto* cur = &AbilityManager::Instance->card_list;
@@ -18,4 +18,4 @@ public:
         return --timer != 0;
     }
 };
-DEFINE_EFFECT(CardNoCooldown);
+REGISTER_EFFECT(CardNoCooldown);

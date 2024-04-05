@@ -3,7 +3,7 @@
 
 class ItemNoGrav : public Effect {
 public:
-    size_t timer = Rand::Range(5 * 60, 15 * 60);
+    size_t timer = Rand::RangeFrames(10, 2 * 60);
     CodePatches patches;
 
     ItemNoGrav() {
@@ -15,4 +15,4 @@ public:
         return --timer != 0;
     }
 };
-DEFINE_EFFECT(ItemNoGrav);
+REGISTER_EFFECT(ItemNoGrav);

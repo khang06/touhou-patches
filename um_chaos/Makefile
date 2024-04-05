@@ -4,7 +4,7 @@ OBJS = $(patsubst src/%.cpp,build/%.obj,$(SRCS))
 DEPDIR := build/.deps
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
-CPPFLAGS := --target=i686-pc-windows-msvc -msse -msse2 -mfpmath=sse -O3 -fno-builtin-printf -fno-exceptions -fno-rtti -D_HAS_EXCEPTIONS=0 -Isrc
+CPPFLAGS := --target=i686-pc-windows-msvc -msse -msse2 -mfpmath=sse -O3 -fno-exceptions -fno-rtti -fno-builtin-printf -D_HAS_EXCEPTIONS=0 "-D_CRTIMP=__declspec(dllimport)" "-D_VCRTIMP=__declspec(dllimport)" -D_CRT_SECURE_NO_WARNINGS=1 -Isrc
 
 all: build/linked.obj um_chaos.json
 	python ../../misc/reversing/touhou/coff2binhack/coff2binhack.py um_chaos.json

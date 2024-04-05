@@ -4,7 +4,7 @@
 
 class Freeze : public Effect {
 public:
-    size_t timer = Rand::Range(2 * 60, 10 * 60);
+    size_t timer = Rand::RangeFrames(0, 10);
 
     Freeze() {
         GameState::Instance->flags |= 0x400;
@@ -18,4 +18,4 @@ public:
         return --timer != 0;
     }
 };
-DEFINE_EFFECT(Freeze);
+REGISTER_EFFECT(Freeze);

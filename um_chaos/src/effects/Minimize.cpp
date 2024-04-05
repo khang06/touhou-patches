@@ -9,4 +9,4 @@ public:
         return false;
     }
 };
-DEFINE_EFFECT(Minimize);
+REGISTER_EFFECT(Minimize);

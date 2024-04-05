@@ -4,7 +4,7 @@
 
 class Jitter : public Effect {
 public:
-    size_t timer = Rand::Range(10 * 60, 30 * 60);
+    size_t timer = Rand::RangeFrames(10, 2 * 60);
 
     virtual bool Update() {
         Player::Instance->pos_x += Rand::Range(-512, 512);
@@ -13,4 +13,4 @@ public:
         return --timer != 0;
     }
 };
-DEFINE_EFFECT(Jitter);
+REGISTER_EFFECT(Jitter);

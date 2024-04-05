@@ -3,7 +3,7 @@
 
 class NoVertical : public Effect {
 public:
-    size_t timer = Rand::Range(5 * 60, 15 * 60);
+    size_t timer = Rand::RangeFrames(5, 60);
     CodePatches patches;
 
     NoVertical() {
@@ -15,4 +15,4 @@ public:
         return --timer != 0;
     }
 };
-DEFINE_EFFECT(NoVertical);
+REGISTER_EFFECT(NoVertical);

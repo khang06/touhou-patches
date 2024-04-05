@@ -1,6 +1,3 @@
-#define _CRTIMP __declspec(dllimport)
-#define _VCRTIMP __declspec(dllimport)
-#define _CRT_SECURE_NO_WARNINGS 1
 #include <Windows.h>
 #include <stdio.h>
 #include "assets.hpp"
@@ -66,7 +63,6 @@ DWORD __stdcall console_input_proc(void*) {
     return 0;
 }
 
-extern "C" HWND g_hwnd;
 extern "C" int entry_hook() {
     // Spawn a console window for debugging
     AllocConsole();

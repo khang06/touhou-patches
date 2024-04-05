@@ -9,10 +9,10 @@ public:
 
     GameSpeed() {
         if (Rand::Range(1, 10) == 1) {
-            timer = Rand::Range(15, 60 * 5);
+            timer = Rand::RangeFrames(0, 5);
             speed = -1.0f;
         } else {
-            timer = Rand::Range(10 * 60, 30 * 60);
+            timer = Rand::RangeFrames(10, 2 * 60);
             speed = Rand::NextFloat() * 1.75f + 0.25f;
         }
 
@@ -28,4 +28,4 @@ public:
         return --timer != 0;
     }
 };
-DEFINE_EFFECT(GameSpeed);
+REGISTER_EFFECT(GameSpeed);

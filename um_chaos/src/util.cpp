@@ -21,6 +21,9 @@ namespace Rand {
     int32_t Range(int32_t start, int32_t end) { // inclusive
         return Next() % (end - start + 1) + start; // Yes, there's modulo bias. I don't care
     }
+    int32_t RangeFrames(float start, float end) {
+        return Range((int)(start * 60.0f), (int)(end * 60.0f));
+    }
     float NextFloat() {
         union {
             uint32_t i;
@@ -56,4 +59,22 @@ void CodePatches::Add(void* addr, void* data, size_t size) {
         .addr = addr,
         .orig = std::move(orig),
     });
+}
+void CodePatches::AddJmp(uint32_t addr, uint32_t func) {
+    AddJmp(addr, (void*)func);
+}
+void CodePatches::AddJmp(uint32_t addr, void* func) {
+    BYTE patch[5];
+    patch[0] = 0xE9;
+    *(uint32_t*)(patch + 1) = (uint32_t)func - (uint32_t)addr - 5;
+    Add(addr, patch, sizeof(patch));
+}
+void CodePatches::AddCall(uint32_t addr, uint32_t func) {
+    AddCall(addr, (void*)func);
+}
+void CodePatches::AddCall(uint32_t addr, void* func) {
+    BYTE patch[5];
+    patch[0] = 0xE8;
+    *(uint32_t*)(patch + 1) = (uint32_t)func - (uint32_t)addr - 5;
+    Add(addr, patch, sizeof(patch));
 }

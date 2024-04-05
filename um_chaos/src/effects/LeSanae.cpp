@@ -9,7 +9,7 @@ public:
     static bool Enabled;
     static bool CopyingPlayfield;
 
-    size_t timer = Rand::Range(10 * 60, 30 * 60);
+    size_t timer = Rand::RangeFrames(10, 2 * 60);
 
     LeSanae() {
         Enabled = true;
@@ -23,7 +23,7 @@ public:
         return --timer != 0;
     }
 };
-DEFINE_EFFECT(LeSanae);
+REGISTER_EFFECT(LeSanae);
 
 bool LeSanae::Enabled = false;
 bool LeSanae::CopyingPlayfield = false;
