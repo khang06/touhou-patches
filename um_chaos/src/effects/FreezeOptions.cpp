@@ -1,18 +1,18 @@
 #include "effect.hpp"
 #include "util.hpp"
 
-class NoVertical : public Effect {
+class FreezeOptions : public Effect {
 public:
     size_t timer = Rand::RangeFrames(10, 2 * 60);
     CodePatches patches;
 
-    NoVertical() {
-        uint8_t patch[] = {0x31, 0xC0}; // xor eax, eax
-        patches.Add(0x45B427, patch, sizeof(patch));
+    FreezeOptions() {
+        uint8_t patch = 0xEB; // jnz -> jmp
+        patches.Add(0x45BCDE, &patch, sizeof(patch));
     }
 
     virtual bool Update() {
         return --timer != 0;
     }
 };
-REGISTER_EFFECT(NoVertical);
+REGISTER_EFFECT(FreezeOptions);

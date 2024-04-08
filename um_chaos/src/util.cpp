@@ -35,12 +35,16 @@ namespace Rand {
 }
 
 CodePatches::~CodePatches() {
+    Clear();
+}
+void CodePatches::Clear() {
     for (auto& x : patches) {
         DWORD old_prot;
         VirtualProtect(x.addr, x.orig.size(), PAGE_EXECUTE_READWRITE, &old_prot);
         memcpy(x.addr, x.orig.data(), x.orig.size());
         VirtualProtect(x.addr, x.orig.size(), old_prot, &old_prot);
     }
+    patches.clear();
 }
 void CodePatches::Add(uint32_t addr, void* data, size_t size) {
     Add((void*)addr, data, size);
@@ -77,4 +81,8 @@ void CodePatches::AddCall(uint32_t addr, void* func) {
     patch[0] = 0xE8;
     *(uint32_t*)(patch + 1) = (uint32_t)func - (uint32_t)addr - 5;
     Add(addr, patch, sizeof(patch));
+}
+
+namespace StupidWindowsStuff {
+    static HANDLE ActivationContext = NULL;
 }

@@ -4,7 +4,7 @@
 
 class Seija : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(5, 15);
+    size_t timer = Rand::RangeFrames(5, 30);
     int32_t interrupt = Rand::Range(0, 2) * 2 + 8;
 
     Seija() {

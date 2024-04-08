@@ -1,8 +1,9 @@
 #include "effect.hpp"
 #include "util.hpp"
 
-// This modifies *every* wait instruction!
-class DoubleBulletRate : public Effect {
+extern "C" float eclwaitmultiplier_mul = 1.0f;
+
+class EclWaitMultiplier : public Effect {
 public:
     static CodeCave DiffWaitCave;
     static CodeCave WaitCave;
@@ -11,7 +12,9 @@ public:
     size_t timer = Rand::RangeFrames(10, 2 * 60);
     CodePatches patches;
 
-    DoubleBulletRate() {
+    EclWaitMultiplier() {
+        eclwaitmultiplier_mul = Rand::NextFloat() * 1.5f + 0.5f; 
+
         patches.AddCall(0x435FAD, &DiffWaitCave);
         patches.AddCall(0x435FD6, &DiffWaitCave);
         patches.AddCall(0x435F85, &DiffWaitCave);
@@ -23,4 +26,4 @@ public:
         return --timer != 0;
     }
 };
-REGISTER_EFFECT(DoubleBulletRate);
+REGISTER_EFFECT(EclWaitMultiplier);

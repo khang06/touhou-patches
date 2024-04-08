@@ -14,6 +14,12 @@ void __cdecl operator delete(void* addr, unsigned int size) {
     free(addr);
 }
 
+int __cdecl atexit(void(*)()) {
+    return 0;
+}
+
+extern "C" void __cdecl _chkstk() {}
+
 namespace stdext {
     class exception;
 }

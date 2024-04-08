@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <dsound.h>
 #include <cstdint>
 #include <d3d9.h>
 #include <stdint.h>
@@ -29,8 +30,11 @@ namespace GameUtil {
 
 class AnmVM {
 public:
-    char gap0[0x494];
-    int32_t pending_interrupt;
+    char gap0[0x54];            // 0x0
+    float scale_x;              // 0x54
+    float scale_y;              // 0x58
+    char gap5C[0x438];          // 0x5C
+    int32_t pending_interrupt;  // 0x494
 };
 
 class Main {
@@ -57,6 +61,7 @@ public:
 
     static CalcChain* __stdcall Create(int(__fastcall* func)(void*));
     static int __stdcall RegisterCalc(void* func, int priority);
+    static int __stdcall RegisterDraw(void* func, int priority);
 };
 
 struct ZunVertex {
@@ -84,14 +89,17 @@ class Player {
 public:
     static Player* Instance;
 
-    char gap0[0x62C];       // 0x0
-    uint32_t pos_x;         // 0x62C
-    uint32_t pos_y;         // 0x630
-    Timer death_timer;      // 0x634
-    char gap648[0x47064];   // 0x648
-    uint32_t death_state;   // 0x476AC
-    char gap476B0[0xC4];    // 0x476B0
-    Timer idk_timer;
+    char gap0[0x620];           // 0x0
+    D3DVECTOR pos_float;        // 0x620
+    uint32_t pos_x;             // 0x62C
+    uint32_t pos_y;             // 0x630
+    Timer death_timer;          // 0x634
+    char gap648[0x47064];       // 0x648
+    uint32_t death_state;       // 0x476AC
+    char gap476B0[0xC4];        // 0x476B0
+    Timer idk_timer;            // 0x47774
+    char gap47788[0x200];       // 0x47788
+    float item_attract_speed;   // 0x47988
 };
 
 // Called "GameThread" in ExpHP's repo, but I think that name is misleading
@@ -99,12 +107,16 @@ class GameState {
 public:
     static GameState* Instance;
 
+    void ClearStage();
+
     char gap0[0xB0];    // 0x0
     uint32_t flags;     // 0xB0
 };
 
 namespace Globals {
     extern float GameSpeed;
+    extern float UIScale;
+    extern uint32_t CurInput;
 };
 
 class Card {
@@ -113,45 +125,111 @@ public:
     Timer recharge_timer;   // 0x34
 };
 
-// TODO: These lists should be turned into a template class
-class CardList {
+template<typename T>
+class ZUNList {
 public:
-    Card* entry;
-    CardList* next;
-    CardList* prev;
-    CardList* idk;
+    T* entry;
+    ZUNList<T>* next;
+    ZUNList<T>* prev;
+    ZUNList<T>* idk;
 };
 
 class AbilityManager {
 public:
     static AbilityManager* Instance;
 
-    char gap0[0x18];    // 0x0
-    CardList card_list; // 0x18
+    char gap0[0x18];            // 0x0
+    ZUNList<Card> card_list;    // 0x18
 };
 
 class BulletManager {
 public:
     static BulletManager* Instance;
 
-    void CancelAll(int idk);
+    void ClearAll(int idk);
 };
 
 class LaserManager {
 public:
     static LaserManager* Instance;
 
-    void CancelAll(int idk, Player* player);
+    void ClearAll(int idk, Player* player);
 };
 
 class SoundManager {
 public:
     static SoundManager Instance;
 
+    char gap0[0xC];
+    LPDIRECTSOUND8* dsound;
+
+    static void StopAllSounds();
+
     inline void PlaySE(int32_t id, float pos) {
         PlaySEStupid(UNUSED_DWORD, id, UNUSED_FLOAT, UNUSED_FLOAT, pos);
     }
+    void SendMsg(int32_t id, int32_t arg, const char* str);
+    bool HandleMsg(); // Not sure if this name is accurate
 
 private:
     void __vectorcall PlaySEStupid(int32_t, int32_t id, float, float, float pos);
+};
+
+class AsciiManager {
+public:
+    static AsciiManager* Instance;
+
+    char pad0[0x19228];
+    uint32_t color;
+
+    void DrawDebugText(D3DVECTOR* pos, const char* format, ...);
+};
+
+class AbilityShop {
+public:
+    static AbilityShop* Instance;
+
+    char pad0[0xE3C];
+
+    bool Init(D3DVECTOR* idk);
+};
+
+class ItemManager {
+public:
+    void* __thiscall SpawnItem(int id, int a3, int a4, float a5, float a6, int a7, int a8, int a9);
+};
+
+class Enemy {
+public:
+    char gap0[0x1204];
+    int random_attack_cur_et; // 
+
+    void ResolveSub(const char* name);
+    int GetGlobal(int idx);
+};
+
+struct EclSub {
+    const char* name;
+    void* data;
+};
+
+class EclFileManager {
+public:
+    // vtable
+    char pad4[4];
+    uint32_t sub_count;
+    char padC[0x80];
+    EclSub* subroutines;
+
+    virtual int LoadECLFile(const char* filename);
+};
+
+class EnemyManager {
+public:
+    static EnemyManager* Instance;
+
+    char pad0[0x188];
+    EclFileManager* file_manager;
+
+    static EnemyManager* __fastcall Create(const char* filename); 
 };

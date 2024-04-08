@@ -54,25 +54,25 @@
         "?Cave3@DoubleBulletCount@@2UCodeCave@@A": {
             "addr": "<codecave:doublebulletcount_cave3>"
         },
-        "?DiffWaitCave@DoubleBulletRate@@2UCodeCave@@A": {
-            "addr": "<codecave:doublebulletrate_diffwait_cave>"
+        "?DiffWaitCave@EclWaitMultiplier@@2UCodeCave@@A": {
+            "addr": "<codecave:eclwaitmultiplier_diffwait_cave>"
         },
-        "?WaitCave@DoubleBulletRate@@2UCodeCave@@A": {
-            "addr": "<codecave:doublebulletrate_wait_cave>"
+        "?WaitCave@EclWaitMultiplier@@2UCodeCave@@A": {
+            "addr": "<codecave:eclwaitmultiplier_wait_cave>"
         },
-        "?WaitFCave@DoubleBulletRate@@2UCodeCave@@A": {
-            "addr": "<codecave:doublebulletrate_waitf_cave>"
+        "?WaitFCave@EclWaitMultiplier@@2UCodeCave@@A": {
+            "addr": "<codecave:eclwaitmultiplier_waitf_cave>"
         },
         "?EtNewCave@BulletWrap@@2UCodeCave@@A": {
             "addr": "<codecave:bulletwrap_etnew_cave>"
         },
-        "?CancelAll@LaserManager@@QAEXHPAVPlayer@@@Z": {
+        "?ClearAll@LaserManager@@QAEXHPAVPlayer@@@Z": {
             "addr": "0x449090"
         },
         "?Instance@LaserManager@@2PAV1@A": {
             "addr": "0x4CF3F4"
         },
-        "?CancelAll@BulletManager@@QAEXH@Z": {
+        "?ClearAll@BulletManager@@QAEXH@Z": {
             "addr": "0x4297A0"
         },
         "?Instance@BulletManager@@2PAV1@A": {
@@ -83,6 +83,57 @@
         },
         "?Instance@SoundManager@@2V1@A": {
             "addr": "0x56AD80"
+        },
+        "?SendMsg@SoundManager@@QAEXHHPBD@Z": {
+            "addr": "0x477A50"
+        },
+        "?StopAllSounds@SoundManager@@SAXXZ": {
+            "addr": "0x444D80"
+        },
+        "?HandleMsg@SoundManager@@QAE_NXZ": {
+            "addr": "0x476D20"
+        },
+        "?RegisterDraw@CalcChain@@SGHPAXH@Z": {
+            "addr": "0x401230"
+        },
+        "?DrawDebugText@AsciiManager@@QAAXPAU_D3DVECTOR@@PBDZZ": {
+            "addr": "0x41A110"
+        },
+        "?Instance@AsciiManager@@2PAV1@A": {
+            "addr": "0x4CF2AC"
+        },
+        "?ClearStage@GameState@@QAEXXZ": {
+            "addr": "0x444650"
+        },
+        "?Cave@Slippery@@2UCodeCave@@A": {
+            "addr": "<codecave:slippery_cave>"
+        },
+        "?UIScale@Globals@@3MA": {
+            "addr": "0x56ACA0"
+        },
+        "?CurInput@Globals@@3IA": {
+            "addr": "0x4CA428"
+        },
+        "?Init@AbilityShop@@QAE_NPAU_D3DVECTOR@@@Z": {
+            "addr": "0x4171B0"
+        },
+        "?Instance@AbilityShop@@2PAV1@A": {
+            "addr": "0x4CF2A4"
+        },
+        "?SpawnItem@ItemManager@@QAEPAXHHHMMHHH@Z": {
+            "addr": "0x446F40"
+        },
+        "?ResolveSub@Enemy@@QAEXPBD@Z": {
+            "addr": "0x48D920"
+        },
+        "?Instance@EnemyManager@@2PAV1@A": {
+            "addr": "0x4CF2D0"
+        },
+        "?Create@EnemyManager@@SIPAV1@PBD@Z": {
+            "addr": "0x42DC20"
+        },
+        "?GetGlobal@Enemy@@QAEHH@Z": {
+            "addr": "0x437360"
         }
     },
     "imports": {
@@ -106,6 +157,30 @@
             },
             "ExitProcess": {
                 "alias": "_ExitProcess@4"
+            },
+            "ActivateActCtx": {
+                "alias": "_ActivateActCtx@8"
+            },
+            "CreateActCtxW": {
+                "alias": "_CreateActCtxW@4"
+            },
+            "GetSystemDirectoryW": {
+                "alias": "_GetSystemDirectoryW@8"
+            },
+            "GetProcAddress": {
+                "alias": "_GetProcAddress@8"
+            },
+            "GetModuleHandleA": {
+                "alias": "_GetModuleHandleA@4"
+            },
+            "DeactivateActCtx": {
+                "alias": "_DeactivateActCtx@8"
+            },
+            "Sleep": {
+                "alias": "_Sleep@4"
+            },
+            "QueryPerformanceCounter": {
+                "alias": "_QueryPerformanceCounter@4"
             }
         },
         "ucrtbase.dll": {
@@ -138,11 +213,12 @@
             },
             "malloc": {
                 "alias": "_malloc"
-            }
-        },
-        "winmm.dll": {
-            "timeGetTime": {
-                "alias": "_timeGetTime@0"
+            },
+            "_wcsicmp": {
+                "alias": "__wcsicmp"
+            },
+            "strncmp": {
+                "alias": "_strncmp"
             }
         },
         "user32.dll": {
@@ -151,6 +227,29 @@
             },
             "PostMessageA": {
                 "alias": "_PostMessageA@16"
+            },
+            "LoadIconA": {
+                "alias": "_LoadIconA@8"
+            },
+            "MessageBoxA": {
+                "alias": "_MessageBoxA@16"
+            },
+            "GetClassInfoExA": {
+                "alias": "_GetClassInfoExA@12"
+            },
+            "SetCursor": {
+                "alias": "_SetCursor@4"
+            },
+            "LoadCursorA": {
+                "alias": "_LoadCursorA@8"
+            }
+        },
+        "advapi32.dll": {
+            "RegCloseKey": {
+                "alias": "_RegCloseKey@4"
+            },
+            "RegOpenKeyA": {
+                "alias": "_RegOpenKeyA@12"
             }
         }
     },
@@ -221,21 +320,25 @@
             "access": "rx",
             "code": "8B840F040A0000 D1E0 89840F040A0000 E9[0x436417]"
         },
-        "doublebulletrate_diffwait_cave": {
+        "eclwaitmultiplier_diffwait_cave": {
             "access": "rx",
-            "code": "F30F590D{f32:0.5f} E9[0x42CDC0]"
+            "code": "F30F590D<obj:_eclwaitmultiplier_mul> E9[0x42CDC0]"
         },
-        "doublebulletrate_wait_cave": {
+        "eclwaitmultiplier_wait_cave": {
             "access": "rx",
-            "code": "F30F590D{f32:0.5f} F30F5CC1 F30F1107 E9[0x48D22E]"
+            "code": "F30F590D<obj:_eclwaitmultiplier_mul> F30F5CC1 F30F1107 E9[0x48D22E]"
         },
-        "doublebulletrate_waitf_cave": {
+        "eclwaitmultiplier_waitf_cave": {
             "access": "rx",
-            "code": "F30F5905{f32:0.5f} F30F5CC8 F30F110F E9[0x48D22E]"
+            "code": "F30F5905<obj:_eclwaitmultiplier_mul> F30F5CC8 F30F110F E9[0x48D22E]"
         },
         "bulletwrap_etnew_cave": {
             "access": "rx",
             "code": "66C7840EE00500000010 C6840ED005000001 C6840ED40500000F C684B9184E000001 E9[0x436417]"
+        },
+        "slippery_cave": {
+            "access": "rx",
+            "code": "8B10 8915<obj:_slippery_x> 8B11 8915<obj:_slippery_y> 8B15D0F24C00 E9[0x45B3E4]"
         }
     }
 }
