@@ -4,7 +4,7 @@
 class RandomItems : public Effect {
 public:
     static int32_t MaxColor;
-    size_t timer = Rand::RangeFrames(5, 15);
+    size_t timer = Rand::RangeFrames(5, 10); // This one's kinda busted
     CodePatches patches;
 
     RandomItems() {

@@ -12,6 +12,8 @@ bool g_game_stage_transition = false;
 int g_effect_req = -1;
 size_t g_next_effect_timer = 0;
 
+extern int32_t g_title_screen_shake;
+
 extern int orig_threadproc();
 extern "C" int game_threadproc_hook() {
     orig_threadproc();
@@ -46,6 +48,9 @@ extern "C" int __thiscall switch_mode_hook(Main* self) {
 }
 
 int __fastcall post_frame_calc(void*) {
+    if (g_title_screen_shake)
+        g_title_screen_shake--;
+
     if (!g_game_loaded || AbilityShop::Instance)
         return 1;
 
@@ -106,6 +111,14 @@ DWORD __stdcall console_input_proc(void*) {
     }
 
     return 0;
+}
+
+extern "C" void custom_anm_handler() {
+    LARGE_INTEGER qpc;
+    QueryPerformanceCounter(&qpc);
+    Rand::Seed(qpc.LowPart);
+    SoundManager::Instance.PlaySE(51, 0.0f);
+    g_title_screen_shake = 60;
 }
 
 EnemyManager* __fastcall enemy_manager_create_hook(const char* filename) {

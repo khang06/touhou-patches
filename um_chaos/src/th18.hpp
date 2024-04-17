@@ -89,6 +89,8 @@ class Player {
 public:
     static Player* Instance;
 
+    int CalcMove();
+
     char gap0[0x620];           // 0x0
     D3DVECTOR pos_float;        // 0x620
     uint32_t pos_x;             // 0x62C
@@ -98,7 +100,11 @@ public:
     uint32_t death_state;       // 0x476AC
     char gap476B0[0xC4];        // 0x476B0
     Timer idk_timer;            // 0x47774
-    char gap47788[0x200];       // 0x47788
+    char gap47788[0x14];        // 0x47788
+    uint32_t flags;             // 0x4779C
+    char gap477A0[0x1DC];       // 0x477A0
+    float scale;                // 0x4797C
+    char gap47980[8];           // 0x47980
     float item_attract_speed;   // 0x47988
 };
 
@@ -115,7 +121,6 @@ public:
 
 namespace Globals {
     extern float GameSpeed;
-    extern float UIScale;
     extern uint32_t CurInput;
 };
 
@@ -179,8 +184,11 @@ class AsciiManager {
 public:
     static AsciiManager* Instance;
 
-    char pad0[0x19228];
-    uint32_t color;
+    char pad0[0x19228];     // 0x0
+    uint32_t color;         // 0x19228
+    uint32_t shadow_color;  // 0x1922C
+    char pad19230[0x14];    // 0x19230
+    uint32_t style;         // 0x19244
 
     void DrawDebugText(D3DVECTOR* pos, const char* format, ...);
 };
@@ -232,4 +240,20 @@ public:
     EclFileManager* file_manager;
 
     static EnemyManager* __fastcall Create(const char* filename); 
+};
+
+class Window {
+public:
+    static Window Instance;
+
+    char pad0[0x2050];
+    int scaled_width;
+    int scaled_height;
+    int window_width;
+    int window_height;
+    int display_width;
+    int display_height;
+    int backbuffer_width;
+    int backbuffer_height;
+    float game_scale;
 };

@@ -8,7 +8,7 @@ public:
     float speed;
 
     GameSpeed() {
-        if (Rand::Range(1, 10) == 1) {
+        if (Rand::Range(1, 2) == 1) {
             timer = Rand::RangeFrames(0.25, 5);
             speed = -1.0f;
         } else {

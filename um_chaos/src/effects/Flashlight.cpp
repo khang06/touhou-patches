@@ -29,7 +29,7 @@ public:
     }
 
     virtual void Draw() {
-        static uint16_t indices[12] = {
+        constexpr uint16_t indices[12] = {
             0, 1, 2,
             1, 2, 3,
 
@@ -48,9 +48,9 @@ public:
             {1280, 960, 0, 1, 0xCD000000, 0.001, 0.001},
         };
 
-        const float scaled_radius = radius * Globals::UIScale;
-        float px = PlayfieldToScreenX(pos.x * Main::Instance.screen_anm4->scale_x + 192.0f);
-        float py = PlayfieldToScreenY((pos.y - 224.0f) * Main::Instance.screen_anm4->scale_y + 224.0f);
+        const float scaled_radius = radius * Window::Instance.game_scale;
+        float px = PlayfieldToGameX(pos.x * Main::Instance.screen_anm4->scale_x + 192.0f);
+        float py = PlayfieldToGameY((pos.y - 224.0f) * Main::Instance.screen_anm4->scale_y + 224.0f);
         vertices[0].x = px - scaled_radius;
         vertices[0].y = py - scaled_radius;
         vertices[1].x = px + scaled_radius;

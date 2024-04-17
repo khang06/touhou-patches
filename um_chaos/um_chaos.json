@@ -108,9 +108,6 @@
         "?Cave@Slippery@@2UCodeCave@@A": {
             "addr": "<codecave:slippery_cave>"
         },
-        "?UIScale@Globals@@3MA": {
-            "addr": "0x56ACA0"
-        },
         "?CurInput@Globals@@3IA": {
             "addr": "0x4CA428"
         },
@@ -134,6 +131,12 @@
         },
         "?GetGlobal@Enemy@@QAEHH@Z": {
             "addr": "0x437360"
+        },
+        "?Instance@Window@@2V1@A": {
+            "addr": "0x568C30"
+        },
+        "?CalcMove@Player@@QAEHXZ": {
+            "addr": "0x45B170"
         }
     },
     "imports": {
@@ -242,6 +245,18 @@
             },
             "LoadCursorA": {
                 "alias": "_LoadCursorA@8"
+            },
+            "ScreenToClient": {
+                "alias": "_ScreenToClient@8"
+            },
+            "GetCursorPos": {
+                "alias": "_GetCursorPos@4"
+            },
+            "SetCursorPos": {
+                "alias": "_SetCursorPos@8"
+            },
+            "ClientToScreen": {
+                "alias": "_ClientToScreen@8"
             }
         },
         "advapi32.dll": {
@@ -305,6 +320,14 @@
         "lesanae_set_texture_hook5": {
             "addr": "0x481171",
             "code": "E8 [obj:_lesanae_set_texture_hook@12] 90"
+        },
+        "custom_anm_jump_table_ptr": {
+            "addr": "0x478740",
+            "code": "<codecave:custom_anm_jump_table_cave>"
+        },
+        "custom_anm_jump_table_idx": {
+            "addr": "0x47B9BA",
+            "code": "35"
         }
     },
     "codecaves": {
@@ -339,6 +362,14 @@
         "slippery_cave": {
             "access": "rx",
             "code": "8B10 8915<obj:_slippery_x> 8B11 8915<obj:_slippery_y> 8B15D0F24C00 E9[0x45B3E4]"
+        },
+        "custom_anm_jump_table_cave": {
+            "access": "rx",
+            "code": "51B8470061B84700F6874700EF874700B2874700078947003689470077894700578E4700988E4700ED8E47002E8F4700838F4700C98F47001E90470066904700BB90470003914700C8894700328A4700B18A4700168B4700958B4700FE8B47007D8C4700EA8C4700698D4700D68D470083914700D49147002F92470085924700DB9247003193470087934700DD93470034944700C89447004487470062874700B69547000196470060964700AB9647000A97470055974700AC974700F79747004E98470099984700F49847003B994700F3B64700<codecave:custom_anm_handler_cave>"
+        },
+        "custom_anm_handler_cave": {
+            "access": "rx",
+            "code": "E8[obj:_custom_anm_handler] E9[0x47B6F3]"
         }
     }
 }

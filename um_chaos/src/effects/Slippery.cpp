@@ -17,7 +17,7 @@ public:
         slippery_x = 0;
         slippery_y = 0;
 
-        static uint8_t patch[] = {
+        uint8_t patch[] = {
             // mov eax, &slippery_x
             0xB8, 0x41, 0x41, 0x41, 0x41,
             // mov ecx, &slippery_y

@@ -35,6 +35,9 @@ extern "C" __thiscall int lesanae_draw_sprite_playfield_hook(AnmManager* self, A
     return ret;
 }
 
+// Really stupid hack for title screen because I'm lazy
+int32_t g_title_screen_shake = 0;
+
 extern "C" __thiscall int lesanae_add_vertices_hook(AnmManager* self, ZunVertex* vertices) {
     if (LeSanae::Enabled && !LeSanae::CopyingPlayfield) {
         vertices[0].u = 0.0f;
@@ -45,6 +48,12 @@ extern "C" __thiscall int lesanae_add_vertices_hook(AnmManager* self, ZunVertex*
         vertices[2].v = 1.0f;
         vertices[3].u = 1.0f;
         vertices[3].v = 1.0f;
+    }
+    if (g_title_screen_shake) {
+        for (int i = 0; i < 4; i++) {
+            vertices[i].x += Rand::Range(-g_title_screen_shake, g_title_screen_shake) * Window::Instance.game_scale;
+            vertices[i].y += Rand::Range(-g_title_screen_shake, g_title_screen_shake) * Window::Instance.game_scale;
+        }
     }
     return self->AddVertices(vertices);
 }

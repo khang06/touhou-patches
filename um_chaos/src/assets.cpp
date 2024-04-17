@@ -18,6 +18,7 @@ IDirect3DTexture9* load_img(const char* filename) {
     uint32_t img_size = 0;
     void* img = GameUtil::LoadFile(filename, &img_size, 0);
     D3DXCreateTextureFromFileInMemory(Main::Instance.d3d9_device, img, img_size, &ret);
+    free(img);
     return ret;
 }
 

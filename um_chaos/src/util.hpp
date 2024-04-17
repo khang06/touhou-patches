@@ -38,15 +38,31 @@ namespace StupidWindowsStuff {
     extern HANDLE ActivationContext;
 }
 
-inline float PlayfieldToScreenX(float x) {
-    return (x + 32.0f) * Globals::UIScale;
+inline float WindowToGameX(float x) {
+    auto& window = Window::Instance;
+    return x * ((float)window.backbuffer_height / window.window_height) - (window.backbuffer_width - window.scaled_width) / 2.0f;
 }
-inline float PlayfieldToScreenY(float y) {
-    return (y + 16.0f) * Globals::UIScale;
+inline float WindowToGameY(float y) {
+    auto& window = Window::Instance;
+    return y * ((float)window.backbuffer_height / window.window_height) - (window.backbuffer_height - window.scaled_height) / 2.0f;
 }
-inline float ScreenToPlayfieldX(float x) {
-    return x / Globals::UIScale - 32.0f;
+inline float GameToWindowX(float x) {
+    auto& window = Window::Instance;
+    return (x + (window.backbuffer_width - window.scaled_width) / 2.0f) * ((float)window.window_height / window.backbuffer_height);
 }
-inline float ScreenToPlayfieldY(float y) {
-    return y / Globals::UIScale - 16.0f;
+inline float GameToWindowY(float y) {
+    auto& window = Window::Instance;
+    return (y + (window.backbuffer_height - window.scaled_height) / 2.0f) * ((float)window.window_height / window.backbuffer_height);
+}
+inline float PlayfieldToGameX(float x) {
+    return (x + 32.0f) * Window::Instance.game_scale;
+}
+inline float PlayfieldToGameY(float y) {
+    return (y + 16.0f) * Window::Instance.game_scale;
+}
+inline float GameToPlayfieldX(float x) {
+    return x / Window::Instance.game_scale - 32.0f;
+}
+inline float GameToPlayfieldY(float y) {
+    return y / Window::Instance.game_scale - 16.0f;
 }

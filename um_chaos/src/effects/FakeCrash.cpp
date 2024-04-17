@@ -5,18 +5,6 @@
 #include "th18.hpp"
 #include "util.hpp"
 
-// Awful coff2binhack bug workaround
-TASKDIALOG_BUTTON g_tdb[2] = {
-    {
-        .nButtonID = 2,
-        .pszButtonText = L"Close the program"
-    },
-    {
-        .nButtonID = 3,
-        .pszButtonText = L"Debug the program"
-    },
-};
-
 class FakeCrash : public Effect {
 public:
     virtual bool Update() {
@@ -75,6 +63,17 @@ public:
         Sleep(500);
         SetCursor(LoadCursorA(NULL, (LPCSTR)IDC_ARROW));
 
+        TASKDIALOG_BUTTON tdb[2] = {
+            {
+                .nButtonID = 2,
+                .pszButtonText = L"Close the program"
+            },
+            {
+                .nButtonID = 3,
+                .pszButtonText = L"Debug the program"
+            },
+        };
+
         TASKDIALOGCONFIG tdc = {};
         tdc.cbSize = sizeof(tdc);
         tdc.hwndParent = Main::Window;
@@ -84,7 +83,7 @@ public:
         tdc.pszContent = L"A problem caused the program to stop working correctly. Please close the program.";
         tdc.cButtons = has_debugger ? 2 : 1;
         tdc.pszWindowTitle = L"th18.exe";
-        tdc.pButtons = g_tdb;
+        tdc.pButtons = tdb;
         tdc.pszMainIcon = L"IDI_ICON3";
         TaskDialogIndirectPtr(&tdc, 0, 0, 0);
 
