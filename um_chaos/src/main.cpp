@@ -88,12 +88,22 @@ int __fastcall post_frame_draw(void*) {
     if (!AsciiManager::Instance)
         return 1;
 
+    if (Main::Instance.cur_mode == 4 && Window::IsFullscreen()) {
+        D3DVECTOR pos1 = { 4.0f, 4.0f, 0.0f };
+        D3DVECTOR pos2 = { 4.0f, 20.0f, 0.0f };
+        AsciiManager::Instance->style = 6;
+        AsciiManager::Instance->color = D3DCOLOR_ARGB(0xFF, 0xFF, 0xFF, 0x00);
+        AsciiManager::Instance->DrawShadowText(&pos1, "Some effects only work in windowed mode!");
+        AsciiManager::Instance->DrawShadowText(&pos2, "You can switch modes by pressing Alt+Enter.");
+    }
+
+    AsciiManager::Instance->style = 1;
     for (int i = 0; i < Effect::EnabledCount; i++) {
         D3DVECTOR pos = { 4.0f, 470.0f - i * 10.0f, 0.0f };
         //auto fade = min(0xFF, Effect::Enabled[i].frames_active * 8);
         auto fade = Effect::Enabled[i].frames_active > 60 ? 0xFF : (Effect::Enabled[i].frames_active % 8 < 4 ? 0x00 : 0xFF);
         AsciiManager::Instance->color = D3DCOLOR_ARGB(0xFF, 0xFF, fade, fade);
-        AsciiManager::Instance->DrawDebugText(&pos, "%s", Effect::Enabled[i].name);
+        AsciiManager::Instance->DrawShadowText(&pos, "%s", Effect::Enabled[i].name);
     }
     AsciiManager::Instance->color = 0xFFFFFFFF;
 
@@ -148,6 +158,13 @@ int __thiscall enemy_get_global_hook(Enemy* self, int idx) {
     if (idx == -1337)
         return self->random_attack_cur_et;
     return self->GetGlobal(idx);
+}
+
+// Automatically run the unlock code on boot
+// This is here because the scorefile path gets overridden (scoreth18chaos.dat)
+extern "C" void scorefile_init_hook() {
+    ScoreFile::Init();
+    ScoreFile::UnlockCode();
 }
 
 // Runs after the game is mostly initialized (e.g. D3D9 device ready)

@@ -9,7 +9,9 @@ extern "C" {
 }
 
 IDirect3DTexture9* Assets::LeSanae = nullptr;
+HICON Assets::LeSanaeIcon = NULL;
 IDirect3DTexture9* Assets::Flashlight = nullptr;
+HICON Assets::GameIcon = NULL;
 std::vector<const char*> Assets::StageAttacks;
 std::vector<const char*> Assets::BossAttacks;
 
@@ -22,7 +24,17 @@ IDirect3DTexture9* load_img(const char* filename) {
     return ret;
 }
 
+HICON load_icon(const char* filename) {
+    uint32_t ico_size = 0;
+    void* ico = GameUtil::LoadFile(filename, &ico_size, 0);
+    HICON ret = CreateIconFromResource((PBYTE)ico, ico_size, TRUE, 0x30000);
+    free(ico);
+    return ret;
+}
+
 void Assets::Load() {
     Assets::LeSanae = load_img("lesanae.png");
+    Assets::LeSanaeIcon = load_icon("lesanae.png");
     Assets::Flashlight = load_img("flashlight.png");
+    Assets::GameIcon = LoadIconA((HINSTANCE)0x400000, "IDI_ICON3");
 }

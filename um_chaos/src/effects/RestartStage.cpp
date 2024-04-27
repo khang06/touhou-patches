@@ -12,6 +12,10 @@ public:
     }
 
     virtual bool Update() {
+        // Trying to restart the stage while the player is respawning crashes the game
+        if (Player::Instance->death_state != 1)
+            return true;
+
         Patches.AddCall(0x41BDC6, (void*)&FreePreloadedAnmHook);
         Main::Instance.switch_target_mode = 12;
         return false;

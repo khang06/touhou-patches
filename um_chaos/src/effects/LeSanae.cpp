@@ -13,10 +13,20 @@ public:
 
     LeSanae() {
         Enabled = true;
+
+        if (Assets::LeSanaeIcon) {
+            SendMessageA(Main::Window, WM_SETICON, ICON_SMALL, (LPARAM)Assets::LeSanaeIcon);
+            SendMessageA(Main::Window, WM_SETICON, ICON_BIG, (LPARAM)Assets::LeSanaeIcon);
+        }
     }
 
     virtual ~LeSanae() {
         Enabled = false;
+
+        if (Assets::GameIcon) {
+            SendMessageA(Main::Window, WM_SETICON, ICON_SMALL, (LPARAM)Assets::GameIcon);
+            SendMessageA(Main::Window, WM_SETICON, ICON_BIG, (LPARAM)Assets::GameIcon);
+        }
     }
 
     virtual bool Update() {

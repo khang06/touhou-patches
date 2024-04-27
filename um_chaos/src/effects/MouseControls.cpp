@@ -29,6 +29,10 @@ public:
     static int __thiscall CalcMoveHook(Player* self) {
         self->CalcMove();
 
+        // Don't try to use the mouse position if the window got minimized
+        if (IsIconic(Main::Window))
+            return 0;
+
         POINT p;
         GetCursorPos(&p);
         ScreenToClient(Main::Window, &p);

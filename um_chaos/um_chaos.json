@@ -137,6 +137,24 @@
         },
         "?CalcMove@Player@@QAEHXZ": {
             "addr": "0x45B170"
+        },
+        "?Init@ScoreFile@@SAXXZ": {
+            "addr": "0x4637D0"
+        },
+        "?UnlockCode@ScoreFile@@SAXXZ": {
+            "addr": "0x464860"
+        },
+        "?SwitchMenuState@TitleScreen@@QAEXI@Z": {
+            "addr": "0x4646E0"
+        },
+        "?Pressed@Input@@2IA": {
+            "addr": "0x4CA21C"
+        },
+        "?DrawShadowText@AsciiManager@@QAAXPAU_D3DVECTOR@@PBDZZ": {
+            "addr": "0x419CB0"
+        },
+        "_sin": {
+            "addr": "th_sin"
         }
     },
     "imports": {
@@ -184,6 +202,9 @@
             },
             "QueryPerformanceCounter": {
                 "alias": "_QueryPerformanceCounter@4"
+            },
+            "GetLastError": {
+                "alias": "_GetLastError@0"
             }
         },
         "ucrtbase.dll": {
@@ -257,6 +278,27 @@
             },
             "ClientToScreen": {
                 "alias": "_ClientToScreen@8"
+            },
+            "SendMessageA": {
+                "alias": "_SendMessageA@16"
+            },
+            "CreateIconFromResource": {
+                "alias": "_CreateIconFromResource@16"
+            },
+            "IsIconic": {
+                "alias": "_IsIconic@4"
+            },
+            "SetWindowPos": {
+                "alias": "_SetWindowPos@28"
+            },
+            "GetWindowRect": {
+                "alias": "_GetWindowRect@8"
+            },
+            "GetMonitorInfoA": {
+                "alias": "_GetMonitorInfoA@8"
+            },
+            "MonitorFromWindow": {
+                "alias": "_MonitorFromWindow@8"
             }
         },
         "advapi32.dll": {
@@ -328,6 +370,22 @@
         "custom_anm_jump_table_idx": {
             "addr": "0x47B9BA",
             "code": "35"
+        },
+        "scorefile_init_hook": {
+            "addr": "0x452CDE",
+            "code": "E8 [obj:_scorefile_init_hook]"
+        },
+        "title_draw_jump_table_ptr": {
+            "addr": "0x4658A2",
+            "code": "<codecave:title_draw_jump_table_cave>"
+        },
+        "title_draw_jump_table_idx": {
+            "addr": "0x465A6C",
+            "code": "09"
+        },
+        "title_calc_hook": {
+            "addr": "0x4654ED",
+            "code": "E8[obj:_manual_calc_hook] E9[0x46568B]"
         }
     },
     "codecaves": {
@@ -364,12 +422,20 @@
             "code": "8B10 8915<obj:_slippery_x> 8B11 8915<obj:_slippery_y> 8B15D0F24C00 E9[0x45B3E4]"
         },
         "custom_anm_jump_table_cave": {
-            "access": "rx",
+            "access": "r",
             "code": "51B8470061B84700F6874700EF874700B2874700078947003689470077894700578E4700988E4700ED8E47002E8F4700838F4700C98F47001E90470066904700BB90470003914700C8894700328A4700B18A4700168B4700958B4700FE8B47007D8C4700EA8C4700698D4700D68D470083914700D49147002F92470085924700DB9247003193470087934700DD93470034944700C89447004487470062874700B69547000196470060964700AB9647000A97470055974700AC974700F79747004E98470099984700F49847003B994700F3B64700<codecave:custom_anm_handler_cave>"
         },
         "custom_anm_handler_cave": {
             "access": "rx",
             "code": "E8[obj:_custom_anm_handler] E9[0x47B6F3]"
+        },
+        "title_draw_jump_table_cave": {
+            "access": "r",
+            "code": "A6584600045A4600D1594600C0594600E2594600F3594600155A4600265A46002B5A4600<codecave:title_draw_cave>"
+        },
+        "title_draw_cave": {
+            "access": "rx",
+            "code": "E8[obj:_manual_draw_hook] E9[0x4659B4]"
         }
     }
 }

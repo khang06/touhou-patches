@@ -44,14 +44,16 @@ public:
 
     int SwitchMode();
 
-    HINSTANCE hinstance;            // 0x0
-    IDirect3D9* d3d9;               // 0x4
-    IDirect3DDevice9* d3d9_device;  // 0x8
-    char gapC[0x1BC];               // 0xC
-    AnmVM* screen_anm4;             // 0x1C8
-    char gap1CC[0x628];             // 0x1CC
-    uint32_t cur_mode;              // 0x7F4
-    uint32_t switch_target_mode;    // 0x7F8
+    HINSTANCE hinstance;                    // 0x0
+    IDirect3D9* d3d9;                       // 0x4
+    IDirect3DDevice9* d3d9_device;          // 0x8
+    char gapC[0xE8];                        // 0xC
+    D3DPRESENT_PARAMETERS present_params;   // 0xF4
+    char gap12C[0x9C];                      // 0x12C
+    AnmVM* screen_anm4;                     // 0x1C8
+    char gap1CC[0x628];                     // 0x1CC
+    uint32_t cur_mode;                      // 0x7F4
+    uint32_t switch_target_mode;            // 0x7F8
 };
 
 class CalcChain {
@@ -189,8 +191,13 @@ public:
     uint32_t shadow_color;  // 0x1922C
     char pad19230[0x14];    // 0x19230
     uint32_t style;         // 0x19244
+    uint32_t field_19248;   // 0x19248
+    uint32_t field_1924C;   // 0x1924C
+    uint32_t hor_align;     // 0x19250
+    uint32_t ver_align;     // 0x19254
 
     void DrawDebugText(D3DVECTOR* pos, const char* format, ...);
+    void DrawShadowText(D3DVECTOR* pos, const char* format, ...);
 };
 
 class AbilityShop {
@@ -210,7 +217,7 @@ public:
 class Enemy {
 public:
     char gap0[0x1204];
-    int random_attack_cur_et; // 
+    int random_attack_cur_et; // 0x1204, supposedly unused?
 
     void ResolveSub(const char* name);
     int GetGlobal(int idx);
@@ -246,14 +253,45 @@ class Window {
 public:
     static Window Instance;
 
-    char pad0[0x2050];
-    int scaled_width;
-    int scaled_height;
-    int window_width;
-    int window_height;
-    int display_width;
-    int display_height;
-    int backbuffer_width;
-    int backbuffer_height;
-    float game_scale;
+    static inline bool IsFullscreen() {
+        // There's a dedicated window choice variable,
+        // but that doesn't get updated if the player switches window modes via Alt+Enter
+        auto window_choice = (Instance.flags >> 2) & 0x1F;
+        return window_choice < 3 || window_choice == 8 || window_choice == 9;
+    }
+
+    char pad0[0x2040];      // 0x0
+    uint32_t flags;         // 0x2040
+    char pad2044[0xC];      // 0x2044
+    int scaled_width;       // 0x2050
+    int scaled_height;      // 0x2054
+    int window_width;       // 0x2058
+    int window_height;      // 0x205C
+    int display_width;      // 0x2060
+    int display_height;     // 0x2064
+    int backbuffer_width;   // 0x2068
+    int backbuffer_height;  // 0x206C
+    float game_scale;       // 0x2070
+};
+
+class ScoreFile {
+public:
+    static void Init();
+    static void UnlockCode();
+};
+
+class TitleScreen {
+public:
+    char pad0[0x20];
+    uint32_t transition_state;
+
+    void SwitchMenuState(uint32_t state);
+};
+
+class Input {
+public:
+    static uint32_t Cur;
+    static uint32_t Prev;
+    static uint32_t Pressed;
+    static uint32_t Released;
 };

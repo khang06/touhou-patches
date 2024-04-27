@@ -12,7 +12,7 @@ public:
         patches.Add(0x45C978, patch, sizeof(patch));
 
         Player::Instance->flags |= 0x10;
-        Player::Instance->scale = 4.0f;
+        Player::Instance->scale = 2.0f; // Shinmy's 4.0 scale is too OP for this
     }
 
     virtual ~YouGrowBigger() {

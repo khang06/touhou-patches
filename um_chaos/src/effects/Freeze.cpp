@@ -4,14 +4,19 @@
 
 class Freeze : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(0, 10);
+    size_t timer = Rand::RangeFrames(1, 5);
 
     Freeze() {
         GameState::Instance->flags |= 0x400;
+        SoundManager::StopAllSounds();
+        SoundManager::Instance.SendMsg(6, 0, "Pause");
+        while (SoundManager::Instance.HandleMsg())
+            ;
     }
 
     virtual ~Freeze() {
         GameState::Instance->flags &= ~0x400;
+        SoundManager::Instance.SendMsg(7, 0, "UnPause");
     }
 
     virtual bool Update() {
