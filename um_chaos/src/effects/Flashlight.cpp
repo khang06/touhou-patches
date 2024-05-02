@@ -64,6 +64,7 @@ public:
         auto d3d9_dev = Main::Instance.d3d9_device;
         DWORD z_enable;
         IDirect3DBaseTexture9* prev_tex = nullptr;
+        AnmManager::Instance->FlushSprites();
         d3d9_dev->GetRenderState(D3DRS_ZENABLE, &z_enable);
         d3d9_dev->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
         d3d9_dev->GetTexture(0, &prev_tex);

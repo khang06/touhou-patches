@@ -167,6 +167,9 @@
         },
         "?MakeEnemy@EnemyManager@@QAEPAVEnemy@@PBDPAVEnemyInitData@@H@Z": {
             "addr": "0x42D7D0"
+        },
+        "?FlushSprites@AnmManager@@QAEXXZ": {
+            "addr": "0x47E730"
         }
     },
     "imports": {

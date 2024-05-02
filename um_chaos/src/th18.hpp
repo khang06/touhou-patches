@@ -99,6 +99,7 @@ public:
     int DrawSprite(AnmVM* anm);
     int AddVertices(ZunVertex* vertices);
     AnmLoaded* Preload(int id, const char* filename);
+    void FlushSprites();
 };
 
 class Timer {
