@@ -4,7 +4,7 @@
 
 class Seija : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(5, 30);
+    int timer = Rand::RangeFrames(5, 30);
     int32_t interrupt = Rand::Range(0, 2) * 2 + 8;
 
     Seija() {
@@ -17,7 +17,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 };
 REGISTER_EFFECT(Seija);

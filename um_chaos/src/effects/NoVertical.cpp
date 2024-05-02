@@ -6,7 +6,7 @@ bool g_novertical_enabled = false;
 
 class NoVertical : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeFrames(10, 2 * 60);
     CodePatches patches;
 
     NoVertical() {
@@ -34,7 +34,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 };
 REGISTER_EFFECT(NoVertical);

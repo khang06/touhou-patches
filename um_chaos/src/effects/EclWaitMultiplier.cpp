@@ -9,7 +9,7 @@ public:
     static CodeCave WaitCave;
     static CodeCave WaitFCave;
 
-    size_t timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeFrames(10, 2 * 60);
     CodePatches patches;
 
     EclWaitMultiplier() {
@@ -23,7 +23,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 };
 REGISTER_EFFECT(EclWaitMultiplier);

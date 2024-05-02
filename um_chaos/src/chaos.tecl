@@ -1,3 +1,151 @@
+void UnzanArmAt()
+{
+    /*
+    var A, B;
+    etNew(0);
+    etAim(0, 1);
+    etSprite(0, 5, 4);
+    etCount(0, 1, 1);
+    etAngle(0, 0.0f, 0.032724924f);
+    etSpeed(0, 0.0f, 1.0f);
+    etEx(0, 1, 2, 1, -999999, -999999.0f, -999999.0f);
+    etEx(0, 0, 268435456, 1, -999999, -999999.0f, -999999.0f);
+    etEx(0, 0, 4, 120, -999999, 0.008333334f, -999999.0f);
+    wait(60);
+    goto UnzanArmAt_680 @ 0;
+UnzanArmAt_380:
+    diffF(%B, 300.0f, 384.0f, 384.0f, 384.0f);
+    unless (%FINAL_Y < %B) goto UnzanArmAt_660 @ 0;
+    circlePos(%A, %B, %RANDRAD, %RANDF2 * _f(64));
+    etOffset(0, %A, %B);
+    etAngle(0, %RANDRAD, 0.0f);
+    etOn(0);
+UnzanArmAt_660:
+    wait(2);
+UnzanArmAt_680:
+    if (1) goto UnzanArmAt_380 @ 0;
+    */
+
+    var A, B;
+    etNew(0);
+    etAim(0, 1);
+    etSprite(0, 5, 4);
+    etCount(0, 1, 1);
+    etAngle(0, 0.0f, 0.032724924f);
+    etSpeed(0, 0.0f, 1.0f);
+    etEx(0, 1, 2, 1, -999999, -999999.0f, -999999.0f);
+    etEx(0, 0, 268435456, 1, -999999, -999999.0f, -999999.0f);
+    etEx(0, 0, 4, 120, -999999, 0.008333334f, -999999.0f);
+    wait(60);
+
+    while (1) {
+        if (%F0 > _f(0)) {
+            diffF(%B, 300.0f, 384.0f, 384.0f, 384.0f);
+            if (%FINAL_Y >= %B)
+                delete();
+        } else {
+            diffF(%B, 148.0f, 64.0f, 64.0f, 64.0f);
+            if (%FINAL_Y <= %B)
+                delete();
+        }
+
+        circlePos(%A, %B, %RANDRAD, %RANDF2 * _f(64));
+        etOffset(0, %A, %B);
+        etAngle(0, %RANDRAD, 0.0f);
+        etOn(0);
+        wait(2);
+    }
+
+    return;
+}
+
+void UnzanArmShake(var A, var B)
+{
+    /*
+    goto UnzanArmShake_344 @ 0;
+UnzanArmShake_60:
+    anmMove(0, %A + _f(1), %B);
+    wait(1);
+    anmMove(0, %A, %B);
+    wait(1);
+    unless (%FINAL_Y >= (_f(448) + _f(192))) goto UnzanArmShake_344 @ 0;
+    delete();
+UnzanArmShake_344:
+    if (1) goto UnzanArmShake_60 @ 0;
+    return;
+    */
+
+    while (1) {
+        anmMove(0, %A + _f(1), %B);
+        wait(1);
+        anmMove(0, %A, %B);
+        wait(1);
+        if (%F0 > _f(0)) {
+            if (%FINAL_Y >= (_f(448) + _f(192)))
+                delete();
+        } else {
+            if (%FINAL_Y <= _f(-192))
+                delete();
+        }
+    }
+}
+
+void UnzanArmL()
+{
+    var A, B, C;
+    setHitbox(164.0f, 64.0f);
+    @UnzanArmAt() async;
+    playSound(30);
+    playSound(27);
+    anmSelect(0x40000007);
+    anmSetSprite(0, 0);
+    anmRotate(0, %F0);
+    circlePos(%B, %C, %F0, 96.0f);
+    anmMove(0, %B, %C);
+    @UnzanArmShake(%B, %C) async;
+    moveVel(%F0, 10.0f);
+    flagSet(797);
+    moveVelTime(40, 0, -999999.0f, 0.0f);
+    wait(60);
+    moveVelTime(120, 0, -999999.0f, 12.0f);
++600: //600
+    delete();
+    goto UnzanArmL_488 @ 600;
+UnzanArmL_468:
+    wait(1000);
+UnzanArmL_488:
+    if (1) goto UnzanArmL_468 @ 600;
+    delete();
+}
+
+void UnzanArmR()
+{
+    var A, B, C;
+    setHitbox(164.0f, 64.0f);
+    @UnzanArmAt() async;
+    playSound(30);
+    playSound(27);
+    anmSelect(0x40000007);
+    anmSetSprite(0, 3);
+    anmRotate(0, %F0);
+    circlePos(%B, %C, %F0, 96.0f);
+    @UnzanArmShake(%B, %C) async;
+    moveVel(%F0, 10.0f);
+    flagSet(797);
+    moveVelTime(40, 0, -999999.0f, 0.0f);
+    wait(60);
+    moveVelTime(120, 0, -999999.0f, 12.0f);
++600: //600
+    delete();
+    goto UnzanArmR_460 @ 600;
+UnzanArmR_440:
+    wait(1000);
+UnzanArmR_460:
+    if (1) goto UnzanArmR_440 @ 600;
+    delete();
+}
+
+/* !!! RANDOM ATTACK HELL ZONE !!! */
 
 void STAGE_Cir00_at_ST1()
 {

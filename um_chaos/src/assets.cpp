@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <d3d9.h>
 #include <stdint.h>
 #include "th18.hpp"
@@ -12,6 +13,14 @@ IDirect3DTexture9* Assets::LeSanae = nullptr;
 HICON Assets::LeSanaeIcon = NULL;
 IDirect3DTexture9* Assets::Flashlight = nullptr;
 HICON Assets::GameIcon = NULL;
+
+IDirect3DVertexDeclaration9* Assets::MinimalVertexDecl = NULL;
+IDirect3DVertexShader9* Assets::PassthroughVS = NULL;
+IDirect3DPixelShader9* Assets::JPEGPass1PS = NULL;
+IDirect3DPixelShader9* Assets::JPEGPass2PS = NULL;
+IDirect3DTexture9* Assets::JPEGPass1Tex = NULL;
+IDirect3DSurface9* Assets::JPEGPass1RT = NULL;
+
 std::vector<const char*> Assets::StageAttacks;
 std::vector<const char*> Assets::BossAttacks;
 
@@ -32,9 +41,56 @@ HICON load_icon(const char* filename) {
     return ret;
 }
 
+void load_vs(const char* filename, IDirect3DVertexShader9** out) {
+    uint32_t vs_size = 0;
+    void* vs = GameUtil::LoadFile(filename, &vs_size, 0);
+    Main::Instance.d3d9_device->CreateVertexShader((DWORD*)vs, out);
+    free(vs);
+}
+
+void load_ps(const char* filename, IDirect3DPixelShader9** out) {
+    uint32_t ps_size = 0;
+    void* ps = GameUtil::LoadFile(filename, &ps_size, 0);
+    Main::Instance.d3d9_device->CreatePixelShader((DWORD*)ps, out);
+    free(ps);
+}
+
+// This needs to be separate because D3DPOOL_DEFAULT objects need to be manually released and recreated for device resets
+extern "C" void load_default_pool_assets() {
+    printf("loading default pool stuff\n");
+    Main::Instance.d3d9_device->CreateTexture(
+        Window::Instance.backbuffer_width, Window::Instance.backbuffer_height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A32B32G32R32F, D3DPOOL_DEFAULT, &Assets::JPEGPass1Tex, NULL);
+    Assets::JPEGPass1Tex->GetSurfaceLevel(0, &Assets::JPEGPass1RT);
+}
+
+extern "C" void unload_default_pool_assets() {
+    printf("unloading default pool stuff\n");
+    if (Assets::JPEGPass1RT) {
+        Assets::JPEGPass1RT->Release();
+        Assets::JPEGPass1RT = NULL;
+    }
+    if (Assets::JPEGPass1Tex) {
+        Assets::JPEGPass1Tex->Release();
+        Assets::JPEGPass1Tex = NULL;
+    }
+}
+
 void Assets::Load() {
     Assets::LeSanae = load_img("lesanae.png");
     Assets::LeSanaeIcon = load_icon("lesanae.png");
     Assets::Flashlight = load_img("flashlight.png");
     Assets::GameIcon = LoadIconA((HINSTANCE)0x400000, "IDI_ICON3");
+
+    constexpr D3DVERTEXELEMENT9 minimal_vertex_decl[] = {
+        {0, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+        {0, 8, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+        D3DDECL_END()
+    };
+    Main::Instance.d3d9_device->CreateVertexDeclaration(minimal_vertex_decl, &Assets::MinimalVertexDecl);
+
+    load_vs("passthrough_vs.fxc", &Assets::PassthroughVS);
+    load_ps("jpeg1_ps.fxc", &Assets::JPEGPass1PS);
+    load_ps("jpeg2_ps.fxc", &Assets::JPEGPass2PS);
+
+    load_default_pool_assets();
 }

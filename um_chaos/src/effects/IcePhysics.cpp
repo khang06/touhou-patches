@@ -1,19 +1,20 @@
 #include "effect.hpp"
 #include "util.hpp"
 
-class BulletWrap : public Effect {
+// Written by zero318
+class IcePhysics : public Effect {
 public:
-    static CodeCave EtNewCave;
+    static CodeCave Cave;
 
     int timer = Rand::RangeFrames(10, 60);
     CodePatches patches;
 
-    BulletWrap() {
-        patches.AddJmp(0x433E9D, &EtNewCave);
+    IcePhysics() {
+        patches.AddJmp(0x45B690, &Cave);
     }
 
     virtual bool Update() {
         return --timer > 0;
     }
 };
-REGISTER_EFFECT(BulletWrap);
+REGISTER_EFFECT(IcePhysics);

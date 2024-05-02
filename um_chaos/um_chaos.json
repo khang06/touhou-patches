@@ -105,8 +105,11 @@
         "?ClearStage@GameState@@QAEXXZ": {
             "addr": "0x444650"
         },
-        "?Cave@Slippery@@2UCodeCave@@A": {
-            "addr": "<codecave:slippery_cave>"
+        "?Cave@StuckInput@@2UCodeCave@@A": {
+            "addr": "<codecave:stuck_input_cave>"
+        },
+        "?Cave@IcePhysics@@2UCodeCave@@A": {
+            "addr": "<codecave:ice_physics_cave>"
         },
         "?CurInput@Globals@@3IA": {
             "addr": "0x4CA428"
@@ -155,6 +158,15 @@
         },
         "_sin": {
             "addr": "th_sin"
+        },
+        "?Preload@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z": {
+            "addr": "0x486880"
+        },
+        "?Instance@AnmManager@@2PAV1@A": {
+            "addr": "0x51F65C"
+        },
+        "?MakeEnemy@EnemyManager@@QAEPAVEnemy@@PBDPAVEnemyInitData@@H@Z": {
+            "addr": "0x42D7D0"
         }
     },
     "imports": {
@@ -308,6 +320,11 @@
             "RegOpenKeyA": {
                 "alias": "_RegOpenKeyA@12"
             }
+        },
+        "winmm.dll": {
+            "PlaySoundA": {
+                "alias": "_PlaySoundA@12"
+            }
         }
     },
     "binhacks": {
@@ -386,6 +403,30 @@
         "title_calc_hook": {
             "addr": "0x4654ED",
             "code": "E8[obj:_manual_calc_hook] E9[0x46568B]"
+        },
+        "random_attack_enemy_manager_create_hook": {
+            "addr": "0x442FCF",
+            "code": "E8[obj:@enemy_manager_create_hook@4]"
+        },
+        "random_attack_enemy_get_global_hook": {
+            "addr": "0x4B6550",
+            "code": "<obj:_enemy_get_global_hook>"
+        },
+        "random_attack_ecl_thread_ctor_memset_size": {
+            "addr": "0x42CCC4",
+            "code": "08 12"
+        },
+        "random_attack_ecl_thread_ctor_memset_addr": {
+            "addr": "0x42CCCD",
+            "code": "56"
+        },
+        "load_default_pool_assets_hook": {
+            "addr": "0x47126B",
+            "code": "E9[obj:_load_default_pool_assets]"
+        },
+        "unload_default_pool_assets_hook": {
+            "addr": "0x4711A1",
+            "code": "E9[obj:_unload_default_pool_assets]"
         }
     },
     "codecaves": {
@@ -417,9 +458,50 @@
             "access": "rx",
             "code": "66C7840EE00500000010 C6840ED005000001 C6840ED40500000F C684B9184E000001 E9[0x436417]"
         },
-        "slippery_cave": {
+        "stuck_input_cave": {
             "access": "rx",
-            "code": "8B10 8915<obj:_slippery_x> 8B11 8915<obj:_slippery_y> 8B15D0F24C00 E9[0x45B3E4]"
+            "code": "8B10 8915<obj:_stuck_input_x> 8B11 8915<obj:_stuck_input_y> 8B15D0F24C00 E9[0x45B3E4]"
+        },
+        "ice_physics_cave": {
+            "access": "rx",
+            "code": " \
+                F20F104424 08 \
+                0F1387 34790400 \
+                0F5BC0 \
+                F30F100D <0x4CCBF0> \
+                0FC6C9 00 \
+                0F59C8 \
+                F20F1087 D0770400 \
+                0F5CC8 \
+                0F590D {x.f32:0.025;0.025} \
+                0F58C8 \
+                0F138F C4770400 \
+                0F138F D0770400 \
+                F30F5BC9 \
+                660FD68F DC770400 \
+                F30F7E87 2C060000 \
+                660FFEC1 \
+                0FB787 9C770400 \
+                A9 80010000 \
+                75 38 \
+                F30F7E0D {i32:-23552;4096} \
+                660F6FD0 \
+                660F66D1 \
+                660FDBC2 \
+                660FDFD1 \
+                660FEBD0 \
+                F30F7E0D {i32:23552;55296} \
+                660F6FC1 \
+                660F66C2 \
+                660FDBD0 \
+                660FDFC1 \
+                660FEBC2 \
+                660FD687 2C060000 \
+                0F5BC0 \
+                0F5905 {x.f32:0.0078125;0.0078125} \
+                0F1387 20060000 \
+                E9 [0x45B824] \
+            "
         },
         "custom_anm_jump_table_cave": {
             "access": "r",

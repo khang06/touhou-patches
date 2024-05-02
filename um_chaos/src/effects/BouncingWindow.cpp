@@ -7,7 +7,7 @@ class BouncingWindow : public Effect {
 public:
     static constexpr int VELOCITY = 2;
 
-    size_t timer = Rand::RangeFrames(10, 60);
+    int timer = Rand::RangeFrames(10, 60);
     RECT monitor_bounds;
     int x_vel = VELOCITY;
     int y_vel = VELOCITY;
@@ -39,7 +39,7 @@ public:
 
             SetWindowPos(Main::Window, NULL, window_rect.left + x_vel, window_rect.top + y_vel, 0, 0, SWP_NOSIZE | SWP_NOREDRAW);
         }
-        return --timer != 0;
+        return --timer > 0;
     }
 };
 REGISTER_EFFECT(BouncingWindow);

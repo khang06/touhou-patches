@@ -4,7 +4,7 @@
 
 class GameSpeed : public Effect {
 public:
-    size_t timer;
+    int timer;
     float speed;
 
     GameSpeed() {
@@ -25,7 +25,7 @@ public:
 
     virtual bool Update() {
         Globals::GameSpeed = speed;
-        return --timer != 0;
+        return --timer > 0;
     }
 };
 REGISTER_EFFECT(GameSpeed);

@@ -4,7 +4,7 @@
 class RandomItems : public Effect {
 public:
     static int32_t MaxColor;
-    size_t timer = Rand::RangeFrames(5, 10); // This one's kinda busted
+    int timer = Rand::RangeFrames(5, 10); // This one's kinda busted
     CodePatches patches;
 
     RandomItems() {
@@ -24,7 +24,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 
     static void* __thiscall SpawnItem(ItemManager* self, int id, int a3, int a4, float a5, float a6, int a7, int a8, int a9) {

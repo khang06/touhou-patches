@@ -55,14 +55,7 @@ int __fastcall post_frame_calc(void*) {
         return 1;
 
     if (--g_next_effect_timer == 0) {
-        static size_t choices[Effect::MAX_EFFECTS];
-        size_t choices_count = 0;
-        for (size_t i = 0; i < Effect::AllCount; i++) {
-            if (!Effect::Infos[i].enabled)
-                choices[choices_count++] = i;
-        }
-        if (choices_count)
-            Effect::Enable(choices[Rand::Range(0, choices_count - 1)]);
+        Effect::EnableRandom();
         g_next_effect_timer = Rand::RangeFrames(5, 30);
     }
 
@@ -131,7 +124,7 @@ extern "C" void custom_anm_handler() {
     g_title_screen_shake = 60;
 }
 
-EnemyManager* __fastcall enemy_manager_create_hook(const char* filename) {
+extern "C" EnemyManager* __fastcall enemy_manager_create_hook(const char* filename) {
     if (!EnemyManager::Create(filename))
         return nullptr;
 
@@ -140,6 +133,13 @@ EnemyManager* __fastcall enemy_manager_create_hook(const char* filename) {
         MessageBox(NULL, "Failed to load chaos.ecl :(", NULL, MB_ICONERROR);
         DebugBreak();
     }
+
+    auto anm = AnmManager::Instance->Preload(18, "chaos.anm");
+    if (!anm) {
+        MessageBox(NULL, "Failed to load chaos.anm :(", NULL, MB_ICONERROR);
+        DebugBreak();
+    }
+    EnemyManager::Instance->enemy_ecls[5] = anm;
 
     Assets::StageAttacks.clear();
     Assets::BossAttacks.clear();
@@ -154,7 +154,7 @@ EnemyManager* __fastcall enemy_manager_create_hook(const char* filename) {
     return EnemyManager::Instance;
 }
 
-int __thiscall enemy_get_global_hook(Enemy* self, int idx) {
+extern "C" int __thiscall enemy_get_global_hook(Enemy* self, int idx) {
     if (idx == -1337)
         return self->random_attack_cur_et;
     return self->GetGlobal(idx);
@@ -186,21 +186,6 @@ extern "C" int entry_hook() {
 
     // Load assets
     Assets::Load();
-
-    // Hook enemy manager to import a custom ECL file
-    g_global_patches.AddCall(0x442FCF, (void*)enemy_manager_create_hook);
-    {
-        // Hook enemy ECL global resolution for RandomAttack
-        auto patch = enemy_get_global_hook;
-        g_global_patches.Add(0x4B6550, &patch, sizeof(patch));
-    }
-    {
-        // Patch ECL thread constructor to memset the whole thing
-        uint32_t patch1 = 0x1208; // size
-        g_global_patches.Add(0x42CCC4, &patch1, sizeof(patch1));
-        uint8_t patch2 = 0x56; // push eax -> push esi
-        g_global_patches.Add(0x42CCCD, &patch2, sizeof(patch2));
-    }
 
     // Register post-frame calc function
     auto calc = CalcChain::Create(post_frame_calc);

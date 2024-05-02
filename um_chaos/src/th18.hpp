@@ -37,6 +37,18 @@ public:
     int32_t pending_interrupt;  // 0x494
 };
 
+class AnmEntry {
+public:
+    IDirect3DTexture9* d3d9_tex;
+    char gap4[0x14];
+};
+
+class AnmLoaded {
+public:
+    char gap0[0x124];
+    AnmEntry* entries;
+};
+
 class Main {
 public:
     static Main Instance;
@@ -49,11 +61,17 @@ public:
     IDirect3DDevice9* d3d9_device;          // 0x8
     char gapC[0xE8];                        // 0xC
     D3DPRESENT_PARAMETERS present_params;   // 0xF4
-    char gap12C[0x9C];                      // 0x12C
+    char gap12C[0x80];                      // 0x12C
+    IDirect3DSurface9* bg_render_target;    // 0x1AC
+    IDirect3DSurface9* game_render_target;  // 0x1B0
+    IDirect3DSurface9* backbuffer;          // 0x1B4
+    char gap1B8[0x10];                      // 0x1B8
     AnmVM* screen_anm4;                     // 0x1C8
     char gap1CC[0x628];                     // 0x1CC
     uint32_t cur_mode;                      // 0x7F4
     uint32_t switch_target_mode;            // 0x7F8
+    char gap7FC[0x30];                      // 0x7FC
+    AnmLoaded* text_anm;                    // 0x82C
 };
 
 class CalcChain {
@@ -72,10 +90,15 @@ struct ZunVertex {
     float u, v;
 };
 
+class AnmLoaded;
+
 class AnmManager {
 public:
+    static AnmManager* Instance;
+
     int DrawSprite(AnmVM* anm);
     int AddVertices(ZunVertex* vertices);
+    AnmLoaded* Preload(int id, const char* filename);
 };
 
 class Timer {
@@ -85,6 +108,19 @@ public:
     float cur_float;
     uint32_t speed_idx_thing;
     uint32_t control;
+};
+
+// TODO: This should probably be a template
+class InterpFloat {
+public:
+    float initial;
+    float goal;
+    float bezier_1;
+    float bezier_2;
+    float current;
+    Timer timer;
+    int end_time;
+    int method;
 };
 
 class Player {
@@ -104,7 +140,8 @@ public:
     Timer idk_timer;            // 0x47774
     char gap47788[0x14];        // 0x47788
     uint32_t flags;             // 0x4779C
-    char gap477A0[0x1DC];       // 0x477A0
+    char gap477A0[0x1AC];       // 0x477A0
+    InterpFloat scale_interp;   // 0x4794C
     float scale;                // 0x4797C
     char gap47980[8];           // 0x47980
     float item_attract_speed;   // 0x47988
@@ -216,8 +253,8 @@ public:
 
 class Enemy {
 public:
-    char gap0[0x1204];
-    int random_attack_cur_et; // 0x1204, supposedly unused?
+    char gap0[0x1214];
+    int random_attack_cur_et; // 0x1214, supposedly unused?
 
     void ResolveSub(const char* name);
     int GetGlobal(int idx);
@@ -239,14 +276,29 @@ public:
     virtual int LoadECLFile(const char* filename);
 };
 
+class EnemyInitData {
+public:
+    D3DVECTOR pos;              // 0x0
+    uint32_t score_reward;      // 0xC
+    uint32_t item;              // 0x10
+    uint32_t hp;                // 0x14
+    uint32_t mirrored;          // 0x18
+    uint32_t field_1C;          // 0x1C
+    int32_t ecl_int_vars[4];    // 0x20
+    float ecl_float_vars[8];    // 0x30
+    uint32_t parent_id;         // 0x50
+};
+
 class EnemyManager {
 public:
     static EnemyManager* Instance;
 
-    char pad0[0x188];
+    char pad0[0x170];
+    AnmLoaded* enemy_ecls[6];
     EclFileManager* file_manager;
 
     static EnemyManager* __fastcall Create(const char* filename); 
+    Enemy* MakeEnemy(const char* sub, EnemyInitData* init_data, int unused);
 };
 
 class Window {

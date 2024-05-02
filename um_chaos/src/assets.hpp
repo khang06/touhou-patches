@@ -11,6 +11,14 @@ public:
     static HICON LeSanaeIcon;
     static IDirect3DTexture9* Flashlight;
     static HICON GameIcon;
+
+    static IDirect3DVertexDeclaration9* MinimalVertexDecl;
+    static IDirect3DVertexShader9* PassthroughVS;
+    static IDirect3DPixelShader9* JPEGPass1PS;
+    static IDirect3DPixelShader9* JPEGPass2PS;
+    static IDirect3DTexture9* JPEGPass1Tex;
+    static IDirect3DSurface9* JPEGPass1RT;
+    
     static std::vector<const char*> StageAttacks;
     static std::vector<const char*> BossAttacks;
 };

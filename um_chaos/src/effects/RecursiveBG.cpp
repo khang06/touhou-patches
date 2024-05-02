@@ -3,7 +3,7 @@
 
 class RecursiveBG : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(10, 60);
+    int timer = Rand::RangeFrames(10, 60);
     CodePatches patches;
 
     RecursiveBG() {
@@ -12,7 +12,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 };
 REGISTER_EFFECT(RecursiveBG);

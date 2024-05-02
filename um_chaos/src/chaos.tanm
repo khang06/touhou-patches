@@ -1,0 +1,102 @@
+#pragma mapfile "D:\\truth-0.5.2\\map\\any.anmm"
+
+entry {
+    path: "unzan_fist.png",
+    img_width: 416,
+    img_height: 256,
+    img_format: FORMAT_ARGB_4444,
+    memory_priority: 0,
+    sprites: {unzan_fist: {x: 0.0, y: 0.0, w: 416.0, h: 256.0}},
+}
+
+script 0 unzanl1 {
+    scriptNew(unzanl2);
+    rotate(0.0, 0.0, -1.5707964);
+    alpha(0);
++1: // 1
+    nop();
+    loop {
+        scriptNewRoot(unzanl3);
++2: // 3
+    }
+    stop();
+
+interrupt[1]:
++30: // 33
+    delete();
+}
+
+script 1 unzanl2 {
+    scale(1.0, -1.0);
+    sprite(unzan_fist);
+    layer(13);
+    anchor(2, 0);
+    type(1);
+    stop();
+
+interrupt[1]:
+    alphaTime(30, 0, 0);
++30: // 30
+    delete();
+}
+
+script 2 unzanl3 {
+    sprite(unzan_fist);
+    layer(13);
+    anchor(2, 0);
+    type(1);
+    blendMode(1);
+    scale(1.05, -1.05);
+    scaleTime(30, 0, 1.2, -1.2);
+    color(255, 32, 32);
+    alpha(64);
+    alphaTime(30, 0, 0);
++30: // 30
+    delete();
+}
+
+script 3 unzanr1 {
+    scriptNew(unzanr2);
+    alpha(0);
++1: // 1
+    nop();
+    loop {
+        scriptNewRoot(unzanr3);
++2: // 3
+    }
+    stop();
+
+interrupt[1]:
++30: // 33
+    delete();
+}
+
+
+script 4 unzanr2 {
+    sprite(unzan_fist);
+    layer(13);
+    anchor(2, 0);
+    type(1);
+    stop();
+
+interrupt[1]:
+    alphaTime(30, 0, 0);
++30: // 30
+    delete();
+}
+
+
+script 5 unzanr3 {
+    sprite(unzan_fist);
+    layer(13);
+    anchor(2, 0);
+    type(1);
+    blendMode(1);
+    scale(1.05, 1.05);
+    scaleTime(30, 0, 1.2, 1.2);
+    color(255, 32, 32);
+    alpha(64);
+    alphaTime(30, 0, 0);
++30: // 30
+    delete();
+}

@@ -8,7 +8,7 @@
 // See https://github.com/ppy/osu/blob/master/osu.Game.Rulesets.Osu/Mods/OsuModFlashlight.cs
 class Flashlight : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeFrames(10, 2 * 60);
     D3DVECTOR pos = Player::Instance->pos_float;
     float radius = 6400.0f;
     float target_radius = 750.0f;
@@ -25,7 +25,7 @@ public:
         if (timer < 30)
             target_radius = 6400.0f;
 
-        return --timer != 0;
+        return --timer > 0;
     }
 
     virtual void Draw() {
@@ -62,12 +62,16 @@ public:
 
         bool focused = (Globals::CurInput & 8) != 0;
         auto d3d9_dev = Main::Instance.d3d9_device;
+        DWORD z_enable;
         IDirect3DBaseTexture9* prev_tex = nullptr;
+        d3d9_dev->GetRenderState(D3DRS_ZENABLE, &z_enable);
+        d3d9_dev->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
         d3d9_dev->GetTexture(0, &prev_tex);
         d3d9_dev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
         d3d9_dev->SetTexture(0, Assets::Flashlight);
         d3d9_dev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, focused ? 12 : 6, focused ? 4 : 2, indices, D3DFMT_INDEX16, vertices, sizeof(ZunVertex));
         d3d9_dev->SetTexture(0, prev_tex);
+        d3d9_dev->SetRenderState(D3DRS_ZENABLE, z_enable);
     }
 };
 REGISTER_EFFECT(Flashlight);

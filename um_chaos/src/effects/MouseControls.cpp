@@ -7,7 +7,7 @@ extern bool g_novertical_enabled;
 
 class MouseControls : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeFrames(10, 2 * 60);
     CodePatches patches;
 
     MouseControls() {
@@ -22,7 +22,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 
     // Not in Update because I still have input latency standards, even for a joke!
@@ -36,8 +36,8 @@ public:
         POINT p;
         GetCursorPos(&p);
         ScreenToClient(Main::Window, &p);
-        float px = GameToPlayfieldX(WindowToGameX(p.x)) - 192.0f;
-        float py = GameToPlayfieldY(WindowToGameY(p.y));
+        float px = max(-184.0f, min(GameToPlayfieldX(WindowToGameX(p.x)) - 192.0f, 184.0f));
+        float py = max(32.0f, min(GameToPlayfieldY(WindowToGameY(p.y)), 432.0f));
 
         self->pos_float.x = px;
         self->pos_x = px * 128.0f;

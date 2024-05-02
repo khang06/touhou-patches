@@ -4,7 +4,7 @@
 
 class RandomAttack : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeFrames(10, 2 * 60);
     CodePatches patches;
 
     RandomAttack() {
@@ -12,7 +12,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 
     static __thiscall void ResolveSubHook(Enemy* self, const char* name) {

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <util.hpp>
 
 #define REGISTER_EFFECT(type_name) \
     Effect* effect_init_##type_name() { \
@@ -46,6 +47,17 @@ public:
             .frames_active = 0,
             .inner = Infos[id].init(),
         };
+    }
+
+    static void EnableRandom() {
+        static size_t choices[Effect::MAX_EFFECTS];
+        size_t choices_count = 0;
+        for (size_t i = 0; i < Effect::AllCount; i++) {
+            if (!Effect::Infos[i].enabled)
+                choices[choices_count++] = i;
+        }
+        if (choices_count)
+            Effect::Enable(choices[Rand::Range(0, choices_count - 1)]);
     }
 
     static void Disable(size_t idx) {

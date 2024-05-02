@@ -4,7 +4,7 @@
 class RandomBulletType : public Effect {
 public:
     static int32_t MaxColor;
-    size_t timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeFrames(10, 2 * 60);
     CodePatches patches;
 
     RandomBulletType() {
@@ -13,7 +13,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 
     static __thiscall int ReadType(void*, int) {

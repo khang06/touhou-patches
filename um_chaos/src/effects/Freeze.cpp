@@ -4,7 +4,7 @@
 
 class Freeze : public Effect {
 public:
-    size_t timer = Rand::RangeFrames(1, 5);
+    int timer = Rand::RangeFrames(1, 5);
 
     Freeze() {
         GameState::Instance->flags |= 0x400;
@@ -20,7 +20,7 @@ public:
     }
 
     virtual bool Update() {
-        return --timer != 0;
+        return --timer > 0;
     }
 };
 REGISTER_EFFECT(Freeze);
