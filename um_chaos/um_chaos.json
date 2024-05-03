@@ -46,25 +46,22 @@
             "addr": "0x4CF298"
         },
         "?Cave1@DoubleBulletCount@@2UCodeCave@@A": {
-            "addr": "<codecave:doublebulletcount_cave1>"
+            "addr": "codecave:doublebulletcount_cave1"
         },
         "?Cave2@DoubleBulletCount@@2UCodeCave@@A": {
-            "addr": "<codecave:doublebulletcount_cave2>"
+            "addr": "codecave:doublebulletcount_cave2"
         },
         "?Cave3@DoubleBulletCount@@2UCodeCave@@A": {
-            "addr": "<codecave:doublebulletcount_cave3>"
+            "addr": "codecave:doublebulletcount_cave3"
         },
         "?DiffWaitCave@EclWaitMultiplier@@2UCodeCave@@A": {
-            "addr": "<codecave:eclwaitmultiplier_diffwait_cave>"
+            "addr": "codecave:eclwaitmultiplier_diffwait_cave"
         },
         "?WaitCave@EclWaitMultiplier@@2UCodeCave@@A": {
-            "addr": "<codecave:eclwaitmultiplier_wait_cave>"
+            "addr": "codecave:eclwaitmultiplier_wait_cave"
         },
         "?WaitFCave@EclWaitMultiplier@@2UCodeCave@@A": {
-            "addr": "<codecave:eclwaitmultiplier_waitf_cave>"
-        },
-        "?EtNewCave@BulletWrap@@2UCodeCave@@A": {
-            "addr": "<codecave:bulletwrap_etnew_cave>"
+            "addr": "codecave:eclwaitmultiplier_waitf_cave"
         },
         "?ClearAll@LaserManager@@QAEXHPAVPlayer@@@Z": {
             "addr": "0x449090"
@@ -106,10 +103,10 @@
             "addr": "0x444650"
         },
         "?Cave@StuckInput@@2UCodeCave@@A": {
-            "addr": "<codecave:stuck_input_cave>"
+            "addr": "codecave:stuck_input_cave"
         },
         "?Cave@IcePhysics@@2UCodeCave@@A": {
-            "addr": "<codecave:ice_physics_cave>"
+            "addr": "codecave:ice_physics_cave"
         },
         "?CurInput@Globals@@3IA": {
             "addr": "0x4CA428"
@@ -170,6 +167,9 @@
         },
         "?FlushSprites@AnmManager@@QAEXXZ": {
             "addr": "0x47E730"
+        },
+        "?CalcEx@Bullet@@QAEXXZ": {
+            "addr": "0x425C60"
         }
     },
     "imports": {
@@ -456,10 +456,6 @@
         "eclwaitmultiplier_waitf_cave": {
             "access": "rx",
             "code": "F30F5905<obj:_eclwaitmultiplier_mul> F30F5CC8 F30F110F E9[0x48D22E]"
-        },
-        "bulletwrap_etnew_cave": {
-            "access": "rx",
-            "code": "66C7840EE00500000010 C6840ED005000001 C6840ED40500000F C684B9184E000001 E9[0x436417]"
         },
         "stuck_input_cave": {
             "access": "rx",

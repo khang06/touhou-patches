@@ -11,7 +11,7 @@ public:
         auto* cur = &AbilityManager::Instance->card_list;
         while (cur) {
             if (cur->entry)
-                cur->entry->recharge_timer.cur_float = 0.0f;
+                cur->entry->recharge_timer.set(0);
             cur = cur->next;
         }
 

@@ -8,30 +8,18 @@ public:
     CodePatches patches;
 
     YouGrowBigger() {
+        // Allow shooting after size change
         uint8_t patch[] = {0x66, 0x90};
         patches.Add(0x45C978, patch, sizeof(patch));
+        
+        // Don't reset scale on player initialization/reset
+        patches.AddJmp(0x45AB6A, 0x45AB7A);
+        patches.AddJmp(0x45ADA4, 0x45ADB8);
 
         Player::Instance->flags |= 0x10;
         SoundManager::Instance.PlaySE(75, 0.0f);
-        
-        // TODO: I really need to write a helper function for this
-        auto& interp = Player::Instance->scale_interp;
-        interp.initial = 1.0f;
-        interp.goal = 2.0f; // Shinmy's 4x scale is too OP for this
-        interp.bezier_1 = 0.0f;
-        interp.bezier_2 = 0.0f;
-        interp.end_time = 120;
-        interp.method = 0;
-        if ((interp.timer.control & 1) == 0) {
-            interp.timer.cur = 0;
-            interp.timer.prev = -999999;
-            interp.timer.cur_float = 0.0f;
-            interp.timer.speed_idx_thing = 0;
-            interp.timer.control |= 1;
-        }
-        interp.timer.cur = 0;
-        interp.timer.cur_float = 0.0;
-        interp.timer.prev = -1;
+
+        Player::Instance->scale_interp.initialize(120, 0, 1.0f, 2.0f);
     }
 
     virtual ~YouGrowBigger() {

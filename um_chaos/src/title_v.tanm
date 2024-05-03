@@ -1,0 +1,62 @@
+#pragma mapfile "tools/v8.anmm"
+
+entry {
+    path: "umce_logo.png",
+    img_width: 512,
+    img_height: 512,
+    img_format: FORMAT_ARGB_4444,
+    sprites: {
+        sprite0: {x: 0.0, y: 0.0, w: 512.0, h: 128.0},
+        sprite1: {x: 0.0, y: 128.0, w: 512.0, h: 128.0},
+        sprite2: {x: 0.0, y: 256.0, w: 512.0, h: 128.0},
+        sprite3: {x: 0.0, y: 384.0, w: 512.0, h: 128.0},
+    },
+}
+
+
+script 0 script0 {
+    sprite(sprite0);
+    type(1);
+    ins_431(1);
+    randMode(1);
+    pos(590.0, 760.0, 0.0);
+    rotate(0.0, 0.0, -0.26179938779);
+    anchor(0, 0);
+    layer(31);
+    resolutionMode(2);
+    scale(100.0, 100.0);
+    alpha(0);
+    alphaTime(30, 0, 255);
+    scaleTime(30, 1, 1.0, 1.0);
++30:
+    khang_custom_shit();
+    goto anim_loop;
+
+interrupt[3]:
+    alphaTime(60, 0, 64);
++60: // 90
+    layer(31);
+    goto anim_loop;
+
+interrupt[2]:
+    layer(31);
+    alphaTime(60, 0, 255);
+    goto anim_loop;
+
+interrupt[1]:
+    alphaTime(10, 0, 0);
++10: // 100
+    delete();
+
+anim_loop:
+    loop {
+        sprite(sprite0);
++5: // 5
+        sprite(sprite1);
++5: // 10
+        sprite(sprite2);
++5: // 15
+        sprite(sprite3);
++5: // 20
+    }
+}

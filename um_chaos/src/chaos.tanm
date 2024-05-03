@@ -1,4 +1,4 @@
-#pragma mapfile "D:\\truth-0.5.2\\map\\any.anmm"
+#pragma mapfile "tools/v8.anmm"
 
 entry {
     path: "unzan_fist.png",

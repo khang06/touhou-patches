@@ -36,10 +36,12 @@ public:
             15, 15, 15, 15, 15,
             // 39 to 42
             0, 0, 0, 0,
-            // 43
-            7
+            // 43 to 45
+            7, 7, 7,
+            // 46 to 47
+            3, 3
         };
-        auto ret = Rand::Range(0, 43);
+        auto ret = Rand::Range(0, 47);
         MaxColor = MAX_COLORS[ret];
         return ret;
     }

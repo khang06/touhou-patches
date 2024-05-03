@@ -12,8 +12,6 @@ public:
     static IDirect3DTexture9* Flashlight;
     static HICON GameIcon;
 
-    static IDirect3DVertexDeclaration9* MinimalVertexDecl;
-    static IDirect3DVertexShader9* PassthroughVS;
     static IDirect3DPixelShader9* JPEGPass1PS;
     static IDirect3DPixelShader9* JPEGPass2PS;
     static IDirect3DTexture9* JPEGPass1Tex;

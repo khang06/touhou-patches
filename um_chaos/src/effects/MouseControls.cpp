@@ -19,6 +19,12 @@ public:
         };
         ClientToScreen(Main::Window, &p);
         SetCursorPos(p.x, p.y);
+        SetCursor(LoadCursorA(NULL, IDC_ARROW));
+    }
+
+    ~MouseControls() {
+        if (Window::IsFullscreen())
+            SetCursor(LoadCursorA(NULL, NULL));
     }
 
     virtual bool Update() {

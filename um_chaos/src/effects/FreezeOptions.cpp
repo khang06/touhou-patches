@@ -7,13 +7,7 @@ public:
     CodePatches patches;
 
     FreezeOptions() {
-        // UDoALG Ran option freezing compatibility hack
-        if (*(uint8_t*)0x45BCDA == 0xE9) {
-            patches.AddJmp(0x45BCDA, 0x45BD0B);
-        } else {
-            uint8_t patch = 0xEB; // jnz -> jmp
-            patches.Add(0x45BCDE, &patch, sizeof(patch));
-        }
+        patches.AddJmp(0x45BCDA, 0x45BD0B);
     }
 
     virtual bool Update() {

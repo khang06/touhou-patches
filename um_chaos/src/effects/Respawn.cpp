@@ -5,10 +5,8 @@ class Respawn : public Effect {
 public:
     virtual bool Update() {
         Player::Instance->death_state = 0;
-        Player::Instance->death_timer.cur_float = 0.0f;
-        Player::Instance->death_timer.cur = 0;
-        Player::Instance->idk_timer.cur_float = 280.0f;
-        Player::Instance->idk_timer.cur = 280;
+        Player::Instance->death_timer.set(0);
+        Player::Instance->invuln_timer.set(280);
         return false;
     }
 };

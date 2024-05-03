@@ -9,7 +9,7 @@ public:
 
     virtual bool Update() {
         if (--timer <= 0) {
-            bool bottom = Rand::Range(1, 20) == 1;
+            bool bottom = Rand::Range(1, 15) == 1;
             EnemyInitData init = {
                 .pos = {
                     .x = Player::Instance->pos_float.x,

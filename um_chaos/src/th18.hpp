@@ -102,26 +102,173 @@ public:
     void FlushSprites();
 };
 
-class Timer {
+// Stripped down a bit
+// https://github.com/zero318/ClangAsmTest1/blob/f3f5e549659812ae34e91aca539f7710f2fc40c0/UM/UM_bullet_ex.cpp#L2158
+struct Timer {
+    int32_t previous; // 0x0
+    int32_t current; // 0x4
+    float current_f; // 0x8
+    uint32_t scale_table_index; // 0xC
+    union {
+        uint32_t flags; // 0x10
+        struct {
+            uint32_t initialized : 1;
+        };
+    };
+    // 0x14
+
+    inline Timer() : initialized(false) {};
+
+    inline void default_values() {
+        this->current = 0;
+        this->previous = -999999;
+        this->current_f = 0.0f;
+    }
+
+private:
+    inline void initialize_previous_force(int32_t value) volatile {
+        this->previous = value;
+    }
 public:
-    uint32_t prev;
-    uint32_t cur;
-    float cur_float;
-    uint32_t speed_idx_thing;
-    uint32_t control;
+
+    inline void initialize() {
+        if (!this->initialized) {
+            this->initialize_previous_force(-999999);
+            this->scale_table_index = 0;
+            this->initialized = true;
+        }
+    }
+
+    inline void initialize_important() {
+        if (!this->initialized) {
+            this->scale_table_index = 0;
+            this->initialized = true;
+        }
+    }
+    inline void set_raw(int32_t time) {
+        this->current = time;
+        this->current_f = (float)time;
+        this->previous = time - 1;
+    }
+    // 0x405D10
+    inline void __thiscall set(int32_t time) {
+        this->initialize_important();
+        this->set_raw(time);
+    }
+    inline void reset() {
+        this->set(0);
+    }
+
+    inline void initialize_and_reset() {
+        this->initialize();
+        this->set_raw(0);
+    }
+    inline void initialize_and_set(int32_t time) {
+        this->initialize();
+        this->set_raw(time);
+    }
 };
 
-// TODO: This should probably be a template
-class InterpFloat {
-public:
-    float initial;
-    float goal;
-    float bezier_1;
-    float bezier_2;
-    float current;
-    Timer timer;
-    int end_time;
-    int method;
+// Also stripped down a bit
+// https://github.com/zero318/ClangAsmTest1/blob/f3f5e549659812ae34e91aca539f7710f2fc40c0/UM/UM_bullet_ex.cpp#L3631
+template <typename T, size_t modes = 1>
+struct ZUNInterp { //       0x58    0x44    0x30
+    //                      T3      T2      T1
+    T initial_value; //     0x0     0x0     0x0
+    T final_value; //       0xC     0x8     0x4
+    T bezier1; //           0x18    0x10    0x8
+    T bezier2; //           0x24    0x18    0xC
+    T current; //           0x30    0x20    0x10
+    Timer time; //          0x3C    0x28    0x14
+    int32_t end_time; //    0x50    0x3C    0x28
+    int32_t mode[modes]; // 0x54    0x40    0x2C
+
+    inline ZUNInterp<T, modes>() : end_time(0) {}
+
+    // float: 0x41F600
+    // Float2: 0x439600
+    // Float3: 0x405A00
+    // Float3Ex: 0x439940
+    // ZUNAngle: 0x47CBF0
+    inline void set_end_time(int32_t time) {
+        this->end_time = time;
+    }
+    
+    // Float3Ex: 0x439950
+    inline void set_current(const T& value) {
+        this->current = value;
+    }
+    
+    // float: 0x41B790
+    // Float2: 0x4395C0
+    // Float3Ex: 0x439900
+    inline void reset_end_time() {
+        this->end_time = 0;
+    }
+
+    // float: 0x41F630
+    // Float2: 0x439690
+    // Float3: 0x405A10
+    // ZUNAngle: 0x47CC40
+    inline void set_mode(int32_t mode) {
+        this->mode[0] = mode;
+    }
+
+    inline void set_mode_0() {
+        this->mode[0] = 0;
+    }
+
+    // float: 0x41F620
+    // Float2: 0x439670
+    // Float3: 0x405A20
+    // ZUNAngle: 0x47CC30
+    inline void set_initial_value(const T& value) {
+        this->initial_value = value;
+    }
+
+    // float: 0x41F610
+    // Float2: 0x439650
+    // Float3: 0x405A40
+    // Float3Ex: 0x4399B0
+    // ZUNAngle: 0x47CC20
+    inline void set_final_value(const T& value) {
+        this->final_value = value;
+    }
+
+    // float: 0x429A70
+    // Float3: 0x405A60
+    // Float3Ex: 0x439990
+    // ZUNAngle: 0x47CC10
+    inline void set_bezier1(const T& value) {
+        this->bezier1 = value;
+    }
+
+    // float: 0x429A60
+    // Float3: 0x405A80
+    // Float3Ex: 0x439970
+    // ZUNAngle: 0x47CC00
+    inline void set_bezier2(const T& value) {
+        this->bezier2 = value;
+    }
+
+    // float: 0x41F5D0
+    // Float2: 0x4395D0
+    // Float3: 0x405AA0
+    // Float3Ex: 0x439910
+    // ZUNAngle: 0x47CBC0
+    inline void reset_timer() {
+        this->time.reset();
+    }
+
+    inline void initialize(int32_t end_time, int32_t mode, const T& initial_value, const T& final_value) {
+        this->set_end_time(end_time);
+        this->set_mode(mode);
+        this->set_bezier1({});
+        this->set_bezier2({});
+        this->set_initial_value(initial_value);
+        this->set_final_value(final_value);
+        this->reset_timer();
+    }
 };
 
 class Player {
@@ -130,22 +277,22 @@ public:
 
     int CalcMove();
 
-    char gap0[0x620];           // 0x0
-    D3DVECTOR pos_float;        // 0x620
-    uint32_t pos_x;             // 0x62C
-    uint32_t pos_y;             // 0x630
-    Timer death_timer;          // 0x634
-    char gap648[0x47064];       // 0x648
-    uint32_t death_state;       // 0x476AC
-    char gap476B0[0xC4];        // 0x476B0
-    Timer idk_timer;            // 0x47774
-    char gap47788[0x14];        // 0x47788
-    uint32_t flags;             // 0x4779C
-    char gap477A0[0x1AC];       // 0x477A0
-    InterpFloat scale_interp;   // 0x4794C
-    float scale;                // 0x4797C
-    char gap47980[8];           // 0x47980
-    float item_attract_speed;   // 0x47988
+    char gap0[0x620];               // 0x0
+    D3DVECTOR pos_float;            // 0x620
+    uint32_t pos_x;                 // 0x62C
+    uint32_t pos_y;                 // 0x630
+    Timer death_timer;              // 0x634
+    char gap648[0x47064];           // 0x648
+    uint32_t death_state;           // 0x476AC
+    char gap476B0[0xC4];            // 0x476B0
+    Timer invuln_timer;             // 0x47774
+    char gap47788[0x14];            // 0x47788
+    uint32_t flags;                 // 0x4779C
+    char gap477A0[0x1AC];           // 0x477A0
+    ZUNInterp<float> scale_interp;  // 0x4794C
+    float scale;                    // 0x4797C
+    char gap47980[8];               // 0x47980
+    float item_attract_speed;       // 0x47988
 };
 
 // Called "GameThread" in ExpHP's repo, but I think that name is misleading
@@ -187,9 +334,66 @@ public:
     ZUNList<Card> card_list;    // 0x18
 };
 
+// https://github.com/zero318/ClangAsmTest1/blob/f3f5e549659812ae34e91aca539f7710f2fc40c0/UM/UM_bullet_ex.cpp#L10553
+struct BulletEffectData {
+    Timer timer; // 0x0
+    union { // 0x14
+        float speed;
+        float acceleration;
+    };
+    union { // 0x18
+        float angle;
+        float angular_velocity;
+    };
+    union { // 0x1C
+        D3DVECTOR position;
+        D3DVECTOR size;
+    };
+    union { // 0x28
+        D3DVECTOR velocity;
+        D3DVECTOR acceleration_vec;
+        D3DVECTOR target;
+    };
+    union { // 0x34
+        int32_t duration;
+        int32_t __offscreen_unknown;
+    };
+    union { // 0x38
+        int32_t max_count;
+        int32_t mode;
+    };
+    union { // 0x3C
+        int32_t count;
+        int32_t flags;
+    };
+    int32_t type; // 0x40
+    int32_t __int_44; // 0x44
+    // 0x48
+
+    inline BulletEffectData() {}
+};
+
+class Bullet {
+public:
+    char gap0[0x20];                // 0x0
+    uint32_t flags;                 // 0x20
+    char gap24[0x614];              // 0x24
+    D3DVECTOR position;             // 0x638
+    D3DVECTOR velocity;             // 0x644
+    char gap650[0x34];              // 0x650
+    uint32_t ex_flags;              // 0x684
+    char gap688[0x5E4];             // 0x688
+    BulletEffectData effect_wrap;   // 0xC6C
+
+    void CalcEx();
+};
+
 class BulletManager {
 public:
     static BulletManager* Instance;
+
+    char gap0[0xBC];                    // 0x0
+    ZUNList<Bullet> list_dummy_head;    // 0xBC
 
     void ClearAll(int idk);
 };

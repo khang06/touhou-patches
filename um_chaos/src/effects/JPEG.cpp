@@ -3,8 +3,7 @@
 #include "util.hpp"
 
 typedef struct {
-    float x, y;
-    float u, v;
+    float x, y, z;
 } MinimalVertex;
 
 // https://github.com/Matsilagi/RSRetroArch/blob/main/Shaders/JPEG.fx
@@ -28,10 +27,10 @@ public:
             1, 2, 3,
         };
         constexpr MinimalVertex vertices[4] = {
-            {-1, 1,  0, 1},
-            {1,  1,  1, 1},
-            {-1, -1, 0, 0},
-            {1,  -1, 1, 0},
+            {-1, 1,  0},
+            {1,  1,  0},
+            {-1, -1, 0},
+            {1,  -1, 0},
         };
 
         auto d3d9_dev = Main::Instance.d3d9_device;
@@ -66,9 +65,8 @@ public:
         d3d9_dev->SetPixelShaderConstantF(0, constant, 2);
 
         d3d9_dev->SetRenderTarget(0, Assets::JPEGPass1RT);
-        d3d9_dev->SetVertexShader(Assets::PassthroughVS);
         d3d9_dev->SetPixelShader(Assets::JPEGPass1PS);
-        d3d9_dev->SetVertexDeclaration(Assets::MinimalVertexDecl);
+        d3d9_dev->SetFVF(D3DFVF_XYZ);
         d3d9_dev->SetTexture(0, Main::Instance.text_anm->entries[3].d3d9_tex);
         d3d9_dev->Clear(0, NULL, D3DCLEAR_TARGET, 0xFF000000, 1.0f, 0);
         d3d9_dev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 6, 2, indices, D3DFMT_INDEX16, vertices, sizeof(MinimalVertex));
@@ -84,7 +82,6 @@ public:
         d3d9_dev->SetTransform(D3DTS_VIEW, &orig_view);
         d3d9_dev->SetTransform(D3DTS_PROJECTION, &orig_proj);
         d3d9_dev->SetTransform(D3DTS_TEXTURE0, &orig_tex0);
-        d3d9_dev->SetVertexShader(NULL);
         d3d9_dev->SetPixelShader(NULL);
         return 1;
     }

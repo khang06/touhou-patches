@@ -59,9 +59,9 @@ public:
         SoundManager::Instance.SendMsg(6, 0, "Pause");
         while (SoundManager::Instance.HandleMsg())
             ;
-        SetCursor(LoadCursorA(NULL, (LPCSTR)IDC_APPSTARTING));
+        SetCursor(LoadCursorA(NULL, IDC_APPSTARTING));
         Sleep(500);
-        SetCursor(LoadCursorA(NULL, (LPCSTR)IDC_ARROW));
+        SetCursor(LoadCursorA(NULL, IDC_ARROW));
 
         TASKDIALOG_BUTTON tdb[2] = {
             {
@@ -89,6 +89,9 @@ public:
 
         // Turn the audio back on
         SoundManager::Instance.SendMsg(7, 0, "UnPause");
+
+        if (Window::IsFullscreen())
+            SetCursor(LoadCursorA(NULL, NULL));
 
         DeactivateActCtx(0, cookie);
         return false;
