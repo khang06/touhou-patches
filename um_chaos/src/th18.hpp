@@ -35,6 +35,8 @@ public:
     float scale_y;              // 0x58
     char gap5C[0x438];          // 0x5C
     int32_t pending_interrupt;  // 0x494
+
+    static void __stdcall QueueDeletion(AnmVM* vm);
 };
 
 class AnmEntry {
@@ -47,6 +49,18 @@ class AnmLoaded {
 public:
     char gap0[0x124];
     AnmEntry* entries;
+
+    void MakeVM(AnmVM* vm, uint32_t script_id);
+};
+
+class Camera {
+public:
+    char gap0[0xE0];    // 0x0
+    int32_t x;          // 0xE0
+    int32_t y;          // 0xE4
+    int32_t width;      // 0xE8
+    int32_t height;     // 0xEC
+    char gapF0[0x74];   // 0xF0
 };
 
 class Main {
@@ -67,7 +81,9 @@ public:
     IDirect3DSurface9* backbuffer;          // 0x1B4
     char gap1B8[0x10];                      // 0x1B8
     AnmVM* screen_anm4;                     // 0x1C8
-    char gap1CC[0x628];                     // 0x1CC
+    char gap1CC[0x90];                      // 0x1CC
+    Camera cameras[4];                      // 0x25C
+    char gap7EC[0x8];                       // 0x7EC
     uint32_t cur_mode;                      // 0x7F4
     uint32_t switch_target_mode;            // 0x7F8
     char gap7FC[0x30];                      // 0x7FC
@@ -90,16 +106,19 @@ struct ZunVertex {
     float u, v;
 };
 
-class AnmLoaded;
-
 class AnmManager {
 public:
     static AnmManager* Instance;
+
+    static AnmVM* AllocateVM();
+    static uint32_t* __stdcall AddToUIBack(uint32_t* id, AnmVM* vm);
 
     int DrawSprite(AnmVM* anm);
     int AddVertices(ZunVertex* vertices);
     AnmLoaded* Preload(int id, const char* filename);
     void FlushSprites();
+    AnmVM* GetByID(uint32_t id);
+    int DrawLayer(uint32_t layer);
 };
 
 // Stripped down a bit
@@ -317,6 +336,14 @@ public:
     Timer recharge_timer;   // 0x34
 };
 
+class CardInfo {
+public:
+    const char* id_str;
+    uint32_t id;
+
+    static uint32_t __fastcall RandomCard(CardInfo** result, int min_type, int max_type, CardInfo** cards, int card_count);
+};
+
 template<typename T>
 class ZUNList {
 public:
@@ -332,6 +359,9 @@ public:
 
     char gap0[0x18];            // 0x0
     ZUNList<Card> card_list;    // 0x18
+
+    void ClearCards(int reequip);
+    int EquipCard(uint32_t id, uint32_t flags);
 };
 
 // https://github.com/zero318/ClangAsmTest1/blob/f3f5e549659812ae34e91aca539f7710f2fc40c0/UM/UM_bullet_ex.cpp#L10553
@@ -396,6 +426,7 @@ public:
     ZUNList<Bullet> list_dummy_head;    // 0xBC
 
     void ClearAll(int idk);
+    int Draw();
 };
 
 class LaserManager {
@@ -551,4 +582,12 @@ public:
     static uint32_t Prev;
     static uint32_t Pressed;
     static uint32_t Released;
+};
+
+class Bomb {
+public:
+    static Bomb* Instance;
+
+    char gap0[0x64];    // 0x0
+    uint32_t anm_id;    // 0x64
 };

@@ -9,20 +9,27 @@ ANMS = $(patsubst src/%.tanm,th18/%.anm,$(wildcard src/*.tanm))
 DEPDIR := build/.deps
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
-CPPFLAGS := --target=i686-pc-windows-msvc -msse -msse2 -mfpmath=sse -O3 -fno-exceptions -fno-rtti -fno-builtin-printf -fno-threadsafe-statics -D_HAS_EXCEPTIONS=0 "-D_CRTIMP=__declspec(dllimport)" "-D_VCRTIMP=__declspec(dllimport)" -D_CRT_SECURE_NO_WARNINGS=1 -Isrc
+CPPFLAGS := --target=i686-pc-windows-msvc -msse -msse2 -mfpmath=sse -O3 -fno-exceptions -fno-rtti -fno-builtin-printf -fno-threadsafe-statics -fwrapv -fno-math-errno \
+	-D_HAS_EXCEPTIONS=0 -D_CRTIMP=__declspec(dllimport) -D_VCRTIMP=__declspec(dllimport) -D_CRT_SECURE_NO_WARNINGS=1 -Isrc
 
-all: build/linked.obj um_chaos.json $(FXCS) $(ECLS) $(ANMS)
-	python tools/coff2binhack.py um_chaos.json
+all: th18.v1.00a.js $(FXCS) $(ECLS) $(ANMS)
 
 clean:
 	rmdir build /s /q
+
+th18.v1.00a.js: build/linked.obj um_chaos.json
+	python tools/coff2binhack.py um_chaos.json
 
 build/linked.obj: $(OBJS)
 	tools/ld -m i386pe --oformat pe-i386 -r $(OBJS) -o $@
 
 build/%.obj: src/%.cpp $(DEPDIR)/%.d | $(DEPDIR)
-	-@mkdir $(addprefix ",$(addsuffix ",$(dir $@)))
-	-@mkdir $(addprefix ",$(addsuffix ",$(dir $(DEPDIR)/$*.d)))
+	-@if not exist $(addprefix ",$(addsuffix ",$(dir $@))) ( \
+		mkdir $(addprefix ",$(addsuffix ",$(dir $@))) \
+	)
+	-@if not exist $(addprefix ",$(addsuffix ",$(dir $(DEPDIR)/$*.d))) ( \
+		mkdir $(addprefix ",$(addsuffix ",$(dir $(DEPDIR)/$*.d))) \
+	)
 	clang $(DEPFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
 
 th18/%.ecl: src/%.tecl

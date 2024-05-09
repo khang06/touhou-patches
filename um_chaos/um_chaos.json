@@ -170,6 +170,39 @@
         },
         "?CalcEx@Bullet@@QAEXXZ": {
             "addr": "0x425C60"
+        },
+        "?QueueDeletion@AnmVM@@SGXPAV1@@Z": {
+            "addr": "0x488D50"
+        },
+        "?GetByID@AnmManager@@QAEPAVAnmVM@@I@Z": {
+            "addr": "0x488B40"
+        },
+        "?Instance@Bomb@@2PAV1@A": {
+            "addr": "0x4CF2B8"
+        },
+        "?EquipCard@AbilityManager@@QAEHII@Z": {
+            "addr": "0x411460"
+        },
+        "?RandomCard@CardInfo@@SIIPAPAV1@HH0H@Z": {
+            "addr": "0x416F50"
+        },
+        "?ClearCards@AbilityManager@@QAEXH@Z": {
+            "addr": "0x407DA0"
+        },
+        "?DrawLayer@AnmManager@@QAEHH@Z": {
+            "addr": "0x488260"
+        },
+        "?Draw@BulletManager@@QAEHXZ": {
+            "addr": "0x424EB0"
+        },
+        "?AddToUIBack@AnmManager@@SGPAIPAIPAVAnmVM@@@Z": {
+            "addr": "0x488490"
+        },
+        "?MakeVM@AnmLoaded@@QAEXPAVAnmVM@@I@Z": {
+            "addr": "0x407420"
+        },
+        "?AllocateVM@AnmManager@@SAPAVAnmVM@@XZ": {
+            "addr": "0x489320"
         }
     },
     "imports": {
@@ -343,25 +376,25 @@
             "addr": "0x453600",
             "code": "E8 [obj:_switch_mode_hook]"
         },
-        "lesanae_add_vertices_hook": {
+        "common_add_vertices_hook": {
             "addr": "0x47E6B5",
-            "code": "E8 [obj:_lesanae_add_vertices_hook]"
+            "code": "E8 [obj:_common_add_vertices_hook]"
         },
-        "lesanae_draw_sprite_hook1": {
+        "common_draw_sprite_hook1": {
             "addr": "0x4555B9",
-            "code": "E8 [obj:_lesanae_draw_sprite_playfield_hook]"
+            "code": "E8 [obj:_common_draw_sprite_playfield_hook]"
         },
-        "lesanae_draw_sprite_hook2": {
+        "common_draw_sprite_hook2": {
             "addr": "0x455A29",
-            "code": "E8 [obj:_lesanae_draw_sprite_playfield_hook]"
+            "code": "E8 [obj:_common_draw_sprite_playfield_hook]"
         },
-        "lesanae_draw_sprite_hook3": {
+        "common_draw_sprite_hook3": {
             "addr": "0x455B80",
-            "code": "E8 [obj:_lesanae_draw_sprite_playfield_hook]"
+            "code": "E8 [obj:_common_draw_sprite_playfield_hook]"
         },
-        "lesanae_draw_sprite_hook4": {
+        "common_draw_sprite_hook4": {
             "addr": "0x455CB7",
-            "code": "E8 [obj:_lesanae_draw_sprite_playfield_hook]"
+            "code": "E8 [obj:_common_draw_sprite_playfield_hook]"
         },
         "lesanae_set_texture_hook1": {
             "addr": "0x47E1B6",
@@ -430,6 +463,10 @@
         "unload_default_pool_assets_hook": {
             "addr": "0x4711A1",
             "code": "E9[obj:_unload_default_pool_assets]"
+        },
+        "common_draw_bullets_hook": {
+            "addr": "0x423BE8",
+            "code": "<obj:_common_draw_bullets_hook>"
         }
     },
     "codecaves": {

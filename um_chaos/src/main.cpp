@@ -2,6 +2,7 @@
 #include <commctrl.h>
 #include <stdio.h>
 #include "assets.hpp"
+#include "commonhooks.hpp"
 #include "effect.hpp"
 #include "th18.hpp"
 #include "util.hpp"
@@ -11,8 +12,6 @@ bool g_game_loaded = false;
 bool g_game_stage_transition = false;
 int g_effect_req = -1;
 size_t g_next_effect_timer = 0;
-
-extern int32_t g_title_screen_shake;
 
 extern int orig_threadproc();
 extern "C" int game_threadproc_hook() {
@@ -48,8 +47,8 @@ extern "C" int __thiscall switch_mode_hook(Main* self) {
 }
 
 int __fastcall post_frame_calc(void*) {
-    if (g_title_screen_shake)
-        g_title_screen_shake--;
+    if (CommonHooks::TitleScreenShake)
+        CommonHooks::TitleScreenShake--;
 
     if (!g_game_loaded || AbilityShop::Instance)
         return 1;
@@ -121,7 +120,7 @@ extern "C" void custom_anm_handler() {
     QueryPerformanceCounter(&qpc);
     Rand::Seed(qpc.LowPart);
     SoundManager::Instance.PlaySE(51, 0.0f);
-    g_title_screen_shake = 60;
+    CommonHooks::TitleScreenShake = 60;
 }
 
 extern "C" EnemyManager* __fastcall enemy_manager_create_hook(const char* filename) {

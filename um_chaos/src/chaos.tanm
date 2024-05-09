@@ -71,7 +71,6 @@ interrupt[1]:
     delete();
 }
 
-
 script 4 unzanr2 {
     sprite(unzan_fist);
     layer(13);
@@ -99,4 +98,29 @@ script 5 unzanr3 {
     alphaTime(30, 0, 0);
 +30: // 30
     delete();
+}
+
+
+entry {
+    path: "disable.png",
+    img_width: 512,
+    img_height: 128,
+    img_format: FORMAT_ARGB_4444,
+    memory_priority: 0,
+    sprites: {disable: {x: 0.0, y: 0.0, w: 512.0, h: 128.0}},
+}
+
+script 6 bomb_disable {
+    sprite(disable);
+    resampleMode(1);
+    ins_431(1);
+    randMode(1);
+    pos(789.0, 228.0, 0.0);
+    anchor(1, 1);
+    layer(25);
+    resolutionMode(2);
+    alpha(0);
+    alphaTime(20, 0, 255);
++20: // 20
+    stop();
 }

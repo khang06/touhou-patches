@@ -4,7 +4,7 @@
 #include "util.hpp"
 
 // Also known as "Not Mystia"
-// This is a direct port from osu!
+// This is (not really) a direct port from osu!
 // See https://github.com/ppy/osu/blob/master/osu.Game.Rulesets.Osu/Mods/OsuModFlashlight.cs
 class Flashlight : public Effect {
 public:
@@ -12,6 +12,8 @@ public:
     D3DVECTOR pos = Player::Instance->pos_float;
     float radius = 6400.0f;
     float target_radius = 750.0f;
+    int dim = 0;
+    int target_dim = 0;
 
     virtual bool Update() {
         if (radius > target_radius)
@@ -19,11 +21,15 @@ public:
         else if (radius < target_radius)
             radius = min(radius + 160.0f, target_radius);
 
-        pos.x += (Player::Instance->pos_float.x - pos.x) * 0.25848765432f;
-        pos.y += (Player::Instance->pos_float.y - pos.y) * 0.25848765432f;
+        //pos.x += (Player::Instance->pos_float.x - pos.x) * 0.25848765432f;
+        //pos.y += (Player::Instance->pos_float.y - pos.y) * 0.25848765432f;
+        pos = Player::Instance->pos_float;
 
         if (timer < 30)
             target_radius = 6400.0f;
+
+        bool focused = (Globals::CurInput & 8) != 0;
+        target_dim = focused ? 205 : 0;
 
         return --timer > 0;
     }
@@ -60,7 +66,15 @@ public:
         vertices[3].x = px + scaled_radius;
         vertices[3].y = py + scaled_radius;
 
-        bool focused = (Globals::CurInput & 8) != 0;
+        if (dim > target_dim)
+            dim = max(dim - 32, target_dim);
+        else if (dim < target_dim)
+            dim = min(dim + 32, target_dim);
+
+        DWORD dim_col = dim << 24;
+        for (int i = 4; i < 8; i++)
+            vertices[i].color = dim_col;
+
         auto d3d9_dev = Main::Instance.d3d9_device;
         DWORD z_enable;
         IDirect3DBaseTexture9* prev_tex = nullptr;
@@ -70,7 +84,7 @@ public:
         d3d9_dev->GetTexture(0, &prev_tex);
         d3d9_dev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
         d3d9_dev->SetTexture(0, Assets::Flashlight);
-        d3d9_dev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, focused ? 12 : 6, focused ? 4 : 2, indices, D3DFMT_INDEX16, vertices, sizeof(ZunVertex));
+        d3d9_dev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 12, 4, indices, D3DFMT_INDEX16, vertices, sizeof(ZunVertex));
         d3d9_dev->SetTexture(0, prev_tex);
         d3d9_dev->SetRenderState(D3DRS_ZENABLE, z_enable);
     }

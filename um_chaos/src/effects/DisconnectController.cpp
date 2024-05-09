@@ -4,7 +4,7 @@
 
 class DisconnectController : public Effect {
 public:
-    int timer = Rand::RangeFrames(0.25f, 0.5f);
+    int timer = Rand::RangeFrames(0.25f, 0.75f);
     CodePatches patches;
 
     DisconnectController() {
