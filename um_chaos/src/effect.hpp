@@ -38,52 +38,13 @@ public:
     static size_t EnabledCount;
     static EnabledEffect Enabled[MAX_EFFECTS];
 
-    static void Enable(size_t id) {
-        printf("Enabling %s...\n", Infos[id].name);
-        Infos[id].enabled = true;
-        Enabled[EnabledCount++] =  {
-            .name = Infos[id].name,
-            .id = id,
-            .frames_active = 0,
-            .inner = Infos[id].init(),
-        };
-    }
-
-    static void EnableRandom() {
-        static size_t choices[Effect::MAX_EFFECTS];
-        size_t choices_count = 0;
-        for (size_t i = 0; i < Effect::AllCount; i++) {
-            if (!Effect::Infos[i].enabled)
-                choices[choices_count++] = i;
-        }
-        if (choices_count)
-            Effect::Enable(choices[Rand::Range(0, choices_count - 1)]);
-    }
-
-    static void Disable(size_t idx) {
-        printf("Disabling %s...\n", Enabled[idx].name);
-        Infos[Enabled[idx].id].enabled = false;
-        delete Enabled[idx].inner;
-        memmove(&Enabled[idx], &Enabled[idx + 1], (EnabledCount - idx - 1) * sizeof(EnabledEffect));
-        EnabledCount--;
-    }
-
-    static void UpdateAll() {
-        for (size_t i = 0; i < EnabledCount;) {
-            Enabled[i].frames_active++;
-            if (!Enabled[i].inner->Update())
-                Disable(i);
-            else
-                i++;
-        }
-    }
-
-    static void DrawAll() {
-        for (size_t i = 0; i < EnabledCount; i++)
-            Enabled[i].inner->Draw();
-    }
-
     virtual ~Effect() {};
-    virtual bool Update() { return true; };
+    virtual bool Update() { return false; };
     virtual void Draw() {};
+
+    static void Enable(size_t id);
+    static void EnableRandom();
+    static void Disable(size_t idx);
+    static void UpdateAll();
+    static void DrawAll();
 };

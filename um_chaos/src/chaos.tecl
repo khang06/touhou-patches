@@ -1,4 +1,4 @@
-void UnzanArmAt()
+void UnzanArm_at()
 {
     /*
     var A, B;
@@ -94,7 +94,7 @@ void UnzanArmL()
 {
     var A, B, C;
     setHitbox(164.0f, 64.0f);
-    @UnzanArmAt() async;
+    @UnzanArm_at() async;
     playSound(30);
     playSound(27);
     anmSelect(0x40000007);
@@ -122,7 +122,7 @@ void UnzanArmR()
 {
     var A, B, C;
     setHitbox(164.0f, 64.0f);
-    @UnzanArmAt() async;
+    @UnzanArm_at() async;
     playSound(30);
     playSound(27);
     anmSelect(0x40000007);
@@ -142,6 +142,31 @@ UnzanArmR_440:
     wait(1000);
 UnzanArmR_460:
     if (1) goto UnzanArmR_440 @ 600;
+    delete();
+}
+
+void Follower() {
+    setHitbox(8.0f, 8.0f);
+    setHurtbox(8.0f, 8.0f);
+    anmSelect(2);
+    anmSetMain(0, 0);
+    flagSet(128 | 16 | 8 | 4); // FLAG_NO_DELETE | FLAG_INVINCIBLE | FLAG_OFFSCREEN_UD | FLAG_OFFSCREEN_LR
+    moveVel(0.0f, 1.0f);
+    while ($I0-- > 0) {
+        moveAngle(%ANGLE_PLAYER);
+        wait(1);
+    }
+    die();
+}
+
+void FairyJumpscare() {
+    setHitbox(8.0f, 8.0f);
+    setHurtbox(8.0f, 8.0f);
+    anmSelect(2);
+    anmSetMain(0, 5);
+    flagSet(512 | 256 | 16 | 8 | 4); // FLAG_GRAZE | FLAG_ALWAYS_DELETE | FLAG_INVINCIBLE | FLAG_OFFSCREEN_UD | FLAG_OFFSCREEN_LR
+    moveVel(%ANGLE_PLAYER, 10.0f);
++600:
     delete();
 }
 

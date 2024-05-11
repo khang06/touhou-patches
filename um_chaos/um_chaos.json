@@ -203,6 +203,30 @@
         },
         "?AllocateVM@AnmManager@@SAPAVAnmVM@@XZ": {
             "addr": "0x489320"
+        },
+        "?Cave@BulletSpeedMultiplier@@2UCodeCave@@A": {
+            "addr": "codecave:bulletspeedmultiplier_cave"
+        },
+        "?GetFloatArgStupid@EnemyData@@AAQMHH@Z": {
+            "addr": "0x438AD0"
+        },
+        "?GetIntArg@EnemyData@@QAEHH@Z": {
+            "addr": "0x438AA0"
+        },
+        "??0MsgVM@@QAE@I@Z": {
+            "addr": "0x43D720"
+        },
+        "??1MsgVM@@QAE@XZ": {
+            "addr": "0x43A3F0"
+        },
+        "?DecryptString@MsgVM@@SIPADPAD@Z": {
+            "addr": "0x4419F0"
+        },
+        "?EtNewCave@BulletWrap@@2UCodeCave@@A": {
+            "addr": "codecave:bulletwrap_etnew_cave"
+        },
+        "?ShootShooter@BulletManager@@QAEHPAVEnemyShooter@@HHM@Z": {
+            "addr": "0x424FE0"
         }
     },
     "imports": {
@@ -291,6 +315,9 @@
             },
             "strncmp": {
                 "alias": "_strncmp"
+            },
+            "strncpy": {
+                "alias": "_strncpy"
             }
         },
         "user32.dll": {
@@ -467,6 +494,26 @@
         "common_draw_bullets_hook": {
             "addr": "0x423BE8",
             "code": "<obj:_common_draw_bullets_hook>"
+        },
+        "msgvm_ctor_hook": {
+            "addr": "0x43E411",
+            "code": "E8[obj:_msgvm_ctor_hook]"
+        },
+        "msgvm_dtor_hook1": {
+            "addr": "0x43B395",
+            "code": "E8[obj:_msgvm_dtor_hook]"
+        },
+        "msgvm_dtor_hook2": {
+            "addr": "0x43B543",
+            "code": "E8[obj:_msgvm_dtor_hook]"
+        },
+        "msgvm_dtor_hook3": {
+            "addr": "0x43C8BF",
+            "code": "E8[obj:_msgvm_dtor_hook]"
+        },
+        "msgvm_dtor_hook4": {
+            "addr": "0x443523",
+            "code": "E8[obj:_msgvm_dtor_hook]"
         }
     },
     "codecaves": {
@@ -554,6 +601,14 @@
         "title_draw_cave": {
             "access": "rx",
             "code": "E8[obj:_manual_draw_hook] E9[0x4659B4]"
-        }
+        },
+        "bulletspeedmultiplier_cave": {
+            "access": "rx",
+            "code": "0F12843EB4050000 0F120D<obj:_bulletspeedmultiplier_mul> 0F59C1 0F13843EB4050000 E9[0x436417]"
+        },
+        "bulletwrap_etnew_cave": {
+            "access": "rx",
+            "code": "66C7840EE00500000010 C6840ED005000001 C6840ED40500000F C684B9184E000001 E9[0x436417]"
+        },
     }
 }

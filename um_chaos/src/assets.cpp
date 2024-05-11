@@ -19,6 +19,8 @@ IDirect3DPixelShader9* Assets::JPEGPass2PS = NULL;
 IDirect3DTexture9* Assets::JPEGPass1Tex = NULL;
 IDirect3DSurface9* Assets::JPEGPass1RT = NULL;
 
+void* Assets::StickyKeys = NULL;
+
 std::vector<const char*> Assets::StageAttacks;
 std::vector<const char*> Assets::BossAttacks;
 
@@ -82,4 +84,6 @@ void Assets::Load() {
     load_ps("jpeg2_ps.fxc", &Assets::JPEGPass2PS);
 
     load_default_pool_assets();
+
+    Assets::StickyKeys = GameUtil::LoadFile("stickykeys.wav", nullptr, 0);
 }

@@ -9,8 +9,8 @@ namespace Rand {
     void Seed(uint32_t seed);
     uint32_t Next();
     int32_t Range(int32_t start, int32_t end);
-    int32_t RangeFrames(float start, float end);
-    float NextFloat();
+    int32_t __vectorcall RangeFrames(float start, float end);
+    float __vectorcall NextFloat();
 }
 
 class CodePatches {

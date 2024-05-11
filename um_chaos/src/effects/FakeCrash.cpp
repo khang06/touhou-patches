@@ -7,7 +7,7 @@
 
 class FakeCrash : public Effect {
 public:
-    virtual bool Update() {
+    FakeCrash() {
         // Make sure we're running in the comctl32 6.0 activation context
         ULONG_PTR cookie = 0;
         ActivateActCtx(StupidWindowsStuff::ActivationContext, &cookie);
@@ -45,7 +45,7 @@ public:
             cur_entry = cur_entry->Flink;
         }
         if (!TaskDialogIndirectPtr)
-            return false;
+            return;
 
         // Make it more convincing for people with VS installed
         HKEY key = NULL;
@@ -94,7 +94,6 @@ public:
             SetCursor(LoadCursorA(NULL, NULL));
 
         DeactivateActCtx(0, cookie);
-        return false;
     }
 };
 REGISTER_EFFECT(FakeCrash);

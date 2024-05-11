@@ -4,9 +4,8 @@
 
 class Minimize : public Effect {
 public:
-    virtual bool Update() {
+    Minimize() {
         PostMessage(Main::Window, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-        return false;
     }
 };
 REGISTER_EFFECT(Minimize);

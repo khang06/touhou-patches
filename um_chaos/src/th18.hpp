@@ -30,11 +30,42 @@ namespace GameUtil {
 
 class AnmVM {
 public:
-    char gap0[0x54];            // 0x0
+    char gap0[0x18];            // 0x0
+    uint32_t layer;             // 0x18
+    char gap1C[0x8];            // 0x1C
+    int32_t sprite_id;          // 0x24
+    char gap28[0x8];            // 0x28
+    D3DVECTOR position;         // 0x30
+    D3DVECTOR rotation;         // 0x3C
+    D3DVECTOR angular_velocity; // 0x48
     float scale_x;              // 0x54
     float scale_y;              // 0x58
-    char gap5C[0x438];          // 0x5C
+    char gap5C[0x370];          // 0x5C
+    float scroll_speed_u;       // 0x3CC
+    float scroll_speed_v;       // 0x3D0
+    char gap3D4[0xC0];          // 0x3D4
     int32_t pending_interrupt;  // 0x494
+    char gap498[0x8C];          // 0x498
+    DWORD color1;               // 0x524
+    DWORD color2;               // 0x528
+    char gap52C[0x8];           // 0x52C
+    union {
+        uint32_t flags_low;     // 0x534
+        struct {
+            uint32_t visible : 1;
+            uint32_t : 1;
+            uint32_t __z_rotation : 1;
+        };
+    };
+    union {
+        uint32_t flags_high;    // 0x538
+        struct {
+            uint32_t : 25;
+            uint32_t inherit_rotation : 1;
+            uint32_t : 1;
+            uint32_t colorize_children : 1;
+        };
+    };
 
     static void __stdcall QueueDeletion(AnmVM* vm);
 };
@@ -359,6 +390,8 @@ public:
 
     char gap0[0x18];            // 0x0
     ZUNList<Card> card_list;    // 0x18
+    char gap28[0xC5C];          // 0x28
+    uint32_t equipped[56];      // 0xC84
 
     void ClearCards(int reequip);
     int EquipCard(uint32_t id, uint32_t flags);
@@ -418,6 +451,13 @@ public:
     void CalcEx();
 };
 
+class EnemyShooter {
+public:
+    char gap0[0x14];    // 0x0
+    float angle1;       // 0x14
+    char gap18[0x470];  // 0x18
+};
+
 class BulletManager {
 public:
     static BulletManager* Instance;
@@ -427,6 +467,7 @@ public:
 
     void ClearAll(int idk);
     int Draw();
+    int ShootShooter(EnemyShooter* shooter, int idx1, int idx2, float angle);
 };
 
 class LaserManager {
@@ -485,6 +526,21 @@ public:
 class ItemManager {
 public:
     void* __thiscall SpawnItem(int id, int a3, int a4, float a5, float a6, int a7, int a8, int a9);
+};
+
+class EnemyData {
+public:
+    char gap0[0x598];           // 0x0
+    EnemyShooter shooters[16];  // 0x598
+
+    int GetIntArg(int idx);
+    inline float GetFloatArg(int idx) {
+        // Has to return a float using xmm0
+        return GetFloatArgStupid(UNUSED_DWORD, idx);
+    }
+
+private:
+    float __vectorcall GetFloatArgStupid(int, int idx);
 };
 
 class Enemy {
@@ -590,4 +646,32 @@ public:
 
     char gap0[0x64];    // 0x0
     uint32_t anm_id;    // 0x64
+};
+
+class MsgVM {
+public:
+    MsgVM(uint32_t idk);
+    ~MsgVM();
+
+    static char* __fastcall DecryptString(char* input);
+
+    char gap0[0x40];                // 0x0
+    uint32_t player_portraits[2];   // 0x40
+    uint32_t enemy_portraits[4];    // 0x48
+    char gap58[0xC];                // 0x58
+    uint32_t dialogue_lines[2];     // 0x64
+    uint32_t furigana_lines[2];     // 0x6C
+    uint32_t intro;                 // 0x74
+};
+
+class Gui {
+public:
+    static Gui* Instance;
+    
+    char pad0[0x1B0];       // 0x0
+    MsgVM* msg_vm;          // 0x1B0
+    
+    static inline bool is_msg_active() {
+        return Instance->msg_vm != NULL;
+    }
 };

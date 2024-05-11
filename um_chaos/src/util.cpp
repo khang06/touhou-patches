@@ -21,10 +21,10 @@ namespace Rand {
     int32_t Range(int32_t start, int32_t end) { // inclusive
         return Next() % (end - start + 1) + start; // Yes, there's modulo bias. I don't care
     }
-    int32_t RangeFrames(float start, float end) {
+    int32_t __vectorcall RangeFrames(float start, float end) {
         return Range((int)(start * 60.0f), (int)(end * 60.0f));
     }
-    float NextFloat() {
+    float __vectorcall NextFloat() {
         union {
             uint32_t i;
             float f;

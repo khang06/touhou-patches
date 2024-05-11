@@ -3,10 +3,9 @@
 
 class ClearAll : public Effect {
 public:
-    virtual bool Update() {
+    ClearAll() {
         BulletManager::Instance->ClearAll(0);
         LaserManager::Instance->ClearAll(1, nullptr);
-        return false;
     }
 };
 REGISTER_EFFECT(ClearAll);

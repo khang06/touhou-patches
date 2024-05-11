@@ -3,7 +3,7 @@
 
 class RedirectBullets : public Effect {
 public:
-    virtual bool Update() {
+    RedirectBullets() {
         for (auto cur = BulletManager::Instance->list_dummy_head.next; cur != nullptr; cur = cur->next) {
             auto& player_pos = Player::Instance->pos_float;
             auto& pos = cur->entry->position;
@@ -17,7 +17,6 @@ public:
                 cur->entry->ex_flags &= ~8; // EX_ANGLE_ACCEL
             }
         }
-        return false;
     }
 };
 REGISTER_EFFECT(RedirectBullets);
