@@ -115,8 +115,8 @@ public:
     char gap1CC[0x90];                      // 0x1CC
     Camera cameras[4];                      // 0x25C
     char gap7EC[0x8];                       // 0x7EC
-    uint32_t cur_mode;                      // 0x7F4
-    uint32_t switch_target_mode;            // 0x7F8
+    int32_t cur_mode;                       // 0x7F4
+    int32_t switch_target_mode;             // 0x7F8
     char gap7FC[0x30];                      // 0x7FC
     AnmLoaded* text_anm;                    // 0x82C
 };

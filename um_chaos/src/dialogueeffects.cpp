@@ -1,5 +1,4 @@
 #include <new>
-#include <stdio.h>
 #include "th18.hpp"
 #include "util.hpp"
 

@@ -327,6 +327,12 @@
             },
             "__stdio_common_vsprintf": {
                 "alias": "___stdio_common_vsprintf"
+            },
+            "abort": {
+                "alias": "_abort"
+            },
+            "_beginthreadex": {
+                "alias": "__beginthreadex"
             }
         },
         "user32.dll": {
@@ -426,6 +432,63 @@
         "thcrap.dll": {
             "log_vprintf": {
                 "alias": "_log_vprintf"
+            }
+        },
+        "msvcp140.dll": {
+            "?_Xlength_error@std@@YAXPBD@Z": {
+                "alias": "?_Xlength_error@std@@YAXPBD@Z"
+            },
+            "_Thrd_id": {
+                "alias": "__Thrd_id"
+            },
+            "?_Throw_Cpp_error@std@@YAXH@Z": {
+                "alias": "?_Throw_Cpp_error@std@@YAXH@Z"
+            },
+            "_Thrd_join": {
+                "alias": "__Thrd_join"
+            },
+            "_Cnd_do_broadcast_at_thread_exit": {
+                "alias": "__Cnd_do_broadcast_at_thread_exit"
+            }
+        },
+        "Ws2_32.dll": {
+            "FreeAddrInfoW": {
+                "alias": "_FreeAddrInfoW@4"
+            },
+            "closesocket": {
+                "alias": "_closesocket@4"
+            },
+            "connect": {
+                "alias": "_connect@12"
+            },
+            "socket": {
+                "alias": "_socket@12"
+            },
+            "GetAddrInfoW": {
+                "alias": "_GetAddrInfoW@16"
+            },
+            "send": {
+                "alias": "_send@16"
+            },
+            "recv": {
+                "alias": "_recv@16"
+            },
+            "WSAStartup": {
+                "alias": "_WSAStartup@8"
+            },
+            "setsockopt": {
+                "alias": "_setsockopt@20"
+            },
+            "InetNtopW": {
+                "alias": "_InetNtopW_dll@16"
+            }
+        },
+        "Dnsapi.dll": {
+            "DnsFree": {
+                "alias": "_DnsFree_dll@8"
+            },
+            "DnsQuery_W": {
+                "alias": "_DnsQuery_W_dll@24"
             }
         }
     },

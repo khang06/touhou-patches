@@ -10,7 +10,7 @@ DEPDIR := build/.deps
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
 CPPFLAGS := --target=i686-pc-windows-msvc -msse -msse2 -mfpmath=sse -O3 -std=c++20 -fno-exceptions -fno-rtti -fno-builtin-printf -fno-threadsafe-statics -fwrapv -fno-math-errno \
-	-D_HAS_EXCEPTIONS=0 -D_CRTIMP=__declspec(dllimport) -D_VCRTIMP=__declspec(dllimport) -D_CRT_SECURE_NO_WARNINGS=1 -Isrc
+	-D_HAS_EXCEPTIONS=0 -D_CRTIMP=__declspec(dllimport) -D_CRTIMP2=__declspec(dllimport) -D_VCRTIMP=__declspec(dllimport) -D_CRT_SECURE_NO_WARNINGS=1 -Isrc
 
 all: th18.v1.00a.js $(FXCS) $(ECLS) $(ANMS)
 

@@ -4,6 +4,7 @@
 #include <shlwapi.h>
 #include "settings.hpp"
 #include "th18.hpp"
+#include "twitch_irc.hpp"
 
 // Using the non-wide APIs could break stuff for people who put their games in Unicode paths
 // I don't want to deal with wide conversion for ASCII-only strings, so this seems like the best solution
@@ -99,6 +100,7 @@ static size_t g_frame_count = 0;
 static bool g_take_over_input = false;
 static BYTE g_cur_kbd[256] = {};
 static BYTE g_last_kbd[256] = {};
+static bool g_twitch_reload_queued = false;
 
 struct SettingsButton {
     const char* label;
@@ -159,7 +161,7 @@ static void defaults_input_handler(void (*reset)(), uint32_t input) {
 
 extern SettingsPage g_main_page;
 static void page_input_handler(TitleScreen* title, uint32_t input, SettingsPage* target) {
-    if (input & (INPUT_SHOOT | INPUT_ENTER)) {
+    if (input & (target == &g_main_page ? (INPUT_SHOOT | INPUT_BOMB | INPUT_ENTER) : (INPUT_SHOOT | INPUT_ENTER))) {
         change_page(title, target);
         SoundManager::Instance.PlaySE(target == &g_main_page ? 9 : 7, 0.0f);
     }
@@ -168,6 +170,9 @@ static void page_input_handler(TitleScreen* title, uint32_t input, SettingsPage*
 extern SettingsPage g_effect_page;
 extern SettingsPage g_twitch_page;
 extern SettingsPage g_debug_page;
+extern TwitchStatus g_twitch_status;
+extern int g_twitch_init_timer;
+extern char g_twitch_last_user[sizeof(Settings::TwitchUsername)];
 SettingsPage g_main_page = {
     .title = "Chaos Edition Settings",
     .buttons = {
@@ -199,6 +204,18 @@ SettingsPage g_main_page = {
                     Settings::Save();
                     title->SwitchMenuState(1);
                     SoundManager::Instance.PlaySE(9, 0.0f);
+
+                    if (g_twitch_reload_queued) {
+                        if (g_twitch_status == TWITCH_INITIALIZED) {
+                            stop_twitch_thread();
+                            g_twitch_status = TWITCH_DISABLED;
+                        }
+                        if (Settings::TwitchEnabled && Settings::TwitchUsername[0] != '\0') {
+                            memcpy(g_twitch_last_user, Settings::TwitchUsername, sizeof(Settings::TwitchUsername));
+                            g_twitch_init_timer = 16;
+                            g_twitch_status = TWITCH_INIT_PENDING;
+                        }
+                    }
                 }
             }
         }
@@ -271,6 +288,18 @@ SettingsPage g_twitch_page = {
     .title = "Twitch Settings",
     .buttons = {
         {
+            .label = "Twitch Integration",
+            .update_value = [](SettingsButton* button) {
+                bool_update_value(button, Settings::TwitchEnabled);
+            },
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                bool old = Settings::TwitchEnabled;
+                bool_input_handler(button, input, Settings::TwitchEnabled);
+                if (old != Settings::TwitchEnabled)
+                    g_twitch_reload_queued = true;
+            }
+        },
+        {
             .label = "Channel Username",
             .update_value = [](SettingsButton* button) {
                 strncpy(button->value, Settings::TwitchUsername, sizeof(button->value) - 1);
@@ -296,6 +325,7 @@ SettingsPage g_twitch_page = {
                         value_len--;
                         SoundManager::Instance.PlaySE(1, 0.0f);
                         button->update_value(button);
+                        g_twitch_reload_queued = true;
                     }
 
                     constexpr int VALID_KEYS[] = {
@@ -318,6 +348,7 @@ SettingsPage g_twitch_page = {
                                 SoundManager::Instance.PlaySE(1, 0.0f);
                             }
                             button->update_value(button);
+                            g_twitch_reload_queued = true;
                         }
                     }
 

@@ -5,14 +5,18 @@
 #include "commonhooks.hpp"
 #include "effect.hpp"
 #include "th18.hpp"
+#include "twitch_irc.hpp"
 #include "settings.hpp"
 #include "util.hpp"
 
-CodePatches g_global_patches;
 bool g_game_loaded = false;
 bool g_game_stage_transition = false;
 int g_effect_req = -1;
-size_t g_next_effect_timer = 0;
+int g_next_effect_timer = 0;
+
+TwitchStatus g_twitch_status = TWITCH_DISABLED;
+int g_twitch_init_timer = 0; // Makes sure the current frame is showing the initializing message before freezing the main thread
+char g_twitch_last_user[sizeof(Settings::TwitchUsername)] = {};
 
 extern int orig_threadproc();
 extern "C" int game_threadproc_hook() {
@@ -32,6 +36,7 @@ extern "C" int game_threadproc_hook() {
 
 extern "C" int __thiscall switch_mode_hook(Main* self) {
     if (self->cur_mode != self->switch_target_mode) {
+        Util::Log("Switching modes from %d to %d\n", self->cur_mode, self->switch_target_mode);
         if (self->cur_mode == 7) {
             Util::Log("Game ended\n");
             if (self->switch_target_mode != 12) {
@@ -43,6 +48,11 @@ extern "C" int __thiscall switch_mode_hook(Main* self) {
             }
             g_game_loaded = false;
         }
+        if (self->switch_target_mode == 4 && g_twitch_status == TWITCH_DISABLED && Settings::TwitchEnabled && Settings::TwitchUsername[0] != '\0') {
+            memcpy(g_twitch_last_user, Settings::TwitchUsername, sizeof(Settings::TwitchUsername));
+            g_twitch_status = TWITCH_INIT_PENDING;
+            g_twitch_init_timer = 16;
+        }
     }
     return self->SwitchMode();
 }
@@ -51,10 +61,13 @@ int __fastcall post_frame_calc(void*) {
     if (CommonHooks::TitleScreenShake)
         CommonHooks::TitleScreenShake--;
 
+    if (g_twitch_status == TWITCH_INIT_PENDING && --g_twitch_init_timer <= 0)
+        g_twitch_status = start_twitch_thread(g_twitch_last_user) ? TWITCH_INITIALIZED : TWITCH_FAILED;
+
     if (!g_game_loaded || AbilityShop::Instance)
         return 1;
 
-    if (Settings::RandomEnabled && --g_next_effect_timer == 0) {
+    if (Settings::RandomEnabled && --g_next_effect_timer <= 0) {
         Effect::EnableRandom();
         g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
     }
@@ -80,6 +93,29 @@ int __fastcall post_frame_calc(void*) {
 int __fastcall post_frame_draw(void*) {
     if (!AsciiManager::Instance)
         return 1;
+
+    if (Settings::TwitchEnabled) {
+        D3DVECTOR pos = { 4.0f, 460.0f, 0.0f };
+        AsciiManager::Instance->style = 6;
+        AsciiManager::Instance->color = D3DCOLOR_ARGB(0xFF, 0x91, 0x46, 0xFF);
+        AsciiManager::Instance->shadow_color = D3DCOLOR_ARGB(0xFF, 0x00, 0x00, 0x00);
+        AsciiManager::Instance->hor_align = 1;
+
+        switch (g_twitch_status) {
+            case TWITCH_INIT_PENDING:
+                AsciiManager::Instance->DrawShadowText(&pos, "Connecting to %s...", g_twitch_last_user);
+                break;
+            case TWITCH_INITIALIZED:
+                AsciiManager::Instance->DrawShadowText(&pos, "Connected to %s", g_twitch_last_user);
+                break;
+            case TWITCH_FAILED:
+                AsciiManager::Instance->DrawShadowText(&pos, "Failed to connect to %s!", g_twitch_last_user);
+                break;
+            case TWITCH_DISABLED:
+            default:
+                break;
+        }
+    }
 
     if (Main::Instance.cur_mode == 4 && Window::IsFullscreen()) {
         D3DVECTOR pos1 = { 4.0f, 4.0f, 0.0f };
