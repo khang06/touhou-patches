@@ -64,7 +64,7 @@ void Settings::LoadEffectDefaults() {
 }
 
 void Settings::LoadTwitchDefaults() {
-    Settings::TwitchUsername[0] = '\0';
+    memset(Settings::TwitchUsername, 0, sizeof(Settings::TwitchUsername));
     Settings::VotingEnabled = false;
 }
 
@@ -119,7 +119,7 @@ SettingsPage g_main_page = {
             .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
                 if (input & (INPUT_SHOOT | INPUT_ENTER)) {
                     change_page(title, &g_effect_page);
-                    SoundManager::Instance.PlaySE(10, 0.0f);
+                    SoundManager::Instance.PlaySE(7, 0.0f);
                 }
             }
         },
@@ -128,7 +128,7 @@ SettingsPage g_main_page = {
             .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
                 if (input & (INPUT_SHOOT | INPUT_ENTER)) {
                     change_page(title, &g_twitch_page);
-                    SoundManager::Instance.PlaySE(10, 0.0f);
+                    SoundManager::Instance.PlaySE(7, 0.0f);
                 }
             }
         },
@@ -157,7 +157,7 @@ SettingsPage g_effect_page = {
                 if (input & (INPUT_SHOOT | INPUT_LEFT | INPUT_RIGHT | INPUT_ENTER)) {
                     Settings::RandomEnabled = !Settings::RandomEnabled;
                     button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
             }
         },
@@ -170,12 +170,12 @@ SettingsPage g_effect_page = {
                 if (input & INPUT_LEFT && Settings::MinRandomTime != 0) {
                     Settings::MinRandomTime--;
                     button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
                 if (input & INPUT_RIGHT && Settings::MinRandomTime < Settings::MaxRandomTime) {
                     Settings::MinRandomTime++;
                     button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
             }
         },
@@ -188,12 +188,12 @@ SettingsPage g_effect_page = {
                 if (input & INPUT_LEFT && Settings::MaxRandomTime > Settings::MinRandomTime) {
                     Settings::MaxRandomTime--;
                     button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
                 if (input & INPUT_RIGHT && Settings::MaxRandomTime < UINT32_MAX) {
                     Settings::MaxRandomTime++;
                     button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
             }
         },
@@ -206,12 +206,12 @@ SettingsPage g_effect_page = {
                 if (input & INPUT_LEFT && Settings::EffectTimeMultiplier > 0) {
                     Settings::EffectTimeMultiplier--;
                     button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
                 if (input & INPUT_RIGHT && Settings::EffectTimeMultiplier < (1 << 23) - 1) {
                     Settings::EffectTimeMultiplier++;
                     button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
             }
         },
@@ -225,7 +225,7 @@ SettingsPage g_effect_page = {
                     Settings::LoadEffectDefaults();
                     for (size_t i = 0; i < g_button_count; i++)
                         g_cur_page->buttons[i].update_value(title, &g_cur_page->buttons[i]);
-                    SoundManager::Instance.PlaySE(10, 0.0f);
+                    SoundManager::Instance.PlaySE(7, 0.0f);
                 }
             }
         },
@@ -273,6 +273,7 @@ SettingsPage g_twitch_page = {
                     if ((back_repeat_tick || key_pressed(VK_BACK)) && value_len) {
                         Settings::TwitchUsername[value_len - 1] = '\0';
                         value_len--;
+                        SoundManager::Instance.PlaySE(1, 0.0f);
                         button->update_value(title, button);
                     }
 
@@ -286,14 +287,14 @@ SettingsPage g_twitch_page = {
                             if (key == VK_OEM_MINUS) {
                                 if (g_cur_kbd[VK_SHIFT] & 0x80) {
                                     Settings::TwitchUsername[value_len] = '_';
-                                    SoundManager::Instance.PlaySE(0, 0.0f);
+                                    SoundManager::Instance.PlaySE(1, 0.0f);
                                 }
                             } else if (key >= 'A' && key <= 'Z') {
                                 Settings::TwitchUsername[value_len] = (g_cur_kbd[VK_SHIFT] & 0x80) ? key : (key | 0x20);
-                                SoundManager::Instance.PlaySE(0, 0.0f);
+                                SoundManager::Instance.PlaySE(1, 0.0f);
                             } else {
                                 Settings::TwitchUsername[value_len] = key;
-                                SoundManager::Instance.PlaySE(0, 0.0f);
+                                SoundManager::Instance.PlaySE(1, 0.0f);
                             }
                             button->update_value(title, button);
                         }
@@ -301,13 +302,13 @@ SettingsPage g_twitch_page = {
 
                     if (key_pressed(VK_RETURN) || key_pressed(VK_ESCAPE)) {
                         g_take_over_input = false;
-                        SoundManager::Instance.PlaySE(9, 0.0f);
+                        SoundManager::Instance.PlaySE(7, 0.0f);
                     }
                 } else if (input & (INPUT_SHOOT | INPUT_ENTER)) {
                     g_take_over_input = true;
                     GetKeyboardState(g_cur_kbd);
                     memcpy(g_last_kbd, g_cur_kbd, 256);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
             }
         },
@@ -320,7 +321,7 @@ SettingsPage g_twitch_page = {
                 if (input & (INPUT_SHOOT | INPUT_LEFT | INPUT_RIGHT | INPUT_ENTER)) {
                     Settings::VotingEnabled = !Settings::VotingEnabled;
                     button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(0, 0.0f);
+                    SoundManager::Instance.PlaySE(1, 0.0f);
                 }
             }
         },
@@ -334,7 +335,7 @@ SettingsPage g_twitch_page = {
                     Settings::LoadTwitchDefaults();
                     for (size_t i = 0; i < g_button_count; i++)
                         g_cur_page->buttons[i].update_value(title, &g_cur_page->buttons[i]);
-                    SoundManager::Instance.PlaySE(10, 0.0f);
+                    SoundManager::Instance.PlaySE(7, 0.0f);
                 }
             }
         },
@@ -362,7 +363,7 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
 
     uint32_t pressed = Input::Pressed | Input::Repeat;
 
-    if (pressed & INPUT_UP) {
+    if (pressed & INPUT_UP && !g_take_over_input) {
         do  {
             if (g_selected == 0)
                 g_selected = g_button_count - 1;
@@ -372,7 +373,7 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
         SoundManager::Instance.PlaySE(10, 0.0f);
     }
 
-    if (pressed & INPUT_DOWN) {
+    if (pressed & INPUT_DOWN && !g_take_over_input) {
         do {
             if (g_selected == g_button_count - 1)
                 g_selected = 0;
@@ -386,7 +387,7 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
     if (pressed & ~(INPUT_UP | INPUT_DOWN) || g_take_over_input)
         button.input_handler(title, &button, pressed & ~(INPUT_UP | INPUT_DOWN));
 
-    if (pressed & INPUT_BOMB) {
+    if (pressed & INPUT_BOMB && !g_take_over_input) {
         g_selected = g_button_count - 1;
         SoundManager::Instance.PlaySE(9, 0.0f);
     }
