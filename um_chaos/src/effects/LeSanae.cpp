@@ -7,7 +7,7 @@
 
 class LeSanae : public Effect {
 public:
-    int timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
 
     LeSanae() {
         CommonHooks::LeSanae = true;

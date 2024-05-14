@@ -362,7 +362,15 @@ namespace Globals {
 
 class Card {
 public:
-    char gap0[0x34];        // 0x0
+    virtual void Unk0();
+    virtual void Unk4();
+    virtual void Unk8();
+    virtual void UnkC();
+    virtual void Unk10();
+    virtual void Unk14();
+    virtual void OnLevelUp();
+
+    char gap4[0x30];        // 0x4
     Timer recharge_timer;   // 0x34
 };
 

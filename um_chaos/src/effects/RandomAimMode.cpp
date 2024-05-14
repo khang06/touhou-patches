@@ -5,7 +5,7 @@ class RandomAimMode : public Effect {
 public:
     static float angle_adjustment;
 
-    int timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
     CodePatches patches;
 
     RandomAimMode() {

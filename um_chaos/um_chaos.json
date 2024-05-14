@@ -280,6 +280,9 @@
             },
             "GetLastError": {
                 "alias": "_GetLastError@0"
+            },
+            "FreeConsole": {
+                "alias": "_FreeConsole@0"
             }
         },
         "ucrtbase.dll": {
@@ -418,6 +421,11 @@
             },
             "PathRemoveFileSpecA": {
                 "alias": "_PathRemoveFileSpecA@4"
+            }
+        },
+        "thcrap.dll": {
+            "log_vprintf": {
+                "alias": "_log_vprintf"
             }
         }
     },

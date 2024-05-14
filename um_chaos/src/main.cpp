@@ -18,13 +18,13 @@ extern int orig_threadproc();
 extern "C" int game_threadproc_hook() {
     orig_threadproc();
 
-    printf("Game started\n");
+    Util::Log("Game started\n");
 
     if (!g_game_stage_transition) {
         LARGE_INTEGER qpc;
         QueryPerformanceCounter(&qpc);
         Rand::Seed(qpc.LowPart);
-        g_next_effect_timer = Rand::RangeFrames(5, 30);
+        g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
     }
     g_game_loaded = true;
     return 0;
@@ -33,7 +33,7 @@ extern "C" int game_threadproc_hook() {
 extern "C" int __thiscall switch_mode_hook(Main* self) {
     if (self->cur_mode != self->switch_target_mode) {
         if (self->cur_mode == 7) {
-            printf("Game ended\n");
+            Util::Log("Game ended\n");
             if (self->switch_target_mode != 12) {
                 while (Effect::EnabledCount != 0)
                     Effect::Disable(0);
@@ -151,7 +151,7 @@ extern "C" EnemyManager* __fastcall enemy_manager_create_hook(const char* filena
         else if (!strncmp(file_manager->subroutines[i].name, "BOSS_", 5))
             Assets::BossAttacks.push_back(file_manager->subroutines[i].name);
     }
-    printf("Loaded %zu stage attacks and %zu boss attacks\n", Assets::StageAttacks.size(), Assets::BossAttacks.size());
+    Util::Log("Loaded %zu stage attacks and %zu boss attacks\n", Assets::StageAttacks.size(), Assets::BossAttacks.size());
 
     return EnemyManager::Instance;
 }
@@ -171,23 +171,28 @@ extern "C" void scorefile_init_hook() {
 
 // Runs after the game is mostly initialized (e.g. D3D9 device ready)
 extern "C" int entry_hook() {
+    // Load config
+    Settings::Load();
+
     // Spawn a console window for debugging
-    AllocConsole();
-    freopen("CONIN$", "r", stdin);
-    freopen("CONOUT$", "w", stdout);
-    freopen("CONOUT$", "w", stderr);
-    printf("UM:CE " __DATE__ "\n");
-    printf("Loaded %zu effects\n", Effect::AllCount);
+    if (Settings::DebugConsole) {
+        AllocConsole();
+        freopen("CONIN$", "r", stdin);
+        freopen("CONOUT$", "w", stdout);
+        freopen("CONOUT$", "w", stderr);
+    }
+    Util::Log("UM:CE " __DATE__ "\n");
+    Util::Log("Loaded %zu effects\n", Effect::AllCount);
     for (size_t i = 0; i < Effect::AllCount; i++)
-        printf("%zu %s\n", i, Effect::Infos[i].name);
-    printf("\n");
+        Util::Log("%zu %s\n", i, Effect::Infos[i].name);
+    Util::Log("\n");
     SetForegroundWindow(Main::Window);
 
     // Spawn debug console input thread
-    CreateThread(NULL, 0, console_input_proc, NULL, 0, NULL);
+    if (Settings::DebugConsole)
+        CreateThread(NULL, 0, console_input_proc, NULL, 0, NULL);
 
-    // Load config and assets
-    Settings::Load();
+    // Load assets
     Assets::Load();
 
     // Register post-frame calc function

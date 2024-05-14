@@ -12,7 +12,7 @@ class JPEG : public Effect {
 public:
     static float strength;
     static bool fade_in_finished;
-    int timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
     CodePatches patches;
 
     JPEG() {

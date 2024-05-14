@@ -7,7 +7,7 @@ class BouncingWindow : public Effect {
 public:
     static constexpr int VELOCITY = 2;
 
-    int timer = Rand::RangeFrames(10, 60);
+    int timer = Rand::RangeEffectTime(10, 60);
     RECT monitor_bounds;
     int x_vel = VELOCITY;
     int y_vel = VELOCITY;

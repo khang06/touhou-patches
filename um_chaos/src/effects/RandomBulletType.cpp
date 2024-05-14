@@ -4,7 +4,7 @@
 class RandomBulletType : public Effect {
 public:
     static int32_t MaxColor;
-    int timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
     CodePatches patches;
 
     RandomBulletType() {

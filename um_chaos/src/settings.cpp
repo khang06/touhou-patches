@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <stdio.h>
 #include <math.h>
 #include <shlwapi.h>
@@ -35,8 +36,11 @@ void Settings::Load() {
     LOAD_SETTING_INT(MaxRandomTime);
     LOAD_SETTING_INT(EffectTimeMultiplier);
 
+    LOAD_SETTING_INT(TwitchEnabled);
     LOAD_SETTING_STR(TwitchUsername);
     LOAD_SETTING_INT(VotingEnabled);
+
+    LOAD_SETTING_INT(DebugConsole);
 }
 
 void Settings::Save() {
@@ -52,8 +56,11 @@ void Settings::Save() {
     SAVE_SETTING_INT(MaxRandomTime);
     SAVE_SETTING_INT(EffectTimeMultiplier);
 
+    SAVE_SETTING_INT(TwitchEnabled);
     SAVE_SETTING_STR(TwitchUsername);
     SAVE_SETTING_INT(VotingEnabled);
+
+    SAVE_SETTING_INT(DebugConsole);
 }
 
 void Settings::LoadEffectDefaults() {
@@ -64,16 +71,23 @@ void Settings::LoadEffectDefaults() {
 }
 
 void Settings::LoadTwitchDefaults() {
+    Settings::TwitchEnabled = false;
     memset(Settings::TwitchUsername, 0, sizeof(Settings::TwitchUsername));
-    Settings::VotingEnabled = false;
+    Settings::VotingEnabled = true;
+}
+
+void Settings::LoadDebugDefaults() {
+    Settings::DebugConsole = false;
 }
 
 bool Settings::RandomEnabled;
 uint32_t Settings::MinRandomTime;
 uint32_t Settings::MaxRandomTime;
 uint32_t Settings::EffectTimeMultiplier;
+bool Settings::TwitchEnabled;
 char Settings::TwitchUsername[26];
 bool Settings::VotingEnabled;
+bool Settings::DebugConsole;
 
 struct SettingsPage;
 
@@ -89,7 +103,7 @@ static BYTE g_last_kbd[256] = {};
 struct SettingsButton {
     const char* label;
     char value[128];
-    void (*update_value)(TitleScreen*, SettingsButton*) = [](TitleScreen*, SettingsButton*) {};
+    void (*update_value)(SettingsButton*) = [](SettingsButton*) {};
     void (*input_handler)(TitleScreen*, SettingsButton*, uint32_t) = [](TitleScreen*, SettingsButton*, uint32_t) {};
 };
 
@@ -105,32 +119,78 @@ static void change_page(TitleScreen* title, SettingsPage* target) {
         auto& button = target->buttons[g_button_count];
         if (button.label == nullptr)
             break;
-        button.update_value(title, &button);
+        button.update_value(&button);
+    }
+}
+
+static void bool_update_value(SettingsButton* button, bool value) {
+    strcpy(button->value, value ? "ON" : "OFF");
+}
+
+static void bool_input_handler(SettingsButton* button, uint32_t input, bool& value) {
+    if (input & (INPUT_SHOOT | INPUT_LEFT | INPUT_RIGHT | INPUT_ENTER)) {
+        value = !value;
+        button->update_value(button);
+        SoundManager::Instance.PlaySE(1, 0.0f);
+    }
+}
+
+static void u32_input_handler(SettingsButton* button, uint32_t input, uint32_t& value, uint32_t min, uint32_t max) {
+    if (input & INPUT_LEFT && value > min) {
+        value--;
+        button->update_value(button);
+        SoundManager::Instance.PlaySE(1, 0.0f);
+    }
+    if (input & INPUT_RIGHT && value < max) {
+        value++;
+        button->update_value(button);
+        SoundManager::Instance.PlaySE(1, 0.0f);
+    }
+}
+
+static void defaults_input_handler(void (*reset)(), uint32_t input) {
+    if (input & (INPUT_SHOOT | INPUT_BOMB | INPUT_ENTER)) {
+        reset();
+        for (size_t i = 0; i < g_button_count; i++)
+            g_cur_page->buttons[i].update_value(&g_cur_page->buttons[i]);
+        SoundManager::Instance.PlaySE(7, 0.0f);
+    }
+}
+
+extern SettingsPage g_main_page;
+static void page_input_handler(TitleScreen* title, uint32_t input, SettingsPage* target) {
+    if (input & (INPUT_SHOOT | INPUT_ENTER)) {
+        change_page(title, target);
+        SoundManager::Instance.PlaySE(target == &g_main_page ? 9 : 7, 0.0f);
     }
 }
 
 extern SettingsPage g_effect_page;
 extern SettingsPage g_twitch_page;
+extern SettingsPage g_debug_page;
 SettingsPage g_main_page = {
     .title = "Chaos Edition Settings",
     .buttons = {
         {
             .label = "Effect Settings",
             .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
-                if (input & (INPUT_SHOOT | INPUT_ENTER)) {
-                    change_page(title, &g_effect_page);
-                    SoundManager::Instance.PlaySE(7, 0.0f);
-                }
+                page_input_handler(title, input, &g_effect_page);
             }
         },
         {
             .label = "Twitch Settings",
             .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
-                if (input & (INPUT_SHOOT | INPUT_ENTER)) {
-                    change_page(title, &g_twitch_page);
-                    SoundManager::Instance.PlaySE(7, 0.0f);
-                }
+                page_input_handler(title, input, &g_twitch_page);
             }
+        },
+        {
+            .label = "Debug Settings",
+            .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
+                page_input_handler(title, input, &g_debug_page);
+            }
+        },
+        {
+            .label = ""
         },
         {
             .label = "Back",
@@ -150,69 +210,38 @@ SettingsPage g_effect_page = {
     .buttons = {
         {
             .label = "Random Effects",
-            .update_value = [](TitleScreen*, SettingsButton* button) {
-                strcpy(button->value, Settings::RandomEnabled ? "ON" : "OFF");
+            .update_value = [](SettingsButton* button) {
+                bool_update_value(button, Settings::RandomEnabled);
             },
-            .input_handler = [](TitleScreen* title, SettingsButton* button, uint32_t input) {
-                if (input & (INPUT_SHOOT | INPUT_LEFT | INPUT_RIGHT | INPUT_ENTER)) {
-                    Settings::RandomEnabled = !Settings::RandomEnabled;
-                    button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(1, 0.0f);
-                }
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                bool_input_handler(button, input, Settings::RandomEnabled);
             }
         },
         {
             .label = "Min Time Between Effects",
-            .update_value = [](TitleScreen*, SettingsButton* button) {
+            .update_value = [](SettingsButton* button) {
                 snprintf(button->value, sizeof(button->value) - 1, "%us", Settings::MinRandomTime);
             },
-            .input_handler = [](TitleScreen* title, SettingsButton* button, uint32_t input) {
-                if (input & INPUT_LEFT && Settings::MinRandomTime != 0) {
-                    Settings::MinRandomTime--;
-                    button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(1, 0.0f);
-                }
-                if (input & INPUT_RIGHT && Settings::MinRandomTime < Settings::MaxRandomTime) {
-                    Settings::MinRandomTime++;
-                    button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(1, 0.0f);
-                }
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                u32_input_handler(button, input, Settings::MinRandomTime, 0, Settings::MaxRandomTime);
             }
         },
         {
             .label = "Max Time Between Effects",
-            .update_value = [](TitleScreen*, SettingsButton* button) {
+            .update_value = [](SettingsButton* button) {
                 snprintf(button->value, sizeof(button->value) - 1, "%us", Settings::MaxRandomTime);
             },
-            .input_handler = [](TitleScreen* title, SettingsButton* button, uint32_t input) {
-                if (input & INPUT_LEFT && Settings::MaxRandomTime > Settings::MinRandomTime) {
-                    Settings::MaxRandomTime--;
-                    button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(1, 0.0f);
-                }
-                if (input & INPUT_RIGHT && Settings::MaxRandomTime < UINT32_MAX) {
-                    Settings::MaxRandomTime++;
-                    button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(1, 0.0f);
-                }
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                u32_input_handler(button, input, Settings::MaxRandomTime, Settings::MinRandomTime, UINT32_MAX);
             }
         },
         {
             .label = "Effect Length Multiplier",
-            .update_value = [](TitleScreen*, SettingsButton* button) {
+            .update_value = [](SettingsButton* button) {
                 snprintf(button->value, sizeof(button->value) - 1, "%.1fx", Settings::EffectTimeMultiplier / 10.0f);
             },
-            .input_handler = [](TitleScreen* title, SettingsButton* button, uint32_t input) {
-                if (input & INPUT_LEFT && Settings::EffectTimeMultiplier > 0) {
-                    Settings::EffectTimeMultiplier--;
-                    button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(1, 0.0f);
-                }
-                if (input & INPUT_RIGHT && Settings::EffectTimeMultiplier < (1 << 23) - 1) {
-                    Settings::EffectTimeMultiplier++;
-                    button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(1, 0.0f);
-                }
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                u32_input_handler(button, input, Settings::EffectTimeMultiplier, 0, (1 << 23) - 1);
             }
         },
         {
@@ -220,22 +249,14 @@ SettingsPage g_effect_page = {
         },
         {
             .label = "Restore Defaults",
-            .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
-                if (input & (INPUT_SHOOT | INPUT_BOMB | INPUT_ENTER)) {
-                    Settings::LoadEffectDefaults();
-                    for (size_t i = 0; i < g_button_count; i++)
-                        g_cur_page->buttons[i].update_value(title, &g_cur_page->buttons[i]);
-                    SoundManager::Instance.PlaySE(7, 0.0f);
-                }
+            .input_handler = [](TitleScreen*, SettingsButton*, uint32_t input) {
+                defaults_input_handler(Settings::LoadEffectDefaults, input);
             }
         },
         {
             .label = "Back",
             .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
-                if (input & (INPUT_SHOOT | INPUT_BOMB | INPUT_ENTER)) {
-                    change_page(title, &g_main_page);
-                    SoundManager::Instance.PlaySE(9, 0.0f);
-                }
+                page_input_handler(title, input, &g_main_page);
             }
         }
     }
@@ -251,10 +272,10 @@ SettingsPage g_twitch_page = {
     .buttons = {
         {
             .label = "Channel Username",
-            .update_value = [](TitleScreen*, SettingsButton* button) {
+            .update_value = [](SettingsButton* button) {
                 strncpy(button->value, Settings::TwitchUsername, sizeof(button->value) - 1);
             },
-            .input_handler = [](TitleScreen* title, SettingsButton* button, uint32_t input) {
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
                 if (g_take_over_input) {
                     memcpy(g_last_kbd, g_cur_kbd, 256);
                     GetKeyboardState(g_cur_kbd);
@@ -274,7 +295,7 @@ SettingsPage g_twitch_page = {
                         Settings::TwitchUsername[value_len - 1] = '\0';
                         value_len--;
                         SoundManager::Instance.PlaySE(1, 0.0f);
-                        button->update_value(title, button);
+                        button->update_value(button);
                     }
 
                     constexpr int VALID_KEYS[] = {
@@ -296,7 +317,7 @@ SettingsPage g_twitch_page = {
                                 Settings::TwitchUsername[value_len] = key;
                                 SoundManager::Instance.PlaySE(1, 0.0f);
                             }
-                            button->update_value(title, button);
+                            button->update_value(button);
                         }
                     }
 
@@ -314,15 +335,11 @@ SettingsPage g_twitch_page = {
         },
         {
             .label = "Effect Voting",
-            .update_value = [](TitleScreen*, SettingsButton* button) {
-                strcpy(button->value, Settings::VotingEnabled ? "ON" : "OFF");
+            .update_value = [](SettingsButton* button) {
+                bool_update_value(button, Settings::VotingEnabled);
             },
-            .input_handler = [](TitleScreen* title, SettingsButton* button, uint32_t input) {
-                if (input & (INPUT_SHOOT | INPUT_LEFT | INPUT_RIGHT | INPUT_ENTER)) {
-                    Settings::VotingEnabled = !Settings::VotingEnabled;
-                    button->update_value(title, button);
-                    SoundManager::Instance.PlaySE(1, 0.0f);
-                }
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                bool_input_handler(button, input, Settings::VotingEnabled);
             }
         },
         {
@@ -330,22 +347,44 @@ SettingsPage g_twitch_page = {
         },
         {
             .label = "Restore Defaults",
-            .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
-                if (input & (INPUT_SHOOT | INPUT_BOMB | INPUT_ENTER)) {
-                    Settings::LoadTwitchDefaults();
-                    for (size_t i = 0; i < g_button_count; i++)
-                        g_cur_page->buttons[i].update_value(title, &g_cur_page->buttons[i]);
-                    SoundManager::Instance.PlaySE(7, 0.0f);
-                }
+            .input_handler = [](TitleScreen*, SettingsButton*, uint32_t input) {
+                defaults_input_handler(Settings::LoadTwitchDefaults, input);
             }
         },
         {
             .label = "Back",
             .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
-                if (input & (INPUT_SHOOT | INPUT_BOMB | INPUT_ENTER)) {
-                    change_page(title, &g_main_page);
-                    SoundManager::Instance.PlaySE(9, 0.0f);
-                }
+                page_input_handler(title, input, &g_main_page);
+            }
+        }
+    }
+};
+
+SettingsPage g_debug_page = {
+    .title = "Debug Settings",
+    .buttons = {
+        {
+            .label = "Console (restart required)",
+            .update_value = [](SettingsButton* button) {
+                bool_update_value(button, Settings::DebugConsole);
+            },
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                bool_input_handler(button, input, Settings::DebugConsole);
+            }
+        },
+        {
+            .label = ""
+        },
+        {
+            .label = "Restore Defaults",
+            .input_handler = [](TitleScreen*, SettingsButton*, uint32_t input) {
+                defaults_input_handler(Settings::LoadEffectDefaults, input);
+            }
+        },
+        {
+            .label = "Back",
+            .input_handler = [](TitleScreen* title, SettingsButton*, uint32_t input) {
+                page_input_handler(title, input, &g_main_page);
             }
         }
     }

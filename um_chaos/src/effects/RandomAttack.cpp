@@ -4,7 +4,7 @@
 
 class RandomAttack : public Effect {
 public:
-    int timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
     CodePatches patches;
 
     RandomAttack() {
@@ -23,7 +23,7 @@ public:
                 new_name = Assets::BossAttacks[Rand::Range(0, Assets::BossAttacks.size() - 1)];
             else
                 new_name = Assets::StageAttacks[Rand::Range(0, Assets::StageAttacks.size() - 1)];
-            printf("Overriding %s with %s\n", name, new_name);
+            Util::Log("Overriding %s with %s\n", name, new_name);
             self->random_attack_cur_et = (self->random_attack_cur_et + 1) & 15;
             self->ResolveSub(new_name);
         } else {

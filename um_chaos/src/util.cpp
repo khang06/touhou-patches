@@ -1,37 +1,11 @@
 #include <Windows.h>
 #include <vector>
 #include <stdint.h>
+#include "settings.hpp"
 #include "util.hpp"
 
 namespace Rand {
-    uint32_t g_rand_state;
-
-    void Seed(uint32_t seed) {
-        g_rand_state = seed;
-    }
-    uint32_t Next() {
-        // xorshift32
-        uint32_t x = g_rand_state;
-        x ^= x << 13;
-        x ^= x >> 17;
-        x ^= x << 5;
-        g_rand_state = x;
-        return x;
-    }
-    int32_t Range(int32_t start, int32_t end) { // inclusive
-        return Next() % (end - start + 1) + start; // Yes, there's modulo bias. I don't care
-    }
-    int32_t __vectorcall RangeFrames(float start, float end) {
-        return Range((int)(start * 60.0f), (int)(end * 60.0f));
-    }
-    float __vectorcall NextFloat() {
-        union {
-            uint32_t i;
-            float f;
-        } u;
-        u.i = 0x3F800000 | (Next() >> 9); // [1, 2)
-        return u.f - 1.0f; // [0, 1)
-    }
+    uint32_t State;
 }
 
 CodePatches::~CodePatches() {
@@ -85,4 +59,19 @@ void CodePatches::AddCall(uint32_t addr, void* func) {
 
 namespace StupidWindowsStuff {
     static HANDLE ActivationContext = NULL;
+}
+
+extern "C" __declspec(dllimport) void log_vprintf(const char* format, va_list va);
+namespace Util {
+    void Log(const char* format, ...) {
+        va_list va;
+        va_list va2;
+        va_start(va, format);
+        va_copy(va2, va);
+        log_vprintf(format, va);
+        va_end(va);
+        if (Settings::DebugConsole)
+            vprintf(format, va2);
+        va_end(va2);
+    }
 }

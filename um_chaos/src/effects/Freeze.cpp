@@ -4,7 +4,7 @@
 
 class Freeze : public Effect {
 public:
-    int timer = Rand::RangeFrames(1, 5);
+    int timer = Rand::RangeEffectTime(1, 5);
 
     Freeze() {
         GameState::Instance->flags |= 0x400;

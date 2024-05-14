@@ -9,10 +9,10 @@ public:
 
     GameSpeed() {
         if (Rand::Range(1, 2) == 1) {
-            timer = Rand::RangeFrames(0.25, 5);
+            timer = Rand::RangeEffectTime(0.25, 5);
             speed = -1.0f;
         } else {
-            timer = Rand::RangeFrames(10, 60);
+            timer = Rand::RangeEffectTime(10, 60);
             speed = Rand::NextFloat() * 1.5f + 0.5f;
         }
 

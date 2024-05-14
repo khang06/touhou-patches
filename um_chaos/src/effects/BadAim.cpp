@@ -5,7 +5,7 @@
 
 class BadAim : public Effect {
 public:
-    int timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
     CodePatches patches;
 
     // Needs extra int arguments because the original function was stdcall and took 1 argument

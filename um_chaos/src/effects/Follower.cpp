@@ -13,7 +13,7 @@ public:
             },
             .hp = 1000,
             .ecl_int_vars = {
-                Rand::RangeFrames(10, 2 * 60)
+                Rand::RangeEffectTime(10, 2 * 60)
             }
         };
         EnemyManager::Instance->MakeEnemy("Follower", &init, 0);

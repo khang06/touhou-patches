@@ -8,7 +8,7 @@
 // See https://github.com/ppy/osu/blob/master/osu.Game.Rulesets.Osu/Mods/OsuModFlashlight.cs
 class Flashlight : public Effect {
 public:
-    int timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
     D3DVECTOR pos = Player::Instance->pos_float;
     float radius = 6400.0f;
     float target_radius = 750.0f;

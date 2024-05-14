@@ -6,7 +6,7 @@ size_t Effect::EnabledCount;
 EnabledEffect Effect::Enabled[Effect::MAX_EFFECTS];
 
 void Effect::Enable(size_t id) {
-    printf("Enabling %s...\n", Infos[id].name);
+    Util::Log("Enabling %s...\n", Infos[id].name);
     Infos[id].enabled = true;
     Enabled[EnabledCount++] =  {
         .name = Infos[id].name,
@@ -28,7 +28,7 @@ void Effect::EnableRandom() {
 }
 
 void Effect::Disable(size_t idx) {
-    printf("Disabling %s...\n", Enabled[idx].name);
+    Util::Log("Disabling %s...\n", Enabled[idx].name);
     Infos[Enabled[idx].id].enabled = false;
     delete Enabled[idx].inner;
     memmove(&Enabled[idx], &Enabled[idx + 1], (EnabledCount - idx - 1) * sizeof(EnabledEffect));

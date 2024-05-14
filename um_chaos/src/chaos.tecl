@@ -151,7 +151,7 @@ void Follower() {
     anmSelect(2);
     anmSetMain(0, 0);
     flagSet(128 | 16 | 8 | 4); // FLAG_NO_DELETE | FLAG_INVINCIBLE | FLAG_OFFSCREEN_UD | FLAG_OFFSCREEN_LR
-    moveVel(0.0f, 1.0f);
+    moveVel(0.0f, 0.5f);
     while ($I0-- > 0) {
         moveAngle(%ANGLE_PLAYER);
         wait(1);

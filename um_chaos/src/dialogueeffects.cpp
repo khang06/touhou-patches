@@ -93,7 +93,7 @@ extern "C" char* __fastcall msgvm_decrypt_string_hook(char* input) {
 }
 
 extern "C" MsgVM* __thiscall msgvm_ctor_hook(MsgVM* self, uint32_t idk) {
-    printf("Dialogue started\n");
+    Util::Log("Dialogue started\n");
 
     // uwuify :3
     if (Rand::Range(1, 10) == 1) {
@@ -105,7 +105,7 @@ extern "C" MsgVM* __thiscall msgvm_ctor_hook(MsgVM* self, uint32_t idk) {
 }
 
 extern "C" void __thiscall msgvm_dtor_hook(MsgVM* self) {
-    printf("Dialogue ended\n");
+    Util::Log("Dialogue ended\n");
 
     g_patches.Clear();
 

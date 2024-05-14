@@ -5,7 +5,7 @@ class BulletWrap : public Effect {
 public:
     static CodeCave EtNewCave;
 
-    int timer = Rand::RangeFrames(10, 60);
+    int timer = Rand::RangeEffectTime(10, 60);
     CodePatches patches;
 
     BulletWrap() {

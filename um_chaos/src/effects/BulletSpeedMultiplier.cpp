@@ -8,7 +8,7 @@ class BulletSpeedMultiplier : public Effect {
 public:
     static CodeCave Cave;
 
-    int timer = Rand::RangeFrames(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
     CodePatches patches;
 
     BulletSpeedMultiplier() {

@@ -11,15 +11,20 @@ public:
 
         AbilityManager::Instance->ClearCards(0);
         memset(AbilityManager::Instance->equipped, 0, sizeof(AbilityManager::equipped));
-        AbilityManager::Instance->equipped[17] = 1; // Shanghai Doll is crashy when enabled like this
         for (card_count = 0; card_count < max_cards; card_count++) {
             if (!CardInfo::RandomCard(&cards[card_count], 1, 14, cards, card_count))
                 break;
         }
-        AbilityManager::Instance->equipped[17] = 0;
 
         for (int i = 0; i < card_count; i++)
             AbilityManager::Instance->EquipCard(cards[i]->id, 2);
+
+        auto* cur = AbilityManager::Instance->card_list.next;
+        while (cur) {
+            if (cur->entry)
+                cur->entry->OnLevelUp();
+            cur = cur->next;
+        }
     }
 };
 REGISTER_EFFECT(BlankCard);
