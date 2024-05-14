@@ -28,7 +28,7 @@ public:
         if (timer < 30)
             target_radius = 6400.0f;
 
-        bool focused = (Globals::CurInput & 8) != 0;
+        bool focused = (Input::Cur & INPUT_FOCUS) != 0;
         target_dim = focused ? 205 : 0;
 
         return --timer > 0;

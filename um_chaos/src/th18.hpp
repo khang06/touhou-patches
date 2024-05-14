@@ -358,7 +358,6 @@ public:
 
 namespace Globals {
     extern float GameSpeed;
-    extern uint32_t CurInput;
 };
 
 class Card {
@@ -510,8 +509,8 @@ public:
     uint32_t hor_align;     // 0x19250
     uint32_t ver_align;     // 0x19254
 
-    void DrawDebugText(D3DVECTOR* pos, const char* format, ...);
-    void DrawShadowText(D3DVECTOR* pos, const char* format, ...);
+    void DrawDebugText(const D3DVECTOR* pos, const char* format, ...);
+    void DrawShadowText(const D3DVECTOR* pos, const char* format, ...);
 };
 
 class AbilityShop {
@@ -636,6 +635,7 @@ class Input {
 public:
     static uint32_t Cur;
     static uint32_t Prev;
+    static uint32_t Repeat;
     static uint32_t Pressed;
     static uint32_t Released;
 };
@@ -674,4 +674,20 @@ public:
     static inline bool is_msg_active() {
         return Instance->msg_vm != NULL;
     }
+};
+
+enum InputFlags : uint32_t {
+    INPUT_SHOOT = 1,
+    INPUT_BOMB = 2,
+    INPUT_FOCUS = 8,
+    INPUT_UP = 0x10,
+    INPUT_DOWN = 0x20,
+    INPUT_LEFT = 0x40,
+    INPUT_RIGHT = 0x80,
+    INPUT_PAUSE = 0x100,
+    INPUT_ITEM = 0x400,
+    INPUT_CHANGE = 0x800,
+    INPUT_RETRY = 0x20000,
+    INPUT_SCREENSHOT = 0x40000,
+    INPUT_ENTER = 0x80000,
 };

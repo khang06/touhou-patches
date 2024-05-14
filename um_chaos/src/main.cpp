@@ -5,6 +5,7 @@
 #include "commonhooks.hpp"
 #include "effect.hpp"
 #include "th18.hpp"
+#include "settings.hpp"
 #include "util.hpp"
 
 CodePatches g_global_patches;
@@ -53,9 +54,9 @@ int __fastcall post_frame_calc(void*) {
     if (!g_game_loaded || AbilityShop::Instance)
         return 1;
 
-    if (--g_next_effect_timer == 0) {
+    if (Settings::RandomEnabled && --g_next_effect_timer == 0) {
         Effect::EnableRandom();
-        g_next_effect_timer = Rand::RangeFrames(5, 30);
+        g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
     }
 
     if (g_effect_req != -1) {
@@ -85,6 +86,8 @@ int __fastcall post_frame_draw(void*) {
         D3DVECTOR pos2 = { 4.0f, 20.0f, 0.0f };
         AsciiManager::Instance->style = 6;
         AsciiManager::Instance->color = D3DCOLOR_ARGB(0xFF, 0xFF, 0xFF, 0x00);
+        AsciiManager::Instance->shadow_color = D3DCOLOR_ARGB(0xFF, 0x00, 0x00, 0x00);
+        AsciiManager::Instance->hor_align = 1;
         AsciiManager::Instance->DrawShadowText(&pos1, "Some effects only work in windowed mode!");
         AsciiManager::Instance->DrawShadowText(&pos2, "You can switch modes by pressing Alt+Enter.");
     }
@@ -183,7 +186,8 @@ extern "C" int entry_hook() {
     // Spawn debug console input thread
     CreateThread(NULL, 0, console_input_proc, NULL, 0, NULL);
 
-    // Load assets
+    // Load config and assets
+    Settings::Load();
     Assets::Load();
 
     // Register post-frame calc function

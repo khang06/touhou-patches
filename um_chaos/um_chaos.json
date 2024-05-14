@@ -108,9 +108,6 @@
         "?Cave@IcePhysics@@2UCodeCave@@A": {
             "addr": "codecave:ice_physics_cave"
         },
-        "?CurInput@Globals@@3IA": {
-            "addr": "0x4CA428"
-        },
         "?Init@AbilityShop@@QAE_NPAU_D3DVECTOR@@@Z": {
             "addr": "0x4171B0"
         },
@@ -150,7 +147,7 @@
         "?Pressed@Input@@2IA": {
             "addr": "0x4CA21C"
         },
-        "?DrawShadowText@AsciiManager@@QAAXPAU_D3DVECTOR@@PBDZZ": {
+        "?DrawShadowText@AsciiManager@@QAAXPBU_D3DVECTOR@@PBDZZ": {
             "addr": "0x419CB0"
         },
         "_sin": {
@@ -227,6 +224,12 @@
         },
         "?ShootShooter@BulletManager@@QAEHPAVEnemyShooter@@HHM@Z": {
             "addr": "0x424FE0"
+        },
+        "?Repeat@Input@@2IA": {
+            "addr": "0x4CA218"
+        },
+        "?Cur@Input@@2IA": {
+            "addr": "0x4CA210"
         }
     },
     "imports": {
@@ -318,6 +321,9 @@
             },
             "strncpy": {
                 "alias": "_strncpy"
+            },
+            "__stdio_common_vsprintf": {
+                "alias": "___stdio_common_vsprintf"
             }
         },
         "user32.dll": {
@@ -374,6 +380,9 @@
             },
             "MonitorFromWindow": {
                 "alias": "_MonitorFromWindow@8"
+            },
+            "GetKeyboardState": {
+                "alias": "_GetKeyboardState@4"
             }
         },
         "advapi32.dll": {
@@ -387,6 +396,28 @@
         "winmm.dll": {
             "PlaySoundA": {
                 "alias": "_PlaySoundA@12"
+            }
+        },
+        "win32_utf8.dll": {
+            "WritePrivateProfileStringU": {
+                "alias": "_WritePrivateProfileStringU@16"
+            },
+            "GetModuleFileNameU": {
+                "alias": "_GetModuleFileNameU@12"
+            },
+            "GetPrivateProfileStringU": {
+                "alias": "_GetPrivateProfileStringU@24"
+            },
+            "GetPrivateProfileIntU": {
+                "alias": "_GetPrivateProfileIntU@16"
+            }
+        },
+        "shlwapi.dll": {
+            "PathAppendA": {
+                "alias": "_PathAppendA@8"
+            },
+            "PathRemoveFileSpecA": {
+                "alias": "_PathRemoveFileSpecA@4"
             }
         }
     },

@@ -96,7 +96,7 @@ extern "C" MsgVM* __thiscall msgvm_ctor_hook(MsgVM* self, uint32_t idk) {
     printf("Dialogue started\n");
 
     // uwuify :3
-    if (Rand::Range(1, 5) == 1) {
+    if (Rand::Range(1, 10) == 1) {
         g_patches.AddCall(0x43F09C, (void*)&msgvm_decrypt_string_hook);
         g_patches.AddCall(0x43E9E0, (void*)&msgvm_decrypt_string_hook);
     }
