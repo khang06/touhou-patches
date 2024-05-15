@@ -16,8 +16,6 @@ public:
     static IDirect3DPixelShader9* JPEGPass2PS;
     static IDirect3DTexture9* JPEGPass1Tex;
     static IDirect3DSurface9* JPEGPass1RT;
-
-    static void* StickyKeys;
     
     static std::vector<const char*> StageAttacks;
     static std::vector<const char*> BossAttacks;

@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <commctrl.h>
+#include <numeric>
 #include <stdio.h>
 #include "assets.hpp"
 #include "commonhooks.hpp"
@@ -34,8 +35,9 @@ extern "C" int game_threadproc_hook() {
         Rand::Seed(qpc.LowPart);
         g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
         g_vote_active = false;
+        twitch_voting(false);
         //g_next_vote_timer = Rand::RangeFrames(Settings::MinVoteTime, Settings::MaxVoteTime);
-        g_next_vote_timer = 0; // debug
+        g_next_vote_timer = 120; // debug
     }
     g_game_loaded = true;
     return 0;
@@ -50,10 +52,10 @@ extern "C" int __thiscall switch_mode_hook(Main* self) {
                 while (Effect::EnabledCount != 0)
                     Effect::Disable(0);
                 g_game_stage_transition = false;
-                g_vote_active = false;
-                twitch_voting(false);
                 for (int i = 0; i < _countof(g_vote_choices); i++)
                     Effect::Infos[g_vote_choices[i]].vote_choice = false;
+                g_vote_active = false;
+                twitch_voting(false);
             } else {
                 g_game_stage_transition = true;
             }
@@ -141,6 +143,95 @@ int __fastcall post_frame_calc(void*) {
     return 1;
 }
 
+void draw_voting_overlay() {
+    constexpr D3DCOLOR COLORS[] = {
+        D3DCOLOR_ARGB(0xFF, 0xFF, 0x60, 0x60),
+        D3DCOLOR_ARGB(0xFF, 0x60, 0xFF, 0x60),
+        D3DCOLOR_ARGB(0xFF, 0x60, 0x60, 0xFF),
+        D3DCOLOR_ARGB(0xFF, 0xFF, 0xFF, 0x60),
+    };
+    constexpr uint16_t indices[] = {
+        0, 1, 2,
+        1, 2, 3,
+
+        4, 5, 6,
+        5, 6, 7,
+
+        8, 9, 10,
+        9, 10, 11,
+
+        12, 13, 14,
+        13, 14, 15,
+
+        16, 17, 18,
+        17, 18, 19,
+    };
+    static ZunVertex vertices[] = {
+        {0,    0,   0, 1, 0xCD000000, 0,     0},
+        {1280, 0,   0, 1, 0xCD000000, 0.001, 0},
+        {0,    56,  0, 1, 0xCD000000, 0,     0.001},
+        {1280, 56,  0, 1, 0xCD000000, 0.001, 0.001},
+
+        {0, 32, 0, 1, COLORS[0], 0,     0},
+        {0, 32, 0, 1, COLORS[0], 0.001, 0},
+        {0, 48, 0, 1, COLORS[0], 0,     0.001},
+        {0, 48, 0, 1, COLORS[0], 0.001, 0.001},
+        {0, 32, 0, 1, COLORS[1], 0,     0},
+        {0, 32, 0, 1, COLORS[1], 0.001, 0},
+        {0, 48, 0, 1, COLORS[1], 0,     0.001},
+        {0, 48, 0, 1, COLORS[1], 0.001, 0.001},
+        {0, 32, 0, 1, COLORS[2], 0,     0},
+        {0, 32, 0, 1, COLORS[2], 0.001, 0},
+        {0, 48, 0, 1, COLORS[2], 0,     0.001},
+        {0, 48, 0, 1, COLORS[2], 0.001, 0.001},
+        {0, 32, 0, 1, COLORS[3], 0,     0},
+        {0, 32, 0, 1, COLORS[3], 0.001, 0},
+        {0, 48, 0, 1, COLORS[3], 0,     0.001},
+        {0, 48, 0, 1, COLORS[3], 0.001, 0.001},
+    };
+
+    AsciiManager::Instance->style = 1;
+    AsciiManager::Instance->color = D3DCOLOR_ARGB(0xFF, 0xFF, 0xFF, 0xFF);
+    AsciiManager::Instance->shadow_color = D3DCOLOR_ARGB(0xFF, 0x00, 0x00, 0x00);
+    AsciiManager::Instance->ver_align = 1;
+    AsciiManager::Instance->hor_align = 1;
+    auto votes = get_votes();
+    float total_votes = std::accumulate(votes.begin(), votes.end(), 0);
+    float vote_offset = 0.0f;
+    for (int i = 0; i < votes.size(); i++) {
+        const D3DVECTOR pos = { (i & 1) ? 192.0f : 4.0f, (i >> 1) ? 16.0f : 4.0f, 0.0f };
+        AsciiManager::Instance->color = COLORS[i];
+        AsciiManager::Instance->DrawShadowText(&pos, "%d: %s (%d)\n",
+            i + (voting_is_high_numbers() ? 5 : 1), Effect::Infos[g_vote_choices[i]].name, votes[i]);
+
+        float x1 = 1280 - 384 - 6 + (vote_offset / total_votes) * 384.0f;
+        vote_offset += votes[i];
+        float x2 = 1280 - 384 - 6 + (vote_offset / total_votes) * 384.0f;
+        vertices[4 + i * 4].x = x1;
+        vertices[4 + i * 4 + 1].x = x2;
+        vertices[4 + i * 4 + 2].x = x1;
+        vertices[4 + i * 4 + 3].x = x2;
+    }
+
+    const D3DVECTOR pos = { 640.0f - 4.0f, 4.0f, 0.0f };
+    AsciiManager::Instance->color = D3DCOLOR_ARGB(0xFF, 0xFF, 0xFF, 0xFF);
+    AsciiManager::Instance->hor_align = 2;
+    AsciiManager::Instance->DrawShadowText(&pos, "Voting ends in %.2fs", g_cur_vote_timer / 60.0f);
+
+auto d3d9_dev = Main::Instance.d3d9_device;
+    DWORD z_enable;
+    IDirect3DBaseTexture9* prev_tex = nullptr;
+    AnmManager::Instance->FlushSprites();
+    d3d9_dev->GetRenderState(D3DRS_ZENABLE, &z_enable);
+    d3d9_dev->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+    d3d9_dev->GetTexture(0, &prev_tex);
+    d3d9_dev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+    d3d9_dev->SetTexture(0, NULL);
+    d3d9_dev->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, _countof(indices), _countof(indices) / 3, indices, D3DFMT_INDEX16, vertices, sizeof(ZunVertex));
+    d3d9_dev->SetTexture(0, prev_tex);
+    d3d9_dev->SetRenderState(D3DRS_ZENABLE, z_enable);
+}
+
 int __fastcall post_frame_draw(void*) {
     if (!AsciiManager::Instance)
         return 1;
@@ -150,6 +241,7 @@ int __fastcall post_frame_draw(void*) {
         AsciiManager::Instance->style = 6;
         AsciiManager::Instance->color = g_twitch_status == TWITCH_FAILED ? D3DCOLOR_ARGB(0xFF, 0xFF, 0x00, 0x00) : D3DCOLOR_ARGB(0xFF, 0x91, 0x46, 0xFF);
         AsciiManager::Instance->shadow_color = D3DCOLOR_ARGB(0xFF, 0x00, 0x00, 0x00);
+        AsciiManager::Instance->ver_align = 1;
         AsciiManager::Instance->hor_align = 1;
 
         switch (g_twitch_status) {
@@ -174,6 +266,7 @@ int __fastcall post_frame_draw(void*) {
         AsciiManager::Instance->style = 6;
         AsciiManager::Instance->color = D3DCOLOR_ARGB(0xFF, 0xFF, 0xFF, 0x00);
         AsciiManager::Instance->shadow_color = D3DCOLOR_ARGB(0xFF, 0x00, 0x00, 0x00);
+        AsciiManager::Instance->ver_align = 1;
         AsciiManager::Instance->hor_align = 1;
         AsciiManager::Instance->DrawShadowText(&pos1, "Some effects only work in windowed mode!");
         AsciiManager::Instance->DrawShadowText(&pos2, "You can switch modes by pressing Alt+Enter.");
@@ -188,6 +281,9 @@ int __fastcall post_frame_draw(void*) {
         AsciiManager::Instance->DrawShadowText(&pos, "%s", Effect::Enabled[i].name);
     }
     AsciiManager::Instance->color = 0xFFFFFFFF;
+
+    if (g_vote_active)
+        draw_voting_overlay();
 
     Effect::DrawAll();
 

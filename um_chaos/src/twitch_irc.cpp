@@ -747,13 +747,10 @@ bool __fastcall voting_is_high_numbers() {
 
 std::array<size_t, 4> __fastcall get_votes() {
     size_t ret[4];
-    if (!voting_is_high_numbers()) {
+    if (!voting_is_high_numbers())
         __builtin_memcpy(ret, &vote_totals[0], sizeof(size_t[4]));
-        __builtin_memset(&vote_totals[0], 0, sizeof(size_t[4]));
-    } else {
+    else
         __builtin_memcpy(ret, &vote_totals[4], sizeof(size_t[4]));
-        __builtin_memset(&vote_totals[4], 0, sizeof(size_t[4]));
-    }
     return { ret[0], ret[1], ret[2], ret[3] };
 }
 

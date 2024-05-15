@@ -83,7 +83,7 @@ void Settings::LoadTwitchDefaults() {
     Settings::TwitchEnabled = false;
     memset(Settings::TwitchUsername, 0, sizeof(Settings::TwitchUsername));
     Settings::VotingEnabled = true;
-    Settings::VoteDuration = 10;
+    Settings::VoteDuration = 15;
     Settings::MinVoteTime = 5;
     Settings::MaxVoteTime = 30;
 }
