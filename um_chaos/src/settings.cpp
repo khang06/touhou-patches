@@ -40,8 +40,12 @@ void Settings::Load() {
     LOAD_SETTING_INT(TwitchEnabled);
     LOAD_SETTING_STR(TwitchUsername);
     LOAD_SETTING_INT(VotingEnabled);
+    LOAD_SETTING_INT(VoteDuration);
+    LOAD_SETTING_INT(MinVoteTime);
+    LOAD_SETTING_INT(MaxVoteTime);
 
     LOAD_SETTING_INT(DebugConsole);
+    LOAD_SETTING_INT(MultiVote);
 }
 
 void Settings::Save() {
@@ -60,8 +64,12 @@ void Settings::Save() {
     SAVE_SETTING_INT(TwitchEnabled);
     SAVE_SETTING_STR(TwitchUsername);
     SAVE_SETTING_INT(VotingEnabled);
+    SAVE_SETTING_INT(VoteDuration);
+    SAVE_SETTING_INT(MinVoteTime);
+    SAVE_SETTING_INT(MaxVoteTime);
 
     SAVE_SETTING_INT(DebugConsole);
+    SAVE_SETTING_INT(MultiVote);
 }
 
 void Settings::LoadEffectDefaults() {
@@ -75,10 +83,14 @@ void Settings::LoadTwitchDefaults() {
     Settings::TwitchEnabled = false;
     memset(Settings::TwitchUsername, 0, sizeof(Settings::TwitchUsername));
     Settings::VotingEnabled = true;
+    Settings::VoteDuration = 10;
+    Settings::MinVoteTime = 5;
+    Settings::MaxVoteTime = 30;
 }
 
 void Settings::LoadDebugDefaults() {
     Settings::DebugConsole = false;
+    Settings::MultiVote = false;
 }
 
 bool Settings::RandomEnabled;
@@ -88,7 +100,11 @@ uint32_t Settings::EffectTimeMultiplier;
 bool Settings::TwitchEnabled;
 char Settings::TwitchUsername[26];
 bool Settings::VotingEnabled;
+uint32_t Settings::VoteDuration;
+uint32_t Settings::MinVoteTime;
+uint32_t Settings::MaxVoteTime;
 bool Settings::DebugConsole;
+bool Settings::MultiVote;
 
 struct SettingsPage;
 
@@ -212,9 +228,10 @@ SettingsPage g_main_page = {
                         }
                         if (Settings::TwitchEnabled && Settings::TwitchUsername[0] != '\0') {
                             memcpy(g_twitch_last_user, Settings::TwitchUsername, sizeof(Settings::TwitchUsername));
-                            g_twitch_init_timer = 16;
+                            g_twitch_init_timer = 4;
                             g_twitch_status = TWITCH_INIT_PENDING;
                         }
+                        g_twitch_reload_queued = false;
                     }
                 }
             }
@@ -374,6 +391,24 @@ SettingsPage g_twitch_page = {
             }
         },
         {
+            .label = "Min Time Between Voting",
+            .update_value = [](SettingsButton* button) {
+                snprintf(button->value, sizeof(button->value) - 1, "%us", Settings::MinVoteTime);
+            },
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                u32_input_handler(button, input, Settings::MinVoteTime, 0, Settings::MaxVoteTime);
+            }
+        },
+        {
+            .label = "Max Time Between Voting",
+            .update_value = [](SettingsButton* button) {
+                snprintf(button->value, sizeof(button->value) - 1, "%us", Settings::MaxVoteTime);
+            },
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                u32_input_handler(button, input, Settings::MaxVoteTime, Settings::MinVoteTime, UINT32_MAX);
+            }
+        },
+        {
             .label = ""
         },
         {
@@ -401,6 +436,15 @@ SettingsPage g_debug_page = {
             },
             .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
                 bool_input_handler(button, input, Settings::DebugConsole);
+            }
+        },
+        {
+            .label = "Allow multiple votes",
+            .update_value = [](SettingsButton* button) {
+                bool_update_value(button, Settings::MultiVote);
+            },
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                bool_input_handler(button, input, Settings::MultiVote);
             }
         },
         {

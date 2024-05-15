@@ -20,7 +20,7 @@ void Effect::EnableRandom() {
     static size_t choices[Effect::MAX_EFFECTS];
     size_t choices_count = 0;
     for (size_t i = 0; i < Effect::AllCount; i++) {
-        if (!Effect::Infos[i].enabled)
+        if (!Effect::Infos[i].enabled && !Effect::Infos[i].vote_choice)
             choices[choices_count++] = i;
     }
     if (choices_count)
@@ -48,4 +48,22 @@ void Effect::UpdateAll() {
 void Effect::DrawAll() {
     for (size_t i = 0; i < EnabledCount; i++)
         Enabled[i].inner->Draw();
+}
+
+bool Effect::VoteChoices(size_t *vote_choices, size_t vote_count) {
+    static size_t possible_choices[Effect::MAX_EFFECTS];
+    size_t choices_count = 0;
+    for (size_t i = 0; i < Effect::AllCount; i++) {
+        if (!Effect::Infos[i].enabled && !Effect::Infos[i].vote_choice)
+            possible_choices[choices_count++] = i;
+    }
+    if (choices_count < vote_count)
+        return false;
+
+    for (size_t i = choices_count; i > 1; i--)
+        std::swap(possible_choices[i - 1], possible_choices[Rand::Range(0, choices_count - 1)]);
+    for (size_t i = 0; i < vote_count; i++)
+        Effect::Infos[i].vote_choice = true;
+    memcpy(vote_choices, possible_choices, vote_count * sizeof(size_t));
+    return true;
 }

@@ -14,6 +14,7 @@
         Effect::Infos[idx].name = #type_name; \
         Effect::Infos[idx].init = effect_init_##type_name; \
         Effect::Infos[idx].enabled = false; \
+        Effect::Infos[idx].vote_choice = false; \
     }
 
 class Effect;
@@ -21,6 +22,7 @@ struct EffectInfo {
     const char* name;
     Effect* (*init)();
     bool enabled;
+    bool vote_choice;
 };
 
 struct EnabledEffect {
@@ -47,4 +49,6 @@ public:
     static void Disable(size_t idx);
     static void UpdateAll();
     static void DrawAll();
+
+    static bool VoteChoices(size_t* choices, size_t count);
 };

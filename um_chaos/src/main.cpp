@@ -13,6 +13,10 @@ bool g_game_loaded = false;
 bool g_game_stage_transition = false;
 int g_effect_req = -1;
 int g_next_effect_timer = 0;
+bool g_vote_active = false;
+int g_cur_vote_timer = 0;
+int g_next_vote_timer = 0;
+size_t g_vote_choices[4] = {};
 
 TwitchStatus g_twitch_status = TWITCH_DISABLED;
 int g_twitch_init_timer = 0; // Makes sure the current frame is showing the initializing message before freezing the main thread
@@ -29,6 +33,9 @@ extern "C" int game_threadproc_hook() {
         QueryPerformanceCounter(&qpc);
         Rand::Seed(qpc.LowPart);
         g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
+        g_vote_active = false;
+        //g_next_vote_timer = Rand::RangeFrames(Settings::MinVoteTime, Settings::MaxVoteTime);
+        g_next_vote_timer = 0; // debug
     }
     g_game_loaded = true;
     return 0;
@@ -43,6 +50,10 @@ extern "C" int __thiscall switch_mode_hook(Main* self) {
                 while (Effect::EnabledCount != 0)
                     Effect::Disable(0);
                 g_game_stage_transition = false;
+                g_vote_active = false;
+                twitch_voting(false);
+                for (int i = 0; i < _countof(g_vote_choices); i++)
+                    Effect::Infos[g_vote_choices[i]].vote_choice = false;
             } else {
                 g_game_stage_transition = true;
             }
@@ -51,7 +62,7 @@ extern "C" int __thiscall switch_mode_hook(Main* self) {
         if (self->switch_target_mode == 4 && g_twitch_status == TWITCH_DISABLED && Settings::TwitchEnabled && Settings::TwitchUsername[0] != '\0') {
             memcpy(g_twitch_last_user, Settings::TwitchUsername, sizeof(Settings::TwitchUsername));
             g_twitch_status = TWITCH_INIT_PENDING;
-            g_twitch_init_timer = 16;
+            g_twitch_init_timer = 4;
         }
     }
     return self->SwitchMode();
@@ -70,6 +81,46 @@ int __fastcall post_frame_calc(void*) {
     if (Settings::RandomEnabled && --g_next_effect_timer <= 0) {
         Effect::EnableRandom();
         g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
+    }
+
+    if (Settings::VotingEnabled) {
+        if (!g_vote_active && --g_next_vote_timer <= 0) {
+            if (Effect::VoteChoices(g_vote_choices, _countof(g_vote_choices))) {
+                g_cur_vote_timer = Settings::VoteDuration * 60;
+                g_vote_active = true;
+
+                twitch_voting(true);
+                Util::Log("Starting vote\n");
+                for (int i = 0; i < _countof(g_vote_choices); i++)
+                    Util::Log("%d: %s\n", i + (voting_is_high_numbers() ? 5 : 1), Effect::Infos[g_vote_choices[i]].name);
+            } else {
+                Util::Log("Failed to pick vote choices\n");
+            }
+        } else if (g_vote_active && --g_cur_vote_timer <= 0) {
+            Util::Log("Voting finished\n");
+            auto accum = get_final_votes();
+            for (int i = 0; i < _countof(g_vote_choices); i++) {
+                Util::Log("%s: %d\n", Effect::Infos[g_vote_choices[i]].name, accum[i]);
+                Effect::Infos[g_vote_choices[i]].vote_choice = false;
+            }
+            for (int i = 1; i < accum.size(); i++)
+                accum[i] += accum[i - 1];
+            if (accum.back() == 0) // Failsafe for no votes
+                accum.back() = 1;
+
+            int num = Rand::Range(0, accum.back());
+            for (int i = 0; i < accum.size(); i++) {
+                if (accum[i] > num) {
+                    printf("Picked %s!\n", Effect::Infos[g_vote_choices[i]].name);
+                    Effect::Enable(g_vote_choices[i]);
+                    break;
+                }
+            }
+
+            twitch_voting(false);
+            g_vote_active = false;
+            g_next_vote_timer = Rand::RangeFrames(Settings::MinVoteTime, Settings::MaxVoteTime);
+        }
     }
 
     if (g_effect_req != -1) {
@@ -94,10 +145,10 @@ int __fastcall post_frame_draw(void*) {
     if (!AsciiManager::Instance)
         return 1;
 
-    if (Settings::TwitchEnabled) {
+    if (Main::Instance.cur_mode == 4) {
         D3DVECTOR pos = { 4.0f, 460.0f, 0.0f };
         AsciiManager::Instance->style = 6;
-        AsciiManager::Instance->color = D3DCOLOR_ARGB(0xFF, 0x91, 0x46, 0xFF);
+        AsciiManager::Instance->color = g_twitch_status == TWITCH_FAILED ? D3DCOLOR_ARGB(0xFF, 0xFF, 0x00, 0x00) : D3DCOLOR_ARGB(0xFF, 0x91, 0x46, 0xFF);
         AsciiManager::Instance->shadow_color = D3DCOLOR_ARGB(0xFF, 0x00, 0x00, 0x00);
         AsciiManager::Instance->hor_align = 1;
 

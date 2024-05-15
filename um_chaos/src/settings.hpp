@@ -19,7 +19,11 @@ public:
     static bool TwitchEnabled;
     static char TwitchUsername[26]; // Twitch usernames are 25 characters max
     static bool VotingEnabled;
+    static uint32_t VoteDuration;
+    static uint32_t MinVoteTime;
+    static uint32_t MaxVoteTime;
 
     static bool DebugConsole;
+    static bool MultiVote;
 };
 

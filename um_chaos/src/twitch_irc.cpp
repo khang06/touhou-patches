@@ -714,7 +714,7 @@ struct std::hash<HashedString> {
 };
 static std::unordered_set<HashedString> already_voted;
 static inline bool record_vote_username(const std::string_view& username) {
-    return already_voted.emplace(username).second;
+    return Settings::MultiVote ? true : already_voted.emplace(username).second;
 }
 #endif
 
