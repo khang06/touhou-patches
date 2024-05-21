@@ -30,6 +30,9 @@ std::array<size_t, 4> __fastcall get_votes();
 // Finalizes the current vote totals and resets to the other set of numbers
 std::array<size_t, 4> __fastcall get_final_votes();
 
+// Resets to the other set of numbers
+void __fastcall reset_cur_votes();
+
 // Lock the recent message list so that messages can be parsed.
 bool __fastcall lock_recent_messages();
 

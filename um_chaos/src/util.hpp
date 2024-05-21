@@ -98,3 +98,5 @@ inline float GameToPlayfieldY(float y) {
 namespace Util {
     void Log(const char* format, ...);
 }
+
+static constexpr float TWO_PI = 6.2831855f;

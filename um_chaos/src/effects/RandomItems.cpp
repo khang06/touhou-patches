@@ -8,7 +8,7 @@ public:
     CodePatches patches;
 
     RandomItems() {
-        constexpr uint32_t addrs[] = {
+        static constexpr uint32_t addrs[] = {
             0x40D30B,
             0x40D713,
             0x4291A7,

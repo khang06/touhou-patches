@@ -22,11 +22,11 @@ public:
     }
 
     static int backbuffer_switch_hook() {
-        constexpr uint16_t indices[6] = {
+        static constexpr uint16_t indices[6] = {
             0, 1, 2,
             1, 2, 3,
         };
-        constexpr MinimalVertex vertices[4] = {
+        static constexpr MinimalVertex vertices[4] = {
             {-1, 1,  0},
             {1,  1,  0},
             {-1, -1, 0},
@@ -34,7 +34,7 @@ public:
         };
 
         auto d3d9_dev = Main::Instance.d3d9_device;
-        constexpr D3DMATRIX identity = {
+        static constexpr D3DMATRIX identity = {
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,

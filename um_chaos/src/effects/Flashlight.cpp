@@ -35,7 +35,7 @@ public:
     }
 
     virtual void Draw() {
-        constexpr uint16_t indices[12] = {
+        static constexpr uint16_t indices[12] = {
             0, 1, 2,
             1, 2, 3,
 

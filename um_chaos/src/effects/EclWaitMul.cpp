@@ -1,9 +1,9 @@
 #include "effect.hpp"
 #include "util.hpp"
 
-extern "C" float eclwaitmultiplier_mul = 1.0f;
+extern "C" float ecl_wait_mul = 1.0f;
 
-class EclWaitMultiplier : public Effect {
+class EclWaitMul : public Effect {
 public:
     static CodeCave DiffWaitCave;
     static CodeCave WaitCave;
@@ -12,8 +12,8 @@ public:
     int timer = Rand::RangeEffectTime(10, 2 * 60);
     CodePatches patches;
 
-    EclWaitMultiplier() {
-        eclwaitmultiplier_mul = Rand::NextFloat() * 1.5f + 0.5f; 
+    EclWaitMul() {
+        ecl_wait_mul = Rand::NextFloat() * 1.5f + 0.5f; 
 
         patches.AddCall(0x435FAD, &DiffWaitCave);
         patches.AddCall(0x435FD6, &DiffWaitCave);
@@ -26,4 +26,4 @@ public:
         return --timer > 0;
     }
 };
-REGISTER_EFFECT(EclWaitMultiplier);
+REGISTER_EFFECT(EclWaitMul);

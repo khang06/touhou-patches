@@ -181,7 +181,7 @@ void STAGE_Cir00_at_ST1()
     30 + ($RAND % 200);
 !H
     10 + ($RAND % 60);
-!LO
+!LOX
     30 + ($RAND % 200);
 !*
     wait([-1]);
@@ -212,7 +212,7 @@ void STAGE_Cir00b_at_ST1()
     30 + ($RAND % 200);
 !H
     30 + ($RAND % 60);
-!LO
+!LOX
     30 + ($RAND % 200);
 !*
     wait([-1]);
@@ -243,7 +243,7 @@ void STAGE_Cir01_at_ST1()
     30 + ($RAND % 200);
 !H
     0 + ($RAND % 60);
-!LO
+!LOX
     30 + ($RAND % 200);
 !*
     wait([-1]);
@@ -274,7 +274,7 @@ void STAGE_Cir02_at_ST1()
     30 + ($RAND % 100);
 !H
     0 + ($RAND % 60);
-!LO
+!LOX
     30 + ($RAND % 200);
 !*
     wait([-1]);
@@ -327,7 +327,7 @@ void STAGE_GirlA01_at_ST1()
     160 + ($RAND % 60);
 !H
     40 + ($RAND % 60);
-!LO
+!LOX
     1 + ($RAND % 60);
 !*
     wait([-1]);
@@ -340,7 +340,7 @@ void STAGE_GirlA01_at_ST1()
     1;
 !H
     1;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -351,7 +351,7 @@ void STAGE_GirlA01_at_ST1()
     1.5f;
 !H
     3.0f;
-!LO
+!LOX
     4.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -368,7 +368,7 @@ GirlA01_at_ST1_1052:
     30;
 !H
     30;
-!LO
+!LOX
     60;
 !*
     wait([-1]);
@@ -386,7 +386,7 @@ void STAGE_GirlA02_at_ST1()
     ($RAND % 180) + 3;
 !H
     ($RAND % 180) + 3;
-!LO
+!LOX
     ($RAND % 60) + 3;
 !*
     wait([-1]);
@@ -401,7 +401,7 @@ void STAGE_GirlA02_at_ST1()
     1.5f;
 !H
     2.0f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -416,7 +416,7 @@ GirlA02_at_ST1_764:
     30;
 !H
     20;
-!LO
+!LOX
     15;
 !*
     wait([-1]);
@@ -434,7 +434,7 @@ void STAGE_GirlA03_at_ST1()
     90;
 !H
     30;
-!LO
+!LOX
     30;
 !*
     wait([-1]);
@@ -449,7 +449,7 @@ void STAGE_GirlA03_at_ST1()
     1.5f;
 !H
     2.0f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -467,7 +467,7 @@ GirlA03_at_ST1_600:
     30;
 !H
     20;
-!LO
+!LOX
     5;
 !*
     wait([-1]);
@@ -496,7 +496,7 @@ GirlB01_at_ST1_348:
     10;
 !H
     10;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -525,7 +525,7 @@ GirlB01_at2_ST1_348:
     80;
 !H
     20;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -574,7 +574,7 @@ void STAGE_GirlC01_at_ST1()
     3;
 !H
     7;
-!LO
+!LOX
     11;
 !*
     etCount([-1337], [-1], 1);
@@ -584,7 +584,7 @@ void STAGE_GirlC01_at_ST1()
     0.523599f;
 !H
     0.349066f;
-!LO
+!LOX
     0.349066f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -594,7 +594,7 @@ void STAGE_GirlC01_at_ST1()
     1.0f;
 !H
     3.0f;
-!LO
+!LOX
     3.5f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -609,7 +609,7 @@ GirlC01_at_ST1_556:
     110;
 !H
     20;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -652,7 +652,7 @@ void STAGE_GirlD01_at_ST1()
     12;
 !H
     15;
-!LO
+!LOX
     12;
 !*
     etCount([-1337], [-1], 1);
@@ -663,7 +663,7 @@ void STAGE_GirlD01_at_ST1()
     1.4f;
 !H
     1.9f;
-!LO
+!LOX
     1.9f;
 !E
     1.6f;
@@ -671,7 +671,7 @@ void STAGE_GirlD01_at_ST1()
     1.6f;
 !H
     2.6f;
-!LO
+!LOX
     2.6f;
 !*
     etSpeed([-1337], [-1.0f], [-2.0f]);
@@ -689,7 +689,7 @@ GirlD01_at_ST1_596:
     60;
 !H
     20;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -740,7 +740,7 @@ GirlD01_at2_ST1_952:
     180;
 !H
     130;
-!LO
+!LOX
     90;
 !*
     wait([-1]);
@@ -764,7 +764,7 @@ void STAGE_GirlD02_at_ST1()
     1.4f;
 !H
     1.9f;
-!LO
+!LOX
     1.9f;
 !E
     1.6f;
@@ -772,7 +772,7 @@ void STAGE_GirlD02_at_ST1()
     1.6f;
 !H
     2.6f;
-!LO
+!LOX
     3.5f;
 !*
     etSpeed([-1337], [-1.0f], [-2.0f]);
@@ -790,7 +790,7 @@ GirlD02_at_ST1_516:
     60;
 !H
     30;
-!LO
+!LOX
     15;
 !*
     wait([-1]);
@@ -841,7 +841,7 @@ GirlD02_at2_ST1_952:
     180;
 !H
     130;
-!LO
+!LOX
     90;
 !*
     wait([-1]);
@@ -867,7 +867,7 @@ void STAGE_Phantom01_at_ST1()
     120;
 !H
     100;
-!LO
+!LOX
     40;
 !*
     etEx([-1337], 0, -2147483648, [-1], -9999994, -9999994.0f, -9999994.0f);
@@ -877,7 +877,7 @@ void STAGE_Phantom01_at_ST1()
     1.0f;
 !H
     2.0f;
-!LO
+!LOX
     3.5f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -890,7 +890,7 @@ Phantom01_at_ST1_572:
     90;
 !H
     40;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -925,7 +925,7 @@ void STAGE_Cir00_at_ST2()
     10 + ($RAND % 60);
 !H
     10 + ($RAND % 10);
-!LO
+!LOX
     10 + ($RAND % 10);
 !*
     wait([-1]);
@@ -947,7 +947,7 @@ Cir00_at_ST2_760:
     10 + ($RAND % 60);
 !H
     10 + ($RAND % 10);
-!LO
+!LOX
     10 + ($RAND % 10);
 !*
     wait([-1]);
@@ -965,7 +965,7 @@ void STAGE_Cir01_at_ST2()
     10 + ($RAND % 200);
 !H
     10 + ($RAND % 10);
-!LO
+!LOX
     10 + ($RAND % 10);
 !*
     wait([-1]);
@@ -1002,7 +1002,7 @@ void STAGE_GirlA01_at_ST2()
     1.5f;
 !H
     2.6f;
-!LO
+!LOX
     4.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -1019,7 +1019,7 @@ GirlA01_at_ST2_696:
     30;
 !H
     30;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -1043,7 +1043,7 @@ void STAGE_GirlA02_at_ST2()
     1.5f;
 !H
     2.0f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -1058,7 +1058,7 @@ GirlA02_at_ST2_488:
     30;
 !H
     20;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -1076,7 +1076,7 @@ void STAGE_GirlA03_at_ST2()
     90;
 !H
     30;
-!LO
+!LOX
     30;
 !*
     wait([-1]);
@@ -1091,7 +1091,7 @@ void STAGE_GirlA03_at_ST2()
     1.5f;
 !H
     2.0f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -1109,7 +1109,7 @@ GirlA03_at_ST2_600:
     30;
 !H
     20;
-!LO
+!LOX
     5;
 !*
     wait([-1]);
@@ -1131,7 +1131,7 @@ void STAGE_GirlB01_at_ST2()
     1;
 !H
     1;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -1142,7 +1142,7 @@ void STAGE_GirlB01_at_ST2()
     2.0f;
 !H
     3.0f;
-!LO
+!LOX
     4.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -1158,7 +1158,7 @@ GirlB01_at_ST2_576:
     30 + ($RAND % 20);
 !H
     10 + ($RAND % 20);
-!LO
+!LOX
     5 + ($RAND % 20);
 !*
     wait([-1]);
@@ -1207,7 +1207,7 @@ void STAGE_GirlC01_at_ST2()
     3;
 !H
     5;
-!LO
+!LOX
     7;
 !E
     4;
@@ -1215,7 +1215,7 @@ void STAGE_GirlC01_at_ST2()
     8;
 !H
     8;
-!LO
+!LOX
     8;
 !*
     etCount([-1337], [-1], [-2]);
@@ -1226,7 +1226,7 @@ void STAGE_GirlC01_at_ST2()
     3.6f;
 !H
     3.6f;
-!LO
+!LOX
     3.6f;
 !E
     3.0f;
@@ -1234,7 +1234,7 @@ void STAGE_GirlC01_at_ST2()
     3.6f;
 !H
     3.6f;
-!LO
+!LOX
     3.6f;
 !*
     etSpeed([-1337], [-1.0f], [-2.0f]);
@@ -1251,7 +1251,7 @@ void STAGE_GirlC01_at_ST2()
     8;
 !H
     16;
-!LO
+!LOX
     16;
 !*
     etCount([-1337], [-1], 1);
@@ -1262,7 +1262,7 @@ void STAGE_GirlC01_at_ST2()
     2.0f;
 !H
     2.0f;
-!LO
+!LOX
     2.0f;
 !*
     etSpeed([-1337], [-1.0f], 3.6f);
@@ -1315,7 +1315,7 @@ void STAGE_GirlD01_at_ST2()
     32;
 !H
     48;
-!LO
+!LOX
     56;
 !*
     etCount([-1337], [-1], 1);
@@ -1328,7 +1328,7 @@ void STAGE_GirlD01_at_ST2()
     3.6f;
 !H
     4.0f;
-!LO
+!LOX
     4.3f;
 !*
     etEx([-1337], 0, 2097152, 90, -9999994, [-1.0f], -9999994.0f);
@@ -1357,7 +1357,7 @@ void STAGE_GirlD02_at_ST2()
     12;
 !H
     16;
-!LO
+!LOX
     28;
 !*
     etCount([-1337], [-1], 1);
@@ -1370,7 +1370,7 @@ void STAGE_GirlD02_at_ST2()
     3.6f;
 !H
     4.0f;
-!LO
+!LOX
     4.2f;
 !*
     etEx([-1337], 0, 2097152, 90, -9999994, [-1.0f], -9999994.0f);
@@ -1399,7 +1399,7 @@ void STAGE_GirlD03_at_ST2()
     10;
 !H
     15;
-!LO
+!LOX
     17;
 !*
     etCount([-1337], [-1], 1);
@@ -1412,7 +1412,7 @@ void STAGE_GirlD03_at_ST2()
     3.6f;
 !H
     4.0f;
-!LO
+!LOX
     4.0f;
 !*
     etEx([-1337], 0, 2097152, 90, -9999994, [-1.0f], -9999994.0f);
@@ -1446,7 +1446,7 @@ void STAGE_Phantom01_at_ST2()
     2.0f;
 !H
     3.5f;
-!LO
+!LOX
     5.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -1519,7 +1519,7 @@ void STAGE_Phantom01c_at_ST2()
     2.0f;
 !H
     3.0f;
-!LO
+!LOX
     5.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -1559,7 +1559,7 @@ void STAGE_Phantom01d_at_ST2()
     2.0f;
 !H
     3.0f;
-!LO
+!LOX
     4.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -1582,7 +1582,7 @@ Phantom01d_at_ST2_832:
     60;
 !H
     40;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -1604,7 +1604,7 @@ void STAGE_Phantom02_at_ST2()
     1;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -1619,7 +1619,7 @@ void STAGE_Phantom02_at_ST2()
     2.0f;
 !H
     3.0f;
-!LO
+!LOX
     4.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -1634,7 +1634,7 @@ Phantom02_at_ST2_572:
     120;
 !H
     90;
-!LO
+!LOX
     60;
 !*
     wait([-1]);
@@ -1667,7 +1667,7 @@ Phantom02b_at_ST2_412:
     20;
 !H
     20;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -1685,7 +1685,7 @@ void STAGE_Cir00_at_ST3()
     10 + ($RAND % 200);
 !H
     10 + ($RAND % 40);
-!LO
+!LOX
     10 + ($RAND % 40);
 !*
     wait([-1]);
@@ -1700,7 +1700,7 @@ void STAGE_Cir00_at_ST3()
     1.5f;
 !H
     2.2f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -1716,7 +1716,7 @@ Cir00_at_ST3_792:
     20;
 !H
     20;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -1734,7 +1734,7 @@ void STAGE_GirlA01_at_ST3()
     60;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     wait([-1]);
@@ -1747,7 +1747,7 @@ void STAGE_GirlA01_at_ST3()
     1;
 !H
     2;
-!LO
+!LOX
     2;
 !E
     3;
@@ -1755,7 +1755,7 @@ void STAGE_GirlA01_at_ST3()
     3;
 !H
     3;
-!LO
+!LOX
     5;
 !*
     etCount([-1337], [-1], [-2]);
@@ -1765,7 +1765,7 @@ void STAGE_GirlA01_at_ST3()
     0.523599f;
 !H
     0.523599f;
-!LO
+!LOX
     0.436332f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -1775,7 +1775,7 @@ void STAGE_GirlA01_at_ST3()
     1.0f;
 !H
     2.0f;
-!LO
+!LOX
     2.0f;
 !E
     2.0f;
@@ -1783,7 +1783,7 @@ void STAGE_GirlA01_at_ST3()
     2.0f;
 !H
     3.0f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], [-2.0f]);
@@ -1813,7 +1813,7 @@ void STAGE_GirlA02_at_ST3()
     6;
 !H
     6;
-!LO
+!LOX
     6;
 !*
     etCount([-1337], [-1], 1);
@@ -1828,7 +1828,7 @@ void STAGE_GirlA02_at_ST3()
     2.0f;
 !H
     2.5f;
-!LO
+!LOX
     2.6f;
 !*
     etEx([-1337], 0, 2097152, 30, -9999994, [-1.0f], 1000000.0f);
@@ -1841,7 +1841,7 @@ void STAGE_GirlA02_at_ST3()
     6;
 !H
     6;
-!LO
+!LOX
     14;
 !*
     etCount([-1337], [-1], 1);
@@ -1856,7 +1856,7 @@ void STAGE_GirlA02_at_ST3()
     2.5f;
 !H
     3.0f;
-!LO
+!LOX
     3.0f;
 !*
     etEx([-1337], 0, 2097152, 30, -9999994, [-1.0f], -1000000.0f);
@@ -1876,7 +1876,7 @@ GirlA02_at_ST3_1192:
     60;
 !H
     40;
-!LO
+!LOX
     30;
 !*
     wait([-1]);
@@ -1898,7 +1898,7 @@ void STAGE_GirlA03_at_ST3()
     5;
 !H
     7;
-!LO
+!LOX
     9;
 !*
     etCount([-1337], [-1], 1);
@@ -1908,7 +1908,7 @@ void STAGE_GirlA03_at_ST3()
     0.261799f;
 !H
     0.261799f;
-!LO
+!LOX
     0.20944f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -1918,7 +1918,7 @@ void STAGE_GirlA03_at_ST3()
     2.0f;
 !H
     2.5f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -1935,7 +1935,7 @@ GirlA03_at_ST3_764:
     60;
 !H
     60;
-!LO
+!LOX
     40;
 !*
     wait([-1]);
@@ -1959,7 +1959,7 @@ void STAGE_GirlB01_at_ST3()
     4.0f;
 !H
     4.5f;
-!LO
+!LOX
     5.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -1979,7 +1979,7 @@ GirlB01_at_ST3_588:
     10;
 !H
     5;
-!LO
+!LOX
     3;
 !*
     wait([-1]);
@@ -1991,7 +1991,7 @@ GirlB01_at_ST3_708:
     40 + ($RAND % 20);
 !H
     10 + ($RAND % 20);
-!LO
+!LOX
     10 + ($RAND % 20);
 !*
     wait([-1]);
@@ -2040,7 +2040,7 @@ void STAGE_GirlC01_at_ST3()
     4;
 !H
     6;
-!LO
+!LOX
     8;
 !*
     etCount([-1337], [-1], 1);
@@ -2050,7 +2050,7 @@ void STAGE_GirlC01_at_ST3()
     0.523599f;
 !H
     0.349066f;
-!LO
+!LOX
     0.261799f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -2062,7 +2062,7 @@ void STAGE_GirlC01_at_ST3()
     3.5f;
 !H
     3.5f;
-!LO
+!LOX
     3.5f;
 !*
     etEx([-1337], 0, 2097152, 120, -9999994, [-1.0f], -9999994.0f);
@@ -2077,7 +2077,7 @@ GirlC01_at_ST3_696:
     20;
 !H
     20;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -2116,7 +2116,7 @@ void STAGE_GirlD01_at_ST3()
     50;
 !H
     70;
-!LO
+!LOX
     80;
 !*
     etCount([-1337], [-1], 1);
@@ -2127,7 +2127,7 @@ void STAGE_GirlD01_at_ST3()
     1.2f;
 !H
     1.4f;
-!LO
+!LOX
     1.6f;
 !*
     etSpeed([-1337], [-1.0f], 1.6f);
@@ -2170,7 +2170,7 @@ void STAGE_GirlD02_at_ST3()
     40;
 !H
     50;
-!LO
+!LOX
     60;
 !*
     etCount([-1337], [-1], 1);
@@ -2203,7 +2203,7 @@ GirlD02_at_ST3_484:
     150;
 !H
     120;
-!LO
+!LOX
     90;
 !*
     wait([-1]);
@@ -2231,7 +2231,7 @@ void STAGE_Phantom01_at_ST3()
     60;
 !H
     10;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -2253,7 +2253,7 @@ Phantom01_at_ST3_836:
     60;
 !H
     35;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -2313,7 +2313,7 @@ void STAGE_Phantom01d_at_ST3()
     4.0f;
 !H
     4.0f;
-!LO
+!LOX
     4.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -2407,7 +2407,7 @@ void STAGE_Cir00_at_ST4()
     1.8f;
 !H
     1.8f;
-!LO
+!LOX
     2.3f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -2424,7 +2424,7 @@ Cir00_at_ST4_424:
     10;
 !H
     8;
-!LO
+!LOX
     8;
 !*
     wait([-1]);
@@ -2445,7 +2445,7 @@ void STAGE_Cir01_at_ST4()
     25;
 !H
     30;
-!LO
+!LOX
     42;
 !*
     etCount([-1337], [-1], 1);
@@ -2456,7 +2456,7 @@ void STAGE_Cir01_at_ST4()
     1.8f;
 !H
     1.8f;
-!LO
+!LOX
     2.3f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -2473,7 +2473,7 @@ Cir01_at_ST4_484:
     80;
 !H
     70;
-!LO
+!LOX
     70;
 !*
     wait([-1]);
@@ -2495,7 +2495,7 @@ void STAGE_Cir02_at_ST4()
     20;
 !H
     20;
-!LO
+!LOX
     20;
 !*
     etCount([-1337], [-1], 1);
@@ -2511,7 +2511,7 @@ void STAGE_Cir02_at_ST4()
     2.0f;
 !H
     2.5f;
-!LO
+!LOX
     3.0f;
 !*
     etEx([-1337], 0, 2097152, 120, -9999994, [-1.0f], -1000000.0f);
@@ -2526,7 +2526,7 @@ Cir02_at_ST4_692:
     40;
 !H
     30;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -2548,7 +2548,7 @@ void STAGE_Cir03_at_ST4()
     3;
 !H
     5;
-!LO
+!LOX
     7;
 !*
     etCount([-1337], [-1], 1);
@@ -2563,7 +2563,7 @@ void STAGE_Cir03_at_ST4()
     2.0f;
 !H
     2.5f;
-!LO
+!LOX
     3.5f;
 !*
     etEx([-1337], 0, 2097152, 120, -9999994, [-1.0f], -1000000.0f);
@@ -2589,7 +2589,7 @@ void STAGE_GirlC01_at_ST4()
     25;
 !H
     25;
-!LO
+!LOX
     25;
 !*
     etCount([-1337], [-1], 1);
@@ -2599,7 +2599,7 @@ void STAGE_GirlC01_at_ST4()
     0.523599f;
 !H
     0.349066f;
-!LO
+!LOX
     0.261799f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -2611,7 +2611,7 @@ void STAGE_GirlC01_at_ST4()
     0.008333f;
 !H
     0.011667f;
-!LO
+!LOX
     0.015f;
 !*
     etEx([-1337], 0, 8, 120, -9999994, [-1.0f], 0.0052359877f);
@@ -2623,7 +2623,7 @@ void STAGE_GirlC01_at_ST4()
     15;
 !H
     15;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -2638,7 +2638,7 @@ GirlC01_at_ST4_744:
     30;
 !H
     30;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -2659,7 +2659,7 @@ void STAGE_GirlC01_at2_ST4()
     25;
 !H
     25;
-!LO
+!LOX
     25;
 !*
     etCount([-1337], [-1], 1);
@@ -2669,7 +2669,7 @@ void STAGE_GirlC01_at2_ST4()
     0.523599f;
 !H
     0.349066f;
-!LO
+!LOX
     0.261799f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -2681,7 +2681,7 @@ void STAGE_GirlC01_at2_ST4()
     0.008333f;
 !H
     0.011667f;
-!LO
+!LOX
     0.015f;
 !*
     etEx([-1337], 0, 8, 120, -9999994, [-1.0f], -0.0052359877f);
@@ -2698,7 +2698,7 @@ GirlC01_at2_ST4_644:
     30;
 !H
     30;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -2719,7 +2719,7 @@ void STAGE_GirlD01_at_ST4()
     40;
 !H
     55;
-!LO
+!LOX
     65;
 !*
     etCount([-1337], [-1], 1);
@@ -2729,7 +2729,7 @@ void STAGE_GirlD01_at_ST4()
     0.523599f;
 !H
     0.349066f;
-!LO
+!LOX
     0.261799f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -2744,7 +2744,7 @@ void STAGE_GirlD01_at_ST4()
     15;
 !H
     15;
-!LO
+!LOX
     15;
 !*
     wait([-1]);
@@ -2759,7 +2759,7 @@ GirlD01_at_ST4_664:
     30;
 !H
     30;
-!LO
+!LOX
     30;
 !*
     wait([-1]);
@@ -2780,7 +2780,7 @@ void STAGE_GirlD01_at2_ST4()
     40;
 !H
     55;
-!LO
+!LOX
     65;
 !*
     etCount([-1337], [-1], 1);
@@ -2790,7 +2790,7 @@ void STAGE_GirlD01_at2_ST4()
     0.523599f;
 !H
     0.349066f;
-!LO
+!LOX
     0.261799f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -2810,7 +2810,7 @@ GirlD01_at2_ST4_564:
     30;
 !H
     30;
-!LO
+!LOX
     30;
 !*
     wait([-1]);
@@ -2831,7 +2831,7 @@ void STAGE_GirlD02_at_ST4()
     45;
 !H
     60;
-!LO
+!LOX
     70;
 !*
     etCount([-1337], [-1], 1);
@@ -2841,7 +2841,7 @@ void STAGE_GirlD02_at_ST4()
     0.523599f;
 !H
     0.349066f;
-!LO
+!LOX
     0.261799f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -2851,7 +2851,7 @@ void STAGE_GirlD02_at_ST4()
     1.0f;
 !H
     1.5f;
-!LO
+!LOX
     1.5f;
 !*
     etSpeed([-1337], [-1.0f], 1.5f);
@@ -2865,7 +2865,7 @@ void STAGE_GirlD02_at_ST4()
     60;
 !H
     50;
-!LO
+!LOX
     45;
 !*
     wait([-1]);
@@ -2880,7 +2880,7 @@ GirlD02_at_ST4_748:
     120;
 !H
     100;
-!LO
+!LOX
     90;
 !*
     wait([-1]);
@@ -2901,7 +2901,7 @@ void STAGE_GirlD02_at2_ST4()
     45;
 !H
     60;
-!LO
+!LOX
     70;
 !*
     etCount([-1337], [-1], 1);
@@ -2911,7 +2911,7 @@ void STAGE_GirlD02_at2_ST4()
     0.523599f;
 !H
     0.349066f;
-!LO
+!LOX
     0.261799f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -2921,7 +2921,7 @@ void STAGE_GirlD02_at2_ST4()
     1.0f;
 !H
     1.5f;
-!LO
+!LOX
     1.5f;
 !*
     etSpeed([-1337], [-1.0f], 1.5f);
@@ -2940,7 +2940,7 @@ GirlD02_at2_ST4_648:
     120;
 !H
     100;
-!LO
+!LOX
     90;
 !*
     wait([-1]);
@@ -2961,7 +2961,7 @@ void STAGE_Phantom01_at_ST4()
     30;
 !H
     30;
-!LO
+!LOX
     25;
 !*
     etCount([-1337], [-1], 1);
@@ -3006,7 +3006,7 @@ Cir00_at_ST5_344:
     40;
 !H
     40;
-!LO
+!LOX
     40;
 !*
     wait([-1]);
@@ -3018,7 +3018,7 @@ Cir00_at_ST5_344:
     40;
 !H
     40;
-!LO
+!LOX
     40;
 !*
     wait([-1]);
@@ -3050,7 +3050,7 @@ Cir01_at_ST5_344:
     8;
 !H
     6;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -3076,7 +3076,7 @@ void STAGE_GirlA01_at_ST5()
     0.01f;
 !H
     0.02f;
-!LO
+!LOX
     0.03f;
 !*
     etEx([-1337], 0, 4, 100, -9999994, [-1.0f], -9999994.0f);
@@ -3091,7 +3091,7 @@ GirlA01_at_ST5_468:
     30;
 !H
     20;
-!LO
+!LOX
     15;
 !*
     wait([-1]);
@@ -3113,7 +3113,7 @@ void STAGE_GirlA02_at_ST5()
     1;
 !H
     1;
-!LO
+!LOX
     1;
 !*
     etCount([-1337], [-1], 1);
@@ -3126,7 +3126,7 @@ void STAGE_GirlA02_at_ST5()
     800;
 !H
     800;
-!LO
+!LOX
     800;
 !*
     etEx2(0, 0, 1073741824, [-1], -9999994, -9999994, -9999994, 2.6f, 0.0f, 0.01f, -9999994.0f);
@@ -3140,7 +3140,7 @@ GirlA02_at_ST5_536:
     100;
 !H
     70;
-!LO
+!LOX
     40;
 !*
     wait([-1]);
@@ -3162,7 +3162,7 @@ void STAGE_GirlA03_at_ST5()
     1;
 !H
     1;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -3175,7 +3175,7 @@ void STAGE_GirlA03_at_ST5()
     0.02f;
 !H
     0.03f;
-!LO
+!LOX
     0.04f;
 !*
     etEx([-1337], 0, 4, 100, -9999994, [-1.0f], -9999994.0f);
@@ -3190,7 +3190,7 @@ GirlA03_at_ST5_548:
     44;
 !H
     22;
-!LO
+!LOX
     22;
 !*
     wait([-1]);
@@ -3214,7 +3214,7 @@ void STAGE_GirlB01_at_ST5()
     1.8f;
 !H
     1.8f;
-!LO
+!LOX
     2.2f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -3226,7 +3226,7 @@ void STAGE_GirlB01_at_ST5()
     0.02f;
 !H
     0.024f;
-!LO
+!LOX
     0.03f;
 !*
     etEx([-1337], 0, 4, 100, -9999994, [-1.0f], -9999994.0f);
@@ -3247,7 +3247,7 @@ GirlB01_at_ST5_696:
     20;
 !H
     15;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -3317,7 +3317,7 @@ GirlC01_at_ST5_744:
     40;
 !H
     30;
-!LO
+!LOX
     24;
 !*
     wait([-1]);
@@ -3339,7 +3339,7 @@ void STAGE_GirlD01_at_ST5()
     6;
 !H
     9;
-!LO
+!LOX
     13;
 !*
     etCount([-1337], [-1], 1);
@@ -3361,7 +3361,7 @@ GirlD01_at_ST5_548:
     4;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -3411,7 +3411,7 @@ void STAGE_GirlD02_at_ST5()
     4;
 !H
     5;
-!LO
+!LOX
     6;
 !*
     etCount([-1337], [-1], 1);
@@ -3425,7 +3425,7 @@ void STAGE_GirlD02_at_ST5()
     2.0f;
 !H
     2.2f;
-!LO
+!LOX
     2.5f;
 !*
     etEx([-1337], 0, 2097152, 60, -9999994, [-1.0f], -9999994.0f);
@@ -3459,7 +3459,7 @@ void STAGE_GirlD03_at_ST5()
     4;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     etCount([-1337], [-1], 1);
@@ -3478,7 +3478,7 @@ void STAGE_GirlD03_at_ST5()
     4;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     etCount([-1337], [-1], 1);
@@ -3503,7 +3503,7 @@ GirlD03_at_ST5_980:
     5;
 !H
     4;
-!LO
+!LOX
     3;
 !*
     wait([-1]);
@@ -3558,7 +3558,7 @@ void STAGE_Phantom01_at_ST5()
     2.0f;
 !H
     2.5f;
-!LO
+!LOX
     3.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -3569,7 +3569,7 @@ Phantom01_at_ST5_624:
     10;
 !H
     10;
-!LO
+!LOX
     10;
 !*
     wait([-1]);
@@ -3584,7 +3584,7 @@ Phantom01_at_ST5_784:
     120;
 !H
     60;
-!LO
+!LOX
     30;
 !*
     wait([-1]);
@@ -3610,7 +3610,7 @@ void STAGE_Phantom01b_at_ST5()
     3.3f;
 !H
     5.0f;
-!LO
+!LOX
     5.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -3683,7 +3683,7 @@ void STAGE_Phantom01d_at_ST5()
     4.0f;
 !H
     4.0f;
-!LO
+!LOX
     4.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -3771,7 +3771,7 @@ void STAGE_Phantom03_at_ST5()
     2.2f;
 !H
     5.0f;
-!LO
+!LOX
     5.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -3809,7 +3809,7 @@ ECir00_at_ST6_384:
     %ANGLE_PLAYER + (%RANDF2 * 0.5235988f);
 !H
     %ANGLE_PLAYER + (%RANDF2 * 0.5235988f);
-!LO
+!LOX
     %ANGLE_PLAYER + (%RANDF2 * 0.5235988f);
 !*
     etAngle([-1337], [-1.0f], 0.17453292f);
@@ -3820,7 +3820,7 @@ ECir00_at_ST6_384:
     60;
 !H
     40;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -3853,7 +3853,7 @@ ECir01_at_ST6_384:
     60;
 !H
     40;
-!LO
+!LOX
     20;
 !*
     wait([-1]);
@@ -3886,7 +3886,7 @@ ECir02_at_ST6_384:
     45;
 !H
     30;
-!LO
+!LOX
     25;
 !*
     wait([-1]);
@@ -3908,7 +3908,7 @@ void STAGE_GirlA01_at_ST6()
     1;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -3936,7 +3936,7 @@ GirlA01_at_ST6_788:
     60;
 !H
     60;
-!LO
+!LOX
     50;
 !*
     wait([-1]);
@@ -3958,7 +3958,7 @@ void STAGE_GirlA02_at_ST6()
     1;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -3986,7 +3986,7 @@ GirlA02_at_ST6_788:
     60;
 !H
     60;
-!LO
+!LOX
     50;
 !*
     wait([-1]);
@@ -4008,7 +4008,7 @@ void STAGE_GirlA03_at_ST6()
     1;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -4036,7 +4036,7 @@ GirlA03_at_ST6_788:
     120;
 !H
     120;
-!LO
+!LOX
     120;
 !*
     wait([-1]);
@@ -4058,7 +4058,7 @@ void STAGE_GirlA04_at_ST6()
     1;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -4086,7 +4086,7 @@ GirlA04_at_ST6_784:
     80;
 !H
     80;
-!LO
+!LOX
     60;
 !*
     wait([-1]);
@@ -4108,7 +4108,7 @@ void STAGE_GirlA05_at_ST6()
     1;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -4136,7 +4136,7 @@ GirlA05_at_ST6_788:
     80;
 !H
     80;
-!LO
+!LOX
     60;
 !*
     wait([-1]);
@@ -4158,7 +4158,7 @@ void STAGE_GirlA06_at_ST6()
     1;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -4186,7 +4186,7 @@ GirlA06_at_ST6_788:
     80;
 !H
     80;
-!LO
+!LOX
     60;
 !*
     wait([-1]);
@@ -4262,7 +4262,7 @@ GirlD01_at_ST6_140:
     7;
 !H
     5;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -4274,7 +4274,7 @@ GirlD01_at_ST6_140:
     7;
 !H
     5;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -4286,7 +4286,7 @@ GirlD01_at_ST6_140:
     7;
 !H
     5;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -4298,7 +4298,7 @@ GirlD01_at_ST6_140:
     7;
 !H
     5;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -4310,7 +4310,7 @@ GirlD01_at_ST6_140:
     7;
 !H
     5;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -4322,7 +4322,7 @@ GirlD01_at_ST6_140:
     7;
 !H
     5;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -4334,7 +4334,7 @@ GirlD01_at_ST6_140:
     7;
 !H
     5;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -4388,7 +4388,7 @@ void STAGE_Phantom01_at_ST6()
     0 + ($RAND % 1200);
 !H
     0 + ($RAND % 1200);
-!LO
+!LOX
     0 + ($RAND % 600);
 !*
     wait([-1]);
@@ -4403,7 +4403,7 @@ Phantom01_at_ST6_756:
     60 + ($RAND % 1200);
 !H
     60 + ($RAND % 1200);
-!LO
+!LOX
     60 + ($RAND % 1200);
 !*
     wait([-1]);
@@ -4588,7 +4588,7 @@ void STAGE_GirlA02_at_ST7()
     9;
 !H
     9;
-!LO
+!LOX
     9;
 !*
     etCount([-1337], [-1], 1);
@@ -4598,7 +4598,7 @@ void STAGE_GirlA02_at_ST7()
     0.436332f;
 !H
     0.314159f;
-!LO
+!LOX
     0.261799f;
 !*
     etAngle([-1337], 1.5707964f, [-1.0f]);
@@ -4608,7 +4608,7 @@ void STAGE_GirlA02_at_ST7()
     1.8f;
 !H
     2.5f;
-!LO
+!LOX
     3.2f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -4623,7 +4623,7 @@ GirlA02_at_ST7_560:
     60;
 !H
     40;
-!LO
+!LOX
     30;
 !*
     wait([-1]);
@@ -4645,7 +4645,7 @@ void STAGE_GirlA03_at_ST7()
     5;
 !H
     7;
-!LO
+!LOX
     9;
 !*
     etCount([-1337], [-1], 1);
@@ -4655,7 +4655,7 @@ void STAGE_GirlA03_at_ST7()
     0.261799f;
 !H
     0.261799f;
-!LO
+!LOX
     0.20944f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -4665,7 +4665,7 @@ void STAGE_GirlA03_at_ST7()
     2.0f;
 !H
     2.5f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -4682,7 +4682,7 @@ GirlA03_at_ST7_764:
     60;
 !H
     60;
-!LO
+!LOX
     40;
 !*
     wait([-1]);
@@ -5020,7 +5020,7 @@ void STAGE_Phantom01d_at_ST7()
     4.0f;
 !H
     4.0f;
-!LO
+!LOX
     4.0f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -5138,7 +5138,7 @@ MBoss1_at_ST1_136:
     16;
 !H
     20;
-!LO
+!LOX
     24;
 !*
     etCount([-1337], [-1], 1);
@@ -5149,7 +5149,7 @@ MBoss1_at_ST1_136:
     2.5f;
 !H
     3.5f;
-!LO
+!LOX
     4.5f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -5174,7 +5174,7 @@ void BOSS_MBoss1_at2_ST1()
     300;
 !H
     100;
-!LO
+!LOX
     50;
 !*
     wait([-1]);
@@ -5187,7 +5187,7 @@ void BOSS_MBoss1_at2_ST1()
     3;
 !H
     6;
-!LO
+!LOX
     9;
 !*
     etCount([-1337], 1, [-1]);
@@ -5198,7 +5198,7 @@ void BOSS_MBoss1_at2_ST1()
     1.0f;
 !H
     3.0f;
-!LO
+!LOX
     3.5f;
 !*
     etSpeed([-1337], [-1.0f], 0.8f);
@@ -5214,7 +5214,7 @@ MBoss1_at2_ST1_560:
     160;
 !H
     60;
-!LO
+!LOX
     30;
 !*
     wait([-1]);
@@ -5231,7 +5231,7 @@ void BOSS_MBoss1_at_ST2()
     0.017453f;
 !H
     0.019199f;
-!LO
+!LOX
     0.017453f;
 !*
     @HASARGS_MBoss1_at_ST2(-1.5707964f, 0.38397244f, [-1.0f]);
@@ -5249,7 +5249,7 @@ void HASARGS_MBoss1_at_ST2(var A, var B, var C)
     10;
 !H
     10;
-!LO
+!LOX
     16;
 !*
     etCount([-1337], [-1], 1);
@@ -5305,7 +5305,7 @@ void MBoss1_at2b_ST2()
     0.8f;
 !H
     1.0f;
-!LO
+!LOX
     1.4f;
 !*
     etEx([-1337], 0, 2097152, 60, -9999994, [-1.0f], -9999994.0f);
@@ -5355,7 +5355,7 @@ MBoss1_at_ST3_1252:
     2.0f;
 !H
     2.4f;
-!LO
+!LOX
     2.8f;
 !*
     etExSet2(0, 5, 0, 2097152, 30, -9999994, -9999994, -9999994, [-1.0f], 1000000.0f, [-2.0f], -9999994.0f);
@@ -5393,7 +5393,7 @@ void HASARGS_MBoss1_at_ST4(var A, var B, var C)
     5.0f;
 !H
     5.0f;
-!LO
+!LOX
     5.0f;
 !*
     etEx([-1337], 0, 2097152, 120, -9999994, [-1.0f], -9999994.0f);
@@ -5412,7 +5412,7 @@ MBoss1_at_ST4_588:
     5;
 !H
     5;
-!LO
+!LOX
     5;
 !*
     wait([-1]);
@@ -5425,7 +5425,7 @@ MBoss1_at_ST4_932:
     4;
 !H
     3;
-!LO
+!LOX
     3;
 !E
     20;
@@ -5433,7 +5433,7 @@ MBoss1_at_ST4_932:
     7;
 !H
     6;
-!LO
+!LOX
     5;
 !*
     floatTime(1, %G, 1800, 0, [-1.0f], [-2.0f]);
@@ -5469,7 +5469,7 @@ void BOSS_MBoss1_at2_ST4()
     32;
 !H
     30;
-!LO
+!LOX
     50;
 !*
     etCount([-1337], [-1], 1);
@@ -5484,7 +5484,7 @@ void BOSS_MBoss1_at2_ST4()
     5.0f;
 !H
     2.0f;
-!LO
+!LOX
     2.5f;
 !*
     etEx([-1337], 0, 2097152, 120, -9999994, [-1.0f], -9999994.0f);
@@ -5501,7 +5501,7 @@ MBoss1_at2_ST4_652:
     100;
 !H
     100;
-!LO
+!LOX
     50;
 !*
     wait([-1]);
@@ -5527,7 +5527,7 @@ void HASARGS_MBoss1_at_ST5(var A)
     3;
 !H
     5;
-!LO
+!LOX
     7;
 !*
     etCount([-1337], [-1], 1);
@@ -5581,7 +5581,7 @@ void HASARGS_MBoss1_at_ST6(var A)
     3;
 !H
     4;
-!LO
+!LOX
     5;
 !*
     etCount([-1337], [-1], 1);
@@ -5619,7 +5619,7 @@ MBoss1_at_ST6_776:
     12;
 !H
     12;
-!LO
+!LOX
     12;
 !*
     wait([-1]);
@@ -5785,7 +5785,7 @@ void Boss1_at_et_ST1(var A, var B, var C, var D, var E)
     16;
 !H
     20;
-!LO
+!LOX
     26;
 !*
     etCount([-1337], [-1], 1);
@@ -5850,7 +5850,7 @@ void Boss2_at_et_ST1(var A, var B, var C, var D, var E)
     16;
 !H
     20;
-!LO
+!LOX
     28;
 !*
     etCount([-1337], [-1], 1);
@@ -5861,7 +5861,7 @@ void Boss2_at_et_ST1(var A, var B, var C, var D, var E)
     2.5f;
 !H
     2.5f;
-!LO
+!LOX
     2.5f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -5885,7 +5885,7 @@ void BOSS_BossCard1_at_ST1()
     5;
 !H
     10;
-!LO
+!LOX
     16;
 !*
     etCount([-1337], [-1], 1);
@@ -5895,7 +5895,7 @@ void BOSS_BossCard1_at_ST1()
     0.698132f;
 !H
     0.349066f;
-!LO
+!LOX
     0.174533f;
 !*
     etAngle([-1337], 1.5707964f, [-1.0f]);
@@ -5967,7 +5967,7 @@ void BOSS_BossCard1_at2_ST1()
     1;
 !H
     2;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], 1, [-1]);
@@ -5978,7 +5978,7 @@ void BOSS_BossCard1_at2_ST1()
     1.0f;
 !H
     2.0f;
-!LO
+!LOX
     3.0f;
 !*
     etSpeed([-1337], [-1.0f], 0.8f);
@@ -5989,7 +5989,7 @@ void BOSS_BossCard1_at2_ST1()
     10;
 !H
     5;
-!LO
+!LOX
     1;
 !E
     60;
@@ -5997,7 +5997,7 @@ void BOSS_BossCard1_at2_ST1()
     60;
 !H
     30;
-!LO
+!LOX
     30;
 !*
     floatTime(0, %C, 0, 600, [-1.0f], [-2.0f]);
@@ -6079,7 +6079,7 @@ BossCard2_at2_ST1_100:
     3;
 !H
     5;
-!LO
+!LOX
     7;
 !*
     etCount([-1337], [-1], 1);
@@ -6089,7 +6089,7 @@ BossCard2_at2_ST1_100:
     0.523599f;
 !H
     0.523599f;
-!LO
+!LOX
     0.349066f;
 !*
     etAngle([-1337], 0.0f, [-1.0f]);
@@ -6113,7 +6113,7 @@ void BossCard2_at_et_ST1(var A, var B, var C, var D, var E)
     16;
 !H
     16;
-!LO
+!LOX
     16;
 !*
     etCount([-1337], [-1], 1);
@@ -6145,7 +6145,7 @@ void HASARGS_Boss1_at_ST2(var A, var B, var C)
     7;
 !H
     9;
-!LO
+!LOX
     11;
 !*
     etCount([-1337], [-1], 1);
@@ -6168,7 +6168,7 @@ Boss1_at_ST2_504:
     9;
 !H
     7;
-!LO
+!LOX
     6;
 !*
     wait([-1]);
@@ -6210,7 +6210,7 @@ void Boss1_at2b_ST2()
     0.8f;
 !H
     1.0f;
-!LO
+!LOX
     1.5f;
 !*
     etEx([-1337], 0, 2097152, 60, -9999994, [-1.0f], -9999994.0f);
@@ -6235,7 +6235,7 @@ void HASARGS_Boss2_at_ST2(var A, var B, var C)
     13;
 !H
     13;
-!LO
+!LOX
     15;
 !*
     etCount([-1337], [-1], 1);
@@ -6245,7 +6245,7 @@ void HASARGS_Boss2_at_ST2(var A, var B, var C)
     0.349066f;
 !H
     0.349066f;
-!LO
+!LOX
     0.349066f;
 !*
     etAngle([-1337], -1.5707964f, [-1.0f]);
@@ -6264,7 +6264,7 @@ Boss2_at_ST2_588:
     0.436332f;
 !H
     0.436332f;
-!LO
+!LOX
     0.436332f;
 !*
     etAngle([-1337], %A, [-1.0f]);
@@ -6304,7 +6304,7 @@ void Boss2_at2b_ST2()
     10;
 !H
     20;
-!LO
+!LOX
     26;
 !*
     etCount([-1337], [-1], 1);
@@ -6318,7 +6318,7 @@ void Boss2_at2b_ST2()
     0.8f;
 !H
     1.0f;
-!LO
+!LOX
     1.6f;
 !*
     etEx([-1337], 0, 2097152, 60, -9999994, [-1.0f], -9999994.0f);
@@ -6336,7 +6336,7 @@ void BOSS_BossCard1_at_ST2()
     6;
 !H
     7;
-!LO
+!LOX
     7;
 !E
     3;
@@ -6344,7 +6344,7 @@ void BOSS_BossCard1_at_ST2()
     3;
 !H
     5;
-!LO
+!LOX
     5;
 !*
     floatTime(0, %A, 2100, 0, [-1.0f], [-2.0f]);
@@ -6355,7 +6355,7 @@ BossCard1_1452:
     0.383972f;
 !H
     0.383972f;
-!LO
+!LOX
     0.383972f;
 !*
     @HASARGS_BossCard1_at_ST2(0, -1.5707964f, [-1.0f], 0.015707964f, _S(%A)) async;
@@ -6387,7 +6387,7 @@ BossCard1_at_ST2_440:
     5;
 !H
     4;
-!LO
+!LOX
     3;
 !*
     wait([-1]);
@@ -6434,7 +6434,7 @@ BossCard2_at_ST2_512:
     15;
 !H
     10;
-!LO
+!LOX
     8;
 !*
     wait([-1]);
@@ -6460,7 +6460,7 @@ BossCard2_at_ST2_1576:
     15;
 !H
     10;
-!LO
+!LOX
     8;
 !*
     wait([-1]);
@@ -6516,7 +6516,7 @@ void HASARGS_BossCard3_at_ST2(var A, var B, var C)
     3;
 !H
     4;
-!LO
+!LOX
     5;
 !*
     etCount([-1337], [-1], 1);
@@ -6651,7 +6651,7 @@ void BOSS_Boss1_at2_ST3()
     30;
 !H
     40;
-!LO
+!LOX
     40;
 !*
     etCount([-1337], [-1], 1);
@@ -6664,7 +6664,7 @@ void BOSS_Boss1_at2_ST3()
     0.5f;
 !H
     0.5f;
-!LO
+!LOX
     0.8f;
 !*
     etEx([-1337], 0, 2097152, 70, -9999994, [-1.0f], -9999994.0f);
@@ -6678,7 +6678,7 @@ Boss1_at2_ST3_500:
     40;
 !H
     30;
-!LO
+!LOX
     25;
 !*
     wait([-1]);
@@ -6747,7 +6747,7 @@ void BOSS_Boss2_at2_ST3()
     30;
 !H
     40;
-!LO
+!LOX
     40;
 !*
     etCount([-1337], [-1], 1);
@@ -6760,7 +6760,7 @@ void BOSS_Boss2_at2_ST3()
     0.5f;
 !H
     0.5f;
-!LO
+!LOX
     1.0f;
 !*
     etEx([-1337], 0, 2097152, 70, -9999994, [-1.0f], -9999994.0f);
@@ -6774,7 +6774,7 @@ Boss2_at2_ST3_500:
     40;
 !H
     30;
-!LO
+!LOX
     25;
 !*
     wait([-1]);
@@ -6844,7 +6844,7 @@ void BOSS_Boss3_at2_ST3()
     30;
 !H
     40;
-!LO
+!LOX
     40;
 !*
     etCount([-1337], [-1], 1);
@@ -6857,7 +6857,7 @@ void BOSS_Boss3_at2_ST3()
     0.5f;
 !H
     0.5f;
-!LO
+!LOX
     1.0f;
 !*
     etEx([-1337], 0, 2097152, 70, -9999994, [-1.0f], -9999994.0f);
@@ -6871,7 +6871,7 @@ Boss3_at2_ST3_500:
     40;
 !H
     30;
-!LO
+!LOX
     25;
 !*
     wait([-1]);
@@ -6899,7 +6899,7 @@ void HASARGS_BossCard1_at_ST3(var A)
     1;
 !H
     2;
-!LO
+!LOX
     2;
 !*
     etCount([-1337], 1, [-1]);
@@ -6947,7 +6947,7 @@ void BOSS_BossCard3_at_ST3()
     0.628319f;
 !H
     0.628319f;
-!LO
+!LOX
     0.628319f;
 !*
     @HASARGS_BossCard3_at_ST3(0.0f, [-1.0f]);
@@ -6971,7 +6971,7 @@ void HASARGS_BossCard3_at_ST3(var A, var B)
     4.0f;
 !H
     4.0f;
-!LO
+!LOX
     4.0f;
 !*
     etExSet2(0, 3, 0, 134217728, 0, 20, 1, 0, 1000000.0f, [-1.0f], 0.0f, 128.0f);
@@ -6983,7 +6983,7 @@ void HASARGS_BossCard3_at_ST3(var A, var B)
     5;
 !H
     5;
-!LO
+!LOX
     5;
 !*
     etExSet([-1337], 6, 0, 65536, 3, [-1], -9999994.0f, -9999994.0f);
@@ -6993,7 +6993,7 @@ void HASARGS_BossCard3_at_ST3(var A, var B)
     3;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etExSet2(0, 7, 0, 8192, 3, 13, 28, [-1], 0.0f, 0.0f, 3.0f, 1.0f);
@@ -7044,7 +7044,7 @@ void BOSS_BossPhantom01DeadAt_at_ST3()
     1;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etCount([-1337], [-1], 1);
@@ -7055,7 +7055,7 @@ void BOSS_BossPhantom01DeadAt_at_ST3()
     2.0f;
 !H
     2.5f;
-!LO
+!LOX
     3.5f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -7088,7 +7088,7 @@ void BOSS_BossPhantom01_at_ST3()
     1.0f;
 !H
     1.0f;
-!LO
+!LOX
     1.6f;
 !*
     etEx([-1337], 0, 2097152, 80, -9999994, [-1.0f], -9999994.0f);
@@ -7101,7 +7101,7 @@ BossPhantom01_at_ST3_496:
     60;
 !H
     40;
-!LO
+!LOX
     25;
 !*
     wait([-1]);
@@ -7128,7 +7128,7 @@ void BOSS_Boss1_at_ST4()
     10;
 !H
     13;
-!LO
+!LOX
     16;
 !*
     etCount([-1337], [-1], 1);
@@ -7149,7 +7149,7 @@ void BOSS_Boss1_at_ST4()
     10;
 !H
     13;
-!LO
+!LOX
     16;
 !*
     etCount([-1337], [-1], 1);
@@ -7176,7 +7176,7 @@ void BOSS_Boss1_at2_ST4()
     24;
 !H
     30;
-!LO
+!LOX
     40;
 !*
     etCount([-1337], [-1], 1);
@@ -7239,7 +7239,7 @@ void BOSS_Boss2_at_ST4()
     10;
 !H
     14;
-!LO
+!LOX
     17;
 !*
     etCount([-1337], [-1], 1);
@@ -7260,7 +7260,7 @@ void BOSS_Boss2_at_ST4()
     10;
 !H
     14;
-!LO
+!LOX
     17;
 !*
     etCount([-1337], [-1], 1);
@@ -7287,7 +7287,7 @@ void BOSS_Boss2_at2_ST4()
     24;
 !H
     30;
-!LO
+!LOX
     40;
 !*
     etCount([-1337], [-1], 1);
@@ -7350,7 +7350,7 @@ void BOSS_Boss3_at_ST4()
     28;
 !H
     28;
-!LO
+!LOX
     30;
 !*
     etCount([-1337], [-1], 1);
@@ -7367,7 +7367,7 @@ void BOSS_Boss3_at_ST4()
     50;
 !H
     40;
-!LO
+!LOX
     35;
 !*
     wait([-1]);
@@ -7381,7 +7381,7 @@ void BOSS_Boss3_at_ST4()
     28;
 !H
     28;
-!LO
+!LOX
     30;
 !*
     etCount([-1337], [-1], 1);
@@ -7408,7 +7408,7 @@ void BOSS_Boss3_at2_ST4()
     24;
 !H
     24;
-!LO
+!LOX
     24;
 !*
     etCount([-1337], [-1], 1);
@@ -7558,7 +7558,7 @@ void BOSS_BossCard2_at_ST4()
     14;
 !H
     20;
-!LO
+!LOX
     27;
 !*
     etCount([-1337], [-1], 1);
@@ -7589,7 +7589,7 @@ void BOSS_BossCard2_at_ST4()
     %RANDRAD;
 !H
     %RANDRAD;
-!LO
+!LOX
     %ANGLE_PLAYER;
 !*
     etAngle([-1337], [-1.0f], 0.0f);
@@ -7616,7 +7616,7 @@ void BOSS_BossCard3_at_ST4()
     1.0f;
 !H
     1.5f;
-!LO
+!LOX
     2.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -7633,7 +7633,7 @@ void BOSS_BossCard3_at_ST4()
     1.0f;
 !H
     1.5f;
-!LO
+!LOX
     2.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -7650,7 +7650,7 @@ void BOSS_BossCard3_at_ST4()
     1.0f;
 !H
     1.5f;
-!LO
+!LOX
     2.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -7667,7 +7667,7 @@ void BOSS_BossCard3_at_ST4()
     1.0f;
 !H
     1.5f;
-!LO
+!LOX
     2.0f;
 !*
     etSpeed([-1337], [-1.0f], 1.0f);
@@ -7696,7 +7696,7 @@ BossCard3_at_ST4_1940:
     30;
 !H
     24;
-!LO
+!LOX
     17;
 !*
     wait([-1]);
@@ -7770,7 +7770,7 @@ void BOSS_Boss1_at_ST5()
     4;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     etExSet2($A, 3, 1, 8192, 1, 12, [-1], 1, -9999994.0f, 0.7853982f, 0.8f, 1.0f);
@@ -7782,7 +7782,7 @@ void BOSS_Boss1_at_ST5()
     4;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     etExSet2($A, 6, 1, 8192, 1, 12, [-1], 1, -9999994.0f, 0.7853982f, 0.8f, 1.0f);
@@ -7794,7 +7794,7 @@ void BOSS_Boss1_at_ST5()
     20;
 !H
     20;
-!LO
+!LOX
     20;
 !*
     etExSet([-1337], 9, 0, -2147483648, [-1], -9999994, -9999994.0f, -9999994.0f);
@@ -7808,7 +7808,7 @@ void BOSS_Boss1_at_ST5()
     2.0f;
 !H
     2.0f;
-!LO
+!LOX
     3.0f;
 !*
     etExSet2($A, 15, 0, 2097152, 120, -9999994, -9999994, -9999994, [-1.0f], 3000000.0f, 0.17453292f, -9999994.0f);
@@ -7834,7 +7834,7 @@ void BOSS_Boss2_at_ST5()
     4;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etExSet([-1337], 2, 0, -2147483648, [-1], -9999994, -9999994.0f, -9999994.0f);
@@ -7844,7 +7844,7 @@ void BOSS_Boss2_at_ST5()
     4;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     etExSet2($A, 3, 1, 8192, 1, 12, [-1], 1, -9999994.0f, 0.7853982f, 0.8f, 1.0f);
@@ -7855,7 +7855,7 @@ void BOSS_Boss2_at_ST5()
     4;
 !H
     3;
-!LO
+!LOX
     3;
 !*
     etExSet([-1337], 5, 0, -2147483648, [-1], -9999994, -9999994.0f, -9999994.0f);
@@ -7865,7 +7865,7 @@ void BOSS_Boss2_at_ST5()
     4;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     etExSet2($A, 6, 1, 8192, 1, 12, [-1], 1, -9999994.0f, 0.7853982f, 0.8f, 1.0f);
@@ -7877,7 +7877,7 @@ void BOSS_Boss2_at_ST5()
     0;
 !H
     0;
-!LO
+!LOX
     0;
 !*
     etExSet([-1337], 9, 0, -2147483648, [-1], -9999994, -9999994.0f, -9999994.0f);
@@ -7890,7 +7890,7 @@ void BOSS_Boss2_at_ST5()
     1.5f;
 !H
     1.5f;
-!LO
+!LOX
     1.6f;
 !*
     etExSet2($A, 14, 0, 2097152, 120, -9999994, -9999994, -9999994, [-1.0f], 4000000.0f, 6.2831855f, -9999994.0f);
@@ -7916,7 +7916,7 @@ void BOSS_Boss3_at_ST5()
     7;
 !H
     6;
-!LO
+!LOX
     6;
 !*
     etExSet([-1337], 2, 0, -2147483648, [-1], -9999994, -9999994.0f, -9999994.0f);
@@ -7926,7 +7926,7 @@ void BOSS_Boss3_at_ST5()
     0.785398f;
 !H
     0.523599f;
-!LO
+!LOX
     0.523599f;
 !E
     4;
@@ -7934,7 +7934,7 @@ void BOSS_Boss3_at_ST5()
     4;
 !H
     5;
-!LO
+!LOX
     6;
 !*
     etExSet2($A, 3, 1, 8192, 1, 18, [-1], 1, -9999994.0f, [-2.0f], 0.8f, 1.0f);
@@ -7945,7 +7945,7 @@ void BOSS_Boss3_at_ST5()
     7;
 !H
     6;
-!LO
+!LOX
     6;
 !*
     etExSet([-1337], 5, 0, -2147483648, [-1], -9999994, -9999994.0f, -9999994.0f);
@@ -7955,7 +7955,7 @@ void BOSS_Boss3_at_ST5()
     0.785398f;
 !H
     0.523599f;
-!LO
+!LOX
     0.523599f;
 !E
     4;
@@ -7963,7 +7963,7 @@ void BOSS_Boss3_at_ST5()
     4;
 !H
     5;
-!LO
+!LOX
     6;
 !*
     etExSet2($A, 6, 1, 8192, 1, 18, [-1], 1, -9999994.0f, [-2.0f], 0.8f, 1.0f);
@@ -7977,7 +7977,7 @@ void BOSS_Boss3_at_ST5()
     0.785398f;
 !H
     0.523599f;
-!LO
+!LOX
     0.523599f;
 !E
     4;
@@ -7985,7 +7985,7 @@ void BOSS_Boss3_at_ST5()
     4;
 !H
     5;
-!LO
+!LOX
     6;
 !*
     etExSet2($A, 11, 1, 8192, 1, 18, [-1], 1, -9999994.0f, [-2.0f], 0.8f, 1.0f);
@@ -7997,7 +7997,7 @@ void BOSS_Boss3_at_ST5()
     0.785398f;
 !H
     0.523599f;
-!LO
+!LOX
     0.523599f;
 !E
     4;
@@ -8005,7 +8005,7 @@ void BOSS_Boss3_at_ST5()
     4;
 !H
     5;
-!LO
+!LOX
     6;
 !*
     etExSet2($A, 14, 1, 8192, 1, 18, [-1], 1, -9999994.0f, [-2.0f], 0.8f, 1.0f);
@@ -8040,7 +8040,7 @@ BossCard1_at_ST5_340:
     5;
 !H
     5;
-!LO
+!LOX
     5;
 !*
     wait([-1]);
@@ -8067,7 +8067,7 @@ BossCard2_at_ST5_140:
     60;
 !H
     50;
-!LO
+!LOX
     40;
 !*
     laserTiming($A, [-1], 20, 60, 10, 0);
@@ -8079,7 +8079,7 @@ BossCard2_at_ST5_140:
     9;
 !H
     8;
-!LO
+!LOX
     8;
 !*
     wait([-1]);
@@ -8107,7 +8107,7 @@ void BOSS_BossCard3_at_ST5()
     3;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     etExSet2($A, 3, 1, 8192, 1, 18, [-1], 1, -9999994.0f, 0.7853982f, 0.8f, 1.0f);
@@ -8119,7 +8119,7 @@ void BOSS_BossCard3_at_ST5()
     3;
 !H
     4;
-!LO
+!LOX
     4;
 !*
     etExSet2($A, 6, 1, 8192, 1, 18, [-1], 1, -9999994.0f, 0.7853982f, 0.8f, 1.0f);
@@ -8133,7 +8133,7 @@ void BOSS_BossCard3_at_ST5()
     3;
 !H
     4;
-!LO
+!LOX
     5;
 !*
     etExSet2($A, 11, 1, 8192, 1, 18, [-1], 1, -9999994.0f, 0.7853982f, 0.8f, 1.0f);
@@ -8145,7 +8145,7 @@ void BOSS_BossCard3_at_ST5()
     3;
 !H
     4;
-!LO
+!LOX
     5;
 !*
     etExSet2($A, 14, 1, 8192, 1, 18, [-1], 1, -9999994.0f, 0.7853982f, 0.8f, 1.0f);
@@ -8179,7 +8179,7 @@ BossCard4_at_ST5_160:
     8;
 !H
     7;
-!LO
+!LOX
     7;
 !*
     wait([-1]);
@@ -8305,7 +8305,7 @@ void BOSS_Boss1_at_ST6()
     2.0f;
 !H
     2.2f;
-!LO
+!LOX
     2.5f;
 !*
     @HASARGS_Boss1_at_ST6(6, 0, 3.1415927f, -1.5707964f, -0.06981317f, -0.15009831f, 64.0f, 1.5707964f, 0.034906585f, 0.5f, 600, [-1.0f]) async;
@@ -8351,7 +8351,7 @@ Boss1_at_ST6_732:
     1;
 !H
     1;
-!LO
+!LOX
     1;
 !*
     wait([-1]);
@@ -8383,7 +8383,7 @@ void HASARGS_BossCard2_at_ST6(var A, var B)
     1.0f;
 !H
     1.0f;
-!LO
+!LOX
     1.5f;
 !*
     etEx([-1337], 0, 2097152, 120, -9999994, [-1.0f], -9999994.0f);
@@ -8407,7 +8407,7 @@ BossCard2_at_ST6_572:
     6;
 !H
     5;
-!LO
+!LOX
     4;
 !*
     wait([-1]);
@@ -8435,7 +8435,7 @@ void HASARGS_BossCard2_at2_ST6(var A, var B)
     50;
 !H
     55;
-!LO
+!LOX
     70;
 !*
     etCount([-1337], [-1], 1);
@@ -8468,7 +8468,7 @@ void HASARGS_BossCard3_at_ST6(var A, var B)
     16;
 !H
     24;
-!LO
+!LOX
     26;
 !*
     etCount([-1337], [-1], 1);
@@ -8491,7 +8491,7 @@ BossCard3_at_ST6_512:
     180;
 !H
     170;
-!LO
+!LOX
     160;
 !*
     wait([-1]);
@@ -8517,7 +8517,7 @@ void HASARGS_BossCard3_at2_ST6(var A, var B)
     16;
 !H
     24;
-!LO
+!LOX
     32;
 !*
     etCount([-1337], [-1], 1);
@@ -8530,7 +8530,7 @@ void HASARGS_BossCard3_at2_ST6(var A, var B)
     300;
 !H
     1000;
-!LO
+!LOX
     1000;
 !*
     etEx([-1337], 0, 256, [-1], 0, -9999994.0f, -9999994.0f);
@@ -8541,7 +8541,7 @@ void HASARGS_BossCard3_at2_ST6(var A, var B)
     500;
 !H
     1000;
-!LO
+!LOX
     1000;
 !*
     etEx2($A, 0, 1073741824, [-1], -9999994, -9999994, -9999994, 1.5f, 0.0f, 0.008f, -9999994.0f);
@@ -8558,7 +8558,7 @@ BossCard3_at2_ST6_732:
     180;
 !H
     170;
-!LO
+!LOX
     160;
 !*
     wait([-1]);
@@ -8590,7 +8590,7 @@ void HASARGS_BossCard4_at_ST6(var A, var B, var C)
     2.0f;
 !H
     2.0f;
-!LO
+!LOX
     3.0f;
 !*
     etEx([-1337], 0, 2097152, 240, -9999994, [-1.0f], -9999994.0f);
@@ -8638,7 +8638,7 @@ void BOSS_BossCard5_at_ST6()
     1.8f;
 !H
     1.8f;
-!LO
+!LOX
     2.5f;
 !E
     70;
@@ -8646,7 +8646,7 @@ void BOSS_BossCard5_at_ST6()
     300;
 !H
     300;
-!LO
+!LOX
     300;
 !*
     @HASARGS_BossCard5_at_ST6(4, 0, 1.5707964f, 1.5707964f, 0.10471976f, 0.2268928f, 100.0f, -1.5707964f, -0.034906585f, 0.5f, [-1], [-2.0f]) async;
@@ -8692,7 +8692,7 @@ BossCard5_at_ST6_876:
     4;
 !H
     2;
-!LO
+!LOX
     2;
 !*
     wait([-1]);
@@ -8744,7 +8744,7 @@ BossCard6_at2_ST6_60:
     220;
 !H
     200;
-!LO
+!LOX
     180;
 !*
     wait([-1]);

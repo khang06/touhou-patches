@@ -1,7 +1,7 @@
 #include "effect.hpp"
 #include "util.hpp"
 
-class DoubleBulletCount : public Effect {
+class DoubleBullets : public Effect {
 public:
     static CodeCave Cave1;
     static CodeCave Cave2;
@@ -10,7 +10,7 @@ public:
     int timer = Rand::RangeEffectTime(10, 2 * 60);
     CodePatches patches;
 
-    DoubleBulletCount() {
+    DoubleBullets() {
         patches.AddJmp(0x434277, &Cave1); // etCount
         patches.AddJmp(0x4346D1, &Cave2); // etCountR3 and etCountR5
         patches.AddJmp(0x43482A, &Cave3); // etCountR2
@@ -21,4 +21,4 @@ public:
         return --timer > 0;
     }
 };
-REGISTER_EFFECT(DoubleBulletCount);
+REGISTER_EFFECT(DoubleBullets);

@@ -45,23 +45,23 @@
         "?Instance@AbilityManager@@2PAV1@A": {
             "addr": "0x4CF298"
         },
-        "?Cave1@DoubleBulletCount@@2UCodeCave@@A": {
-            "addr": "codecave:doublebulletcount_cave1"
+        "?Cave1@DoubleBullets@@2UCodeCave@@A": {
+            "addr": "codecave:doublebullets_cave1"
         },
-        "?Cave2@DoubleBulletCount@@2UCodeCave@@A": {
-            "addr": "codecave:doublebulletcount_cave2"
+        "?Cave2@DoubleBullets@@2UCodeCave@@A": {
+            "addr": "codecave:doublebullets_cave2"
         },
-        "?Cave3@DoubleBulletCount@@2UCodeCave@@A": {
-            "addr": "codecave:doublebulletcount_cave3"
+        "?Cave3@DoubleBullets@@2UCodeCave@@A": {
+            "addr": "codecave:doublebullets_cave3"
         },
-        "?DiffWaitCave@EclWaitMultiplier@@2UCodeCave@@A": {
-            "addr": "codecave:eclwaitmultiplier_diffwait_cave"
+        "?DiffWaitCave@EclWaitMul@@2UCodeCave@@A": {
+            "addr": "codecave:eclwaitmul_diffwait_cave"
         },
-        "?WaitCave@EclWaitMultiplier@@2UCodeCave@@A": {
-            "addr": "codecave:eclwaitmultiplier_wait_cave"
+        "?WaitCave@EclWaitMul@@2UCodeCave@@A": {
+            "addr": "codecave:eclwaitmul_wait_cave"
         },
-        "?WaitFCave@EclWaitMultiplier@@2UCodeCave@@A": {
-            "addr": "codecave:eclwaitmultiplier_waitf_cave"
+        "?WaitFCave@EclWaitMul@@2UCodeCave@@A": {
+            "addr": "codecave:eclwaitmul_waitf_cave"
         },
         "?ClearAll@LaserManager@@QAEXHPAVPlayer@@@Z": {
             "addr": "0x449090"
@@ -201,8 +201,8 @@
         "?AllocateVM@AnmManager@@SAPAVAnmVM@@XZ": {
             "addr": "0x489320"
         },
-        "?Cave@BulletSpeedMultiplier@@2UCodeCave@@A": {
-            "addr": "codecave:bulletspeedmultiplier_cave"
+        "?Cave@BulletSpeedMul@@2UCodeCave@@A": {
+            "addr": "codecave:bulletspeedmul_cave"
         },
         "?GetFloatArgStupid@EnemyData@@AAQMHH@Z": {
             "addr": "0x438AD0"
@@ -616,32 +616,36 @@
         "msgvm_dtor_hook4": {
             "addr": "0x443523",
             "code": "E8[obj:_msgvm_dtor_hook]"
+        },
+        "move_fps_counter": {
+            "addr": "0x43A3A2",
+            "code": "B8<obj:_g_fps_pos> <nop:19>"
         }
     },
     "codecaves": {
-        "doublebulletcount_cave1": {
+        "doublebullets_cave1": {
             "access": "rx",
             "code": "8B843E040A0000 D1E0 89843E040A0000 E9[0x436417]"
         },
-        "doublebulletcount_cave2": {
+        "doublebullets_cave2": {
             "access": "rx",
             "code": "8B86040A0000 D1E0 8986040A0000 E9[0x436417]"
         },
-        "doublebulletcount_cave3": {
+        "doublebullets_cave3": {
             "access": "rx",
             "code": "8B840F040A0000 D1E0 89840F040A0000 E9[0x436417]"
         },
-        "eclwaitmultiplier_diffwait_cave": {
+        "eclwaitmul_diffwait_cave": {
             "access": "rx",
-            "code": "F30F590D<obj:_eclwaitmultiplier_mul> E9[0x42CDC0]"
+            "code": "F30F590D<obj:_ecl_wait_mul> E9[0x42CDC0]"
         },
-        "eclwaitmultiplier_wait_cave": {
+        "eclwaitmul_wait_cave": {
             "access": "rx",
-            "code": "F30F590D<obj:_eclwaitmultiplier_mul> F30F5CC1 F30F1107 E9[0x48D22E]"
+            "code": "F30F590D<obj:_ecl_wait_mul> F30F5CC1 F30F1107 E9[0x48D22E]"
         },
-        "eclwaitmultiplier_waitf_cave": {
+        "eclwaitmul_waitf_cave": {
             "access": "rx",
-            "code": "F30F5905<obj:_eclwaitmultiplier_mul> F30F5CC8 F30F110F E9[0x48D22E]"
+            "code": "F30F5905<obj:_ecl_wait_mul> F30F5CC8 F30F110F E9[0x48D22E]"
         },
         "stuck_input_cave": {
             "access": "rx",
@@ -704,9 +708,9 @@
             "access": "rx",
             "code": "E8[obj:_manual_draw_hook] E9[0x4659B4]"
         },
-        "bulletspeedmultiplier_cave": {
+        "bulletspeedmul_cave": {
             "access": "rx",
-            "code": "0F12843EB4050000 0F120D<obj:_bulletspeedmultiplier_mul> 0F59C1 0F13843EB4050000 E9[0x436417]"
+            "code": "0F12843EB4050000 0F120D<obj:_bullet_speed_mul> 0F59C1 0F13843EB4050000 E9[0x436417]"
         },
         "bulletwrap_etnew_cave": {
             "access": "rx",

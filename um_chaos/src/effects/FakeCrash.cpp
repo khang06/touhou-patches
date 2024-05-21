@@ -1,6 +1,8 @@
 #include <Windows.h>
 #include <Commctrl.h>
 #include <winternl.h>
+#include "assets.hpp"
+#include "commonhooks.hpp"
 #include "effect.hpp"
 #include "th18.hpp"
 #include "util.hpp"
@@ -78,13 +80,13 @@ public:
         tdc.cbSize = sizeof(tdc);
         tdc.hwndParent = Main::Window;
         tdc.hInstance = (HINSTANCE)0x400000;
-        tdc.dwFlags = TDF_USE_COMMAND_LINKS;
+        tdc.dwFlags = TDF_USE_COMMAND_LINKS | (CommonHooks::LeSanae ? TDF_USE_HICON_MAIN : 0);
         tdc.pszMainInstruction = L"th18.exe has stopped working";
         tdc.pszContent = L"A problem caused the program to stop working correctly. Please close the program.";
         tdc.cButtons = has_debugger ? 2 : 1;
         tdc.pszWindowTitle = L"th18.exe";
         tdc.pButtons = tdb;
-        tdc.pszMainIcon = L"IDI_ICON3";
+        tdc.pszMainIcon = CommonHooks::LeSanae ? (PCWSTR)Assets::LeSanaeIcon : L"IDI_ICON3";
         TaskDialogIndirectPtr(&tdc, 0, 0, 0);
 
         // Turn the audio back on

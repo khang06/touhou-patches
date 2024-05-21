@@ -7,9 +7,12 @@
 
 bool CommonHooks::LeSanae = false;
 bool CommonHooks::BulletFade = false;
+bool CommonHooks::Spin = false;
 bool CommonHooks::CopyingPlayfield = false;
 bool CommonHooks::DrawingBullets = false;
 int32_t CommonHooks::TitleScreenShake = 0;
+float CommonHooks::SpinSin = 0.0f;
+float CommonHooks::SpinCos = 1.0f;
 
 extern "C" __thiscall int common_draw_sprite_playfield_hook(AnmManager* self, AnmVM* anm) {
     CommonHooks::CopyingPlayfield = true;
@@ -68,6 +71,19 @@ extern "C" __thiscall int common_add_vertices_hook(AnmManager* self, ZunVertex* 
         
         for (int i = 0; i < 4; i++)
             vertices[i].color = new_col[i];
+    }
+    if (CommonHooks::Spin && !CommonHooks::CopyingPlayfield) {
+        float center_x = (vertices[0].x + vertices[1].x) / 2.0f;
+        float center_y = (vertices[0].y + vertices[2].y) / 2.0f;
+
+        for (int i = 0; i < 4; i++) {
+            vertices[i].x -= center_x;
+            vertices[i].y -= center_y;
+
+            float temp_x = center_x + vertices[i].x * CommonHooks::SpinCos - vertices[i].y * CommonHooks::SpinSin;
+            vertices[i].y = center_y + vertices[i].x * CommonHooks::SpinSin + vertices[i].y * CommonHooks::SpinCos;
+            vertices[i].x = temp_x;
+        }
     }
     return self->AddVertices(vertices);
 }

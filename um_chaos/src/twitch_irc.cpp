@@ -771,6 +771,17 @@ std::array<size_t, 4> __fastcall get_final_votes() {
     return { ret[0], ret[1], ret[2], ret[3] };
 }
 
+void __fastcall reset_cur_votes() {
+    uint32_t temp = std::rotl((uint8_t)valid_votes, 4);
+    valid_votes = temp;
+    reset_votes = true;
+
+    if ((int8_t)temp < 0)
+        __builtin_memset(&vote_totals[0], 0, sizeof(size_t[4]));
+    else
+        __builtin_memset(&vote_totals[4], 0, sizeof(size_t[4]));
+}
+
 bool __fastcall start_twitch_thread(const char* channel_name) {
     if (expect(enable(), true)) {
         if (expect(twitch_socket.connect(), true)) {

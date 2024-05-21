@@ -84,8 +84,8 @@ void Settings::LoadTwitchDefaults() {
     memset(Settings::TwitchUsername, 0, sizeof(Settings::TwitchUsername));
     Settings::VotingEnabled = true;
     Settings::VoteDuration = 15;
-    Settings::MinVoteTime = 5;
-    Settings::MaxVoteTime = 30;
+    Settings::MinVoteTime = 15;
+    Settings::MaxVoteTime = 45;
 }
 
 void Settings::LoadDebugDefaults() {
@@ -345,7 +345,7 @@ SettingsPage g_twitch_page = {
                         g_twitch_reload_queued = true;
                     }
 
-                    constexpr int VALID_KEYS[] = {
+                    static constexpr int VALID_KEYS[] = {
                         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
                         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                         VK_OEM_MINUS,
@@ -382,12 +382,24 @@ SettingsPage g_twitch_page = {
             }
         },
         {
+            .label = ""
+        },
+        {
             .label = "Effect Voting",
             .update_value = [](SettingsButton* button) {
                 bool_update_value(button, Settings::VotingEnabled);
             },
             .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
                 bool_input_handler(button, input, Settings::VotingEnabled);
+            }
+        },
+        {
+            .label = "Vote Duration",
+            .update_value = [](SettingsButton* button) {
+                snprintf(button->value, sizeof(button->value) - 1, "%us", Settings::VoteDuration);
+            },
+            .input_handler = [](TitleScreen*, SettingsButton* button, uint32_t input) {
+                u32_input_handler(button, input, Settings::VoteDuration, 1, UINT32_MAX);
             }
         },
         {
@@ -511,7 +523,7 @@ extern "C" void __thiscall manual_draw_hook(TitleScreen* title) {
     if (!title->transition_state || title->transition_state == 4 || !g_cur_page)
         return;
 
-    constexpr D3DVECTOR title_pos = { 320.0f, 80.0f, 0.0f };
+    static constexpr D3DVECTOR title_pos = { 320.0f, 80.0f, 0.0f };
     AsciiManager::Instance->style = 7;
     float time = g_frame_count / 15.0f;
     unsigned red = sinf(time) * 127 + 128;
