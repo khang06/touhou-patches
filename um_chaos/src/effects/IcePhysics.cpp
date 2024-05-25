@@ -10,6 +10,9 @@ public:
     CodePatches patches;
 
     IcePhysics() {
+        // Fix player getting launched if they aren't moving when this activates
+        Player::Instance->last_vel = Player::Instance->cur_vel;
+
         patches.AddJmp(0x45B690, &Cave);
     }
 

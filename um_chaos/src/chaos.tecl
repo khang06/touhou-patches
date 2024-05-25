@@ -1,3 +1,6 @@
+
+void ItemCarryLilyAt4();
+
 void UnzanArm_at()
 {
     /*
@@ -146,8 +149,8 @@ UnzanArmR_460:
 }
 
 void Follower() {
-    setHitbox(8.0f, 8.0f);
-    setHurtbox(8.0f, 8.0f);
+    setHurtbox(24.0f, 24.0f);
+    setHitbox(16.0f, 16.0f);
     anmSelect(2);
     anmSetMain(0, 0);
     flagSet(128 | 16 | 8 | 4); // FLAG_NO_DELETE | FLAG_INVINCIBLE | FLAG_OFFSCREEN_UD | FLAG_OFFSCREEN_LR
@@ -160,14 +163,334 @@ void Follower() {
 }
 
 void FairyJumpscare() {
-    setHitbox(8.0f, 8.0f);
-    setHurtbox(8.0f, 8.0f);
-    anmSelect(2);
-    anmSetMain(0, 5);
+    setHurtbox(24.0f, 24.0f);
+    setHitbox(16.0f, 16.0f);
+    if ($I0) {
+        anmSelect(0x40000007);
+        anmSetSprite(0, 13);
+    } else {
+        anmSelect(2);
+        anmSetMain(0, 5);
+    }
     flagSet(512 | 256 | 16 | 8 | 4); // FLAG_GRAZE | FLAG_ALWAYS_DELETE | FLAG_INVINCIBLE | FLAG_OFFSCREEN_UD | FLAG_OFFSCREEN_LR
     moveVel(%ANGLE_PLAYER, 10.0f);
+    if ($I1) {
+        wait(50 + $RAND % 20);
+        moveVel(-1.570796f, 0.0f);
+        wait($RAND % 120);
+        moveVel(%ANGLE_PLAYER, 10.0f);
+    }
 +600:
     delete();
+}
+
+void ItemCarryLilyEx() {
+    anmSelect(2);
+    anmSetMain(0, 229);
+    setHurtbox(48.0f, 48.0f);
+    setHitbox(16.0f, 16.0f);
+    moveVel(1.5707964f, 5.2f);
+    moveSpeedTime(80, 0, 0.0f);
+    playSound(74);
+    wait(80);
+    @ItemCarryLilyAt4() async 1;
+    moveLimit(0.0f, 160.0f, 320.0f, 128.0f);
+
+    $I1 = 4;
+    while ($I1-- > 0) {
+        moveRand(80, 0, 2.0f);
+        wait(160);
+    }
+
+    killAsync(1);
+    wait(60);
+    playSound(69);
+    wait(24);
+    anmSelect(0x40000007);
+    anmSetMain(0, 7);
+    wait(30);
+
+    @ItemCarryLilyAtJunko() async;
+    while (1) {
+        moveRand(80, 0, 2.0f);
+        wait(160);
+    }
+}
+
+// Pasted directly from Bravimemes TH18
+void ItemCarryLilyAtJunko() {
+    etNew(1);
+    etAim(1, 2);
+    etSprite(1, 33, 7);
+    etCountD(1, 22, 22, 22, 22, 1, 1, 1, 1);
+    etAngle(1, 0.0f, 0.032724924f);
+    etSpeedD(1, 3.0f, 3.0f, 3.0f, 3.0f, 1.0f, 1.0f, 1.0f, 2.0f);
+    etEx(1, 0, 2, 1, -999999, -999999.0f, -999999.0f);
+    etEx(1, 0, 64, 1, 15, -999999.0f, -999999.0f);
+    etExSet(1, 2, 0, 16777216, -999999, -999999, -999999.0f, -999999.0f);
+    etExSub(1, 2, "LilyBrr_at2");
+    etExSet(1, 3, 0, 1024, 0, -999999, -999999.0f, -999999.0f);
+    floatTime(1, %F0, 1200, 0, 30.0f, 20.0f);
+    while (1) {
+        etOn(1);
+        $I0 = _S(%F0);
+        wait($I0);
+    }
+}
+
+void LilyBrr_at2() {
+    var A;
+    flagSet(288);
+    playSound(52);
+    unless (%FINAL_Y >= _f(440)) goto LilyBrr_at2_220 @ 0;
+    %A = -1.570796f;
+    goto LilyBrr_at2_548 @ 0;
+LilyBrr_at2_220:
+    unless (%FINAL_Y <= _f(8)) goto LilyBrr_at2_364 @ 0;
+    %A = 1.570796f;
+    goto LilyBrr_at2_548 @ 0;
+LilyBrr_at2_364:
+    unless (%FINAL_X < _f(-184)) goto LilyBrr_at2_508 @ 0;
+    %A = 0.0f;
+    goto LilyBrr_at2_548 @ 0;
+LilyBrr_at2_508:
+    %A = 3.141593f;
+LilyBrr_at2_548:
+    etNew(0);
+    etSprite(0, 38, 2);
+    etAngle(0, %A, %A);
+    etSpeed(0, 16.0f, 16.0f);
+    laserNew(0, 0.0f, 512.0f, 0.0f, 48.0f);
+    laserTiming(0, 20, 30, 60, 30, 0);
+    etSound(0, 18, -1);
+    laserStOn(0, 0);
+    @LilyBrr_at3(%A) async;
+    etNew(2);
+    etSprite(2, 0, 2);
+    etAngle(2, %A + 0.5235988f, %A + 0.5235988f);
+    etSpeed(2, 12.0f, 12.0f);
+    laserNew(2, -1.0f, -1.0f, -1.0f, 28.0f);
+    laserTiming(2, 64, -1, -1, -1, 0);
+    etSound(0, 18, -1);
+    etExSet(2, 0, 1, 8, 30, 0, 0.0f, -0.034906585f);
+    etExSet(2, 1, 1, 8, 30, 30, 0.0f, 0.034906585f);
+    laserCuOn(2);
+    wait(10);
+    etNew(2);
+    etSprite(2, 0, 2);
+    etAngle(2, %A - 0.5235988f, %A - 0.5235988f);
+    etSpeed(2, 12.0f, 12.0f);
+    laserNew(2, -1.0f, -1.0f, -1.0f, 28.0f);
+    laserTiming(2, 64, -1, -1, -1, 0);
+    etSound(0, 18, -1);
+    etExSet(2, 0, 1, 8, 30, 0, 0.0f, 0.034906585f);
+    etExSet(2, 1, 1, 8, 30, 30, 0.0f, -0.034906585f);
+    laserCuOn(2);
+    wait(10);
+    etNew(2);
+    etSprite(2, 0, 2);
+    etAngle(2, %A + 0.7853982f, %A + 0.7853982f);
+    etSpeed(2, 12.0f, 12.0f);
+    laserNew(2, -1.0f, -1.0f, -1.0f, 28.0f);
+    laserTiming(2, 64, -1, -1, -1, 0);
+    etSound(0, 18, -1);
+    etExSet(2, 0, 1, 8, 30, 0, 0.0f, -0.034906585f);
+    etExSet(2, 1, 1, 8, 30, 30, 0.0f, 0.034906585f);
+    laserCuOn(2);
+    wait(10);
+    etNew(2);
+    etSprite(2, 0, 2);
+    etAngle(2, %A - 0.7853982f, %A - 0.7853982f);
+    etSpeed(2, 12.0f, 12.0f);
+    laserNew(2, -1.0f, -1.0f, -1.0f, 28.0f);
+    laserTiming(2, 64, -1, -1, -1, 0);
+    etSound(0, 18, -1);
+    etExSet(2, 0, 1, 8, 30, 0, 0.0f, 0.034906585f);
+    etExSet(2, 1, 1, 8, 30, 30, 0.0f, -0.034906585f);
+    laserCuOn(2);
+    delete();
+}
+
+void LilyBrr_at3(var A) {
+    var B;
+    etNew(3);
+    etAim(3, 1);
+    etSprite(3, 4, 2);
+    etCount(3, 1, 1);
+    etAngle(3, %A, 0.34906584f);
+    etSpeed(3, 2.0f, 0.2f);
+    etEx(3, 0, 2, 1, -999999, -999999.0f, -999999.0f);
+    etEx(3, 0, 1048576, 1, -999999, -999999.0f, -999999.0f);
+    etEx(3, 0, 2097152, 30, -999999, 1.0f, %A);
+    etEx(3, 0, 4, 90, -999999, 0.03f, %A);
+    diffI($B, 60, 100, 100, 100);
+    goto LilyBrr_at3_740 @ 0;
+LilyBrr_at3_428:
+    etAngle(3, %A + (%RANDF2 * 1.5707964f), 0.0f);
+    etOn(3);
+    dropClear();
+    dropExtra(5, 1);
+    dropExtra(7, 1);
+    dropExtra(19, 1);
+    dropExtra(18, 1);
+    dropArea(80.0f, 80.0f);
+    dropItems();
+    wait(1);
+LilyBrr_at3_740:
+    if ($B--) goto LilyBrr_at3_428 @ 0;
+    return;
+}
+
+void MomoyoButterflies() {
+    flagSet(32); // FLAG_INTANGIBLE
+    @MomoyoButterfliesAt() async;
+    wait($I0);
+    delete();
+}
+
+void MomoyoButterfliesAt() {
+    var A, B, C;
+    etNew(2);
+    etAim(2, 1);
+    etSprite(2, 22, 2);
+    etCount(2, 1, 1);
+    etAngle(2, 0.0f, 0.5235988f);
+    etSpeed(2, 3.2f, 1.0f);
+    etEx(2, 0, 2, 1, -9999994, -9999994.0f, -9999994.0f);
+    etEx(2, 0, 32768, 1234, -9999994, -9999994.0f, -9999994.0f);
+    etEx(2, 0, 128, 300, -9999994, -9999994.0f, -9999994.0f);
+    etEx(2, 0, 4194304, 10, 0, 1.0f, 1.5f);
+    while (1) {
+        %A = %PLAYER_X2;
+        %B = _f(0);
+        anmPlayPos(1, 71, %A - %FINAL_X, %B - %FINAL_Y, 0.0f);
+        playSound(54);
+        wait(60);
+        etOffsetAbs(2, %A, %B);
+        getAngle(%C, %A, %B, %PLAYER_X2, %PLAYER_Y2);
+        etAngle(2, %C, 0.0f);
+        etOn(2);
+        %A = _f(-192);
+        %B = %PLAYER_Y2;
+        wait(140);
+        anmPlayPos(1, 71, %A - %FINAL_X, %B - %FINAL_Y, 0.0f);
+        playSound(54);
+        wait(60);
+        etOffsetAbs(2, %A, %B);
+        getAngle(%C, %A, %B, %PLAYER_X2, %PLAYER_Y2);
+        etAngle(2, %C, 0.0f);
+        etOn(2);
+        %A = %PLAYER_X2;
+        %B = _f(448);
+        wait(140);
+        anmPlayPos(1, 71, %A - %FINAL_X, %B - %FINAL_Y, 0.0f);
+        playSound(54);
+        wait(60);
+        etOffsetAbs(2, %A, %B);
+        getAngle(%C, %A, %B, %PLAYER_X2, %PLAYER_Y2);
+        etAngle(2, %C, 0.0f);
+        etOn(2);
+        %A = _f(192);
+        %B = %PLAYER_Y2;
+        wait(140);
+        anmPlayPos(1, 71, %A - %FINAL_X, %B - %FINAL_Y, 0.0f);
+        playSound(54);
+        wait(60);
+        etOffsetAbs(2, %A, %B);
+        getAngle(%C, %A, %B, %PLAYER_X2, %PLAYER_Y2);
+        etAngle(2, %C, 0.0f);
+        etOn(2);
+        wait(140);
+    }
+}
+
+void YYDO() {
+    flagSet(32); // FLAG_INTANGIBLE
+    while ($I0--) {
+        @YYDOAt();
+        wait(120);
+    }
+    delete();
+}
+
+void YYDOAt() {
+    var A, B, C, D, E, F, G;
+    anmSelect(3);
+    anmSelectedPlay(0);
+    $A = 0;
+    $B = 1;
+    diffI($C, 1, 3, 3, 3);
+    %D = %RANDRAD;
+    $B = 0;
+    $E = 4;
+    while ($E--) {
+        etNew($A);
+        etAim($A, 3);
+        etSprite($A, 46, $B);
+        etCount($A, $C, 1);
+        etAngle($A, -1.5707964f, 0.17453292f);
+        etSpeed($A, 1.5f, 1.0f);
+        etEx($A, 0, 2, 1, -9999994, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 256, 600, 0, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 128, 600, -9999994, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 8, 120, -9999994, 0.005f, 0.034906585f);
+        etEx($A, 0, 2097152, 1, -9999994, 2.1f, -1000000.0f);
+        etEx($A, 0, 4, 160, -9999994, 0.01f, 1.5707964f);
+        etEx($A, 1, 64, 4, 13, -1000000.0f, -9999994.0f);
+        etAngle($A, %D, 0.0f);
+        %D = %D + ((6.2831855f / _f(4)) / _f($C));
+        validRad(%D);
+        etOn($A);
+        $B = $B + 1;
+    }
+    $B = 1;
+    %D = %RANDRAD;
+    $F = 7;
+    while ($F--) {
+        etNew($A);
+        etAim($A, 3);
+        etSprite($A, 44, $B);
+        etCount($A, $C, 1);
+        etAngle($A, -1.5707964f, 0.17453292f);
+        etSpeed($A, 1.5f, 1.0f);
+        etEx($A, 0, 2, 1, -9999994, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 256, 600, 0, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 128, 600, -9999994, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 8, 120, -9999994, 0.005f, 0.034906585f);
+        etEx($A, 0, 2097152, 1, -9999994, 2.6f, -1000000.0f);
+        etEx($A, 0, 4, 160, -9999994, 0.01f, 1.5707964f);
+        etEx($A, 1, 64, 4, 13, -1000000.0f, -9999994.0f);
+        etAngle($A, %D, 0.0f);
+        %D = %D + ((6.2831855f / _f(7)) / _f($C));
+        validRad(%D);
+        etOn($A);
+        $B = $B + 1;
+    }
+    $B = 1;
+    %D = %RANDRAD;
+    $A = 1;
+    $G = 7;
+    while ($G--) {
+        etNew($A);
+        etAim($A, 3);
+        etSprite($A, 45, $B);
+        etCount($A, $C, 1);
+        etAngle($A, -1.5707964f, 0.17453292f);
+        etSpeed($A, 1.5f, 1.0f);
+        etEx($A, 0, 2, 1, -9999994, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 256, 600, 0, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 128, 600, -9999994, -9999994.0f, -9999994.0f);
+        etEx($A, 0, 8, 120, -9999994, 0.005f, -0.034906585f);
+        etEx($A, 0, 2097152, 1, -9999994, 1.6f, -1000000.0f);
+        etEx($A, 0, 4, 160, -9999994, 0.01f, 1.5707964f);
+        etEx($A, 1, 64, 4, 13, -1000000.0f, -9999994.0f);
+        etAngle($A, %D, 0.0f);
+        %D = %D + ((6.2831855f / _f(7)) / _f($C));
+        validRad(%D);
+        etOn($A);
+        $B = $B + 1;
+    }
+    return;
 }
 
 /* !!! RANDOM ATTACK HELL ZONE !!! */

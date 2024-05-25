@@ -10,8 +10,8 @@ public:
     DisconnectDevice() {
         PlaySoundA("DeviceDisconnect", NULL, SND_ALIAS | SND_ASYNC | SND_NODEFAULT | SND_SYSTEM);
 
-        uint8_t patch[] = {0x0F, 0x1F, 0x44, 0x00, 0x00}; // 5-byte nop
-        patches.Add(0x462961, &patch, sizeof(patch));
+        static constexpr uint8_t patch[] = {0x0F, 0x1F, 0x44, 0x00, 0x00}; // 5-byte nop
+        patches.Add(0x462961, (void*)&patch, sizeof(patch));
     }
 
     virtual ~DisconnectDevice() {

@@ -1,0 +1,8 @@
+build/
+tools/
+src/
+.gitignore
+.vscode/
+Makefile
+*.bat
+um_chaos.json

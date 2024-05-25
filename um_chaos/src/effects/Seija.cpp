@@ -13,8 +13,8 @@ public:
         Main::Instance.screen_anm4->pending_interrupt = interrupt;
 
         // Don't reset screen_anm4's transforms between stages
-        uint8_t patch[] = {0x0F, 0x1F, 0x44, 0x00, 0x00}; // 5-byte nop
-        patches.Add(0x44326B, patch, sizeof(patch));
+        static constexpr uint8_t patch[] = {0x0F, 0x1F, 0x44, 0x00, 0x00}; // 5-byte nop
+        patches.Add(0x44326B, (void*)&patch, sizeof(patch));
     }
 
     virtual ~Seija() {

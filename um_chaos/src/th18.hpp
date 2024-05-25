@@ -143,6 +143,7 @@ public:
 
     static AnmVM* AllocateVM();
     static uint32_t* __stdcall AddToUIBack(uint32_t* id, AnmVM* vm);
+    static void QueueDeletionByID(uint32_t id);
 
     int DrawSprite(AnmVM* anm);
     int AddVertices(ZunVertex* vertices);
@@ -321,6 +322,13 @@ struct ZUNInterp { //       0x58    0x44    0x30
     }
 };
 
+class PlayerOption {
+public:
+    int state;          // 0x0
+    uint32_t anm_id;    // 0x4
+    char gap8[0xE8];    // 0x8
+};
+
 class Player {
 public:
     static Player* Instance;
@@ -329,16 +337,22 @@ public:
 
     char gap0[0x620];               // 0x0
     D3DVECTOR pos_float;            // 0x620
-    uint32_t pos_x;                 // 0x62C
-    uint32_t pos_y;                 // 0x630
+    int32_t pos_x;                  // 0x62C
+    int32_t pos_y;                  // 0x630
     Timer death_timer;              // 0x634
-    char gap648[0x47064];           // 0x648
+    char gap648[0x28];              // 0x648
+    PlayerOption options[4];        // 0x670
+    PlayerOption equipment[12];     // 0xA30
+    char gap1570[0x4613C];          // 0x1570
     uint32_t death_state;           // 0x476AC
     char gap476B0[0xC4];            // 0x476B0
     Timer invuln_timer;             // 0x47774
     char gap47788[0x14];            // 0x47788
     uint32_t flags;                 // 0x4779C
-    char gap477A0[0x1AC];           // 0x477A0
+    char gap477A0[0x24];            // 0x477A0
+    D3DVECTOR cur_vel;              // 0x477C4
+    D3DVECTOR last_vel;             // 0x477D0
+    char gap477DC[0x170];           // 0x477DC
     ZUNInterp<float> scale_interp;  // 0x4794C
     float scale;                    // 0x4797C
     char gap47980[8];               // 0x47980
@@ -358,6 +372,7 @@ public:
 
 namespace Globals {
     extern float GameSpeed;
+    extern int Funds;
 };
 
 class Card {
@@ -376,6 +391,8 @@ public:
 
 class CardInfo {
 public:
+    static CardInfo All[58];
+
     const char* id_str;
     uint32_t id;
 
@@ -443,6 +460,21 @@ struct BulletEffectData {
     inline BulletEffectData() {}
 };
 
+class BulletExArgs {
+public:
+    float r;        // 0x0
+    float s;        // 0x4
+    float m;        // 0x8
+    float n;        // 0xC
+    int a;          // 0x10
+    int b;          // 0x14
+    int c;          // 0x18
+    int d;          // 0x1C
+    uint32_t type;  // 0x20
+    int async;      // 0x24
+    char* string;   // 0x28
+};
+
 class Bullet {
 public:
     char gap0[0x20];                // 0x0
@@ -450,12 +482,28 @@ public:
     char gap24[0x614];              // 0x24
     D3DVECTOR position;             // 0x638
     D3DVECTOR velocity;             // 0x644
-    char gap650[0x34];              // 0x650
+    float speed;                    // 0x650
+    float angle;                    // 0x654
+    char gap658[0xC];               // 0x658
+    uint32_t ex_react;              // 0x664
+    char gap668[0xC];               // 0x668
+    uint32_t destroy_script_id;     // 0x674
+    char gap678[4];                 // 0x678
+    uint32_t ex_idx;                // 0x67C
+    char gap680[4];                 // 0x680
     uint32_t ex_flags;              // 0x684
-    char gap688[0x5E4];             // 0x688
+    char gap688[8];                 // 0x688
+    uint32_t affected_by_func;      // 0x690
+    char gap694[8];                 // 0x694
+    BulletExArgs ex_args[24];       // 0x69C
+    char gapABC[0x1B0];             // 0xABC
     BulletEffectData effect_wrap;   // 0xC6C
+    char gapCB4[0x2E4];             // 0xCB4
+    uint16_t type;                  // 0xF98
+    uint16_t color;                 // 0xF9C
 
     void CalcEx();
+    void Destroy(int is_cancel);
 };
 
 class EnemyShooter {
@@ -525,13 +573,27 @@ class AbilityShop {
 public:
     static AbilityShop* Instance;
 
-    char pad0[0xE3C];
+    char gap0[0xE3C];
 
     bool Init(D3DVECTOR* idk);
 };
 
+class Item {
+public:
+    char gap0[0xC2C];   // 0x0
+    D3DVECTOR pos;      // 0xC2C
+    char gapC38[0x3C];  // 0xC38
+    uint32_t state;     // 0xC74
+    char gapC78[0x1C];  // 0xC78
+};
+
 class ItemManager {
 public:
+    static ItemManager* Instance;
+
+    char gap0[0x14];    // 0x0
+    Item items[600];    // 0x14
+
     void* __thiscall SpawnItem(int id, int a3, int a4, float a5, float a6, int a7, int a8, int a9);
 };
 
@@ -699,3 +761,42 @@ enum InputFlags : uint32_t {
     INPUT_SCREENSHOT = 0x40000,
     INPUT_ENTER = 0x80000,
 };
+
+// https://github.com/zero318/ClangAsmTest1/blob/fabb2fd2fd5d4d275efcd5ef203830098d24eb3f/UM/UM_bullet_ex.cpp#L10729
+enum BulletEffectType : uint32_t {
+    EX_NONE         = 0x00000000, // 0      0
+    EX_DIST         = 0x00000001, // 1      1
+    EX_ANIM         = 0x00000002, // 2      2
+    EX_ACCEL        = 0x00000004, // 3      4
+    EX_ANGLE_ACCEL  = 0x00000008, // 4      8
+    EX_ANGLE        = 0x00000010, // 5      16
+    // EX_NOP_A     = 0x00000020, // 6      32
+    EX_BOUNCE       = 0x00000040, // 7      64
+    EX_INVULN       = 0x00000080, // 8      128
+    EX_OFFSCREEN    = 0x00000100, // 9      256
+    EX_SETSPRITE    = 0x00000200, // 10     512
+    EX_DELETE       = 0x00000400, // 11     1024
+    EX_PLAYSOUND    = 0x00000800, // 12     2048
+    EX_WRAP         = 0x00001000, // 13     4096
+    EX_SHOOT        = 0x00002000, // 14     8192
+    // EX_NOP_B     = 0x00004000, // 15     16384
+    EX_REACT        = 0x00008000, // 16     32768
+    EX_LOOP         = 0x00010000, // 17     65536
+    EX_MOVE         = 0x00020000, // 18     131072
+    EX_VEL          = 0x00040000, // 19     262144
+    EX_VELADD       = 0x00080000, // 20     524288
+    EX_BRIGHT       = 0x00100000, // 21     1048576
+    EX_VELTIME      = 0x00200000, // 22     2097152
+    EX_SIZE         = 0x00400000, // 23     4194304
+    EX_SAVEANGLE    = 0x00800000, // 24     8388608
+    EX_ENEMY        = 0x01000000, // 25     16777216
+    EX_LAYER        = 0x02000000, // 26     33554432
+    EX_DELAY        = 0x04000000, // 27     67108864
+    EX_LASER        = 0x08000000, // 28     134217728
+    // EX_NOP_C     = 0x10000000, // 29     268435456
+    EX_HITBOX       = 0x20000000, // 30     536870912
+    EX_HOMING       = 0x40000000, // 31     1073741824
+    EX_WAIT         = 0x80000000, // 32     -2147483648
+};
+
+#define ECL_NULL -999999

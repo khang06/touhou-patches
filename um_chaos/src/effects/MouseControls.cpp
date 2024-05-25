@@ -2,8 +2,10 @@
 #include "th18.hpp"
 #include "util.hpp"
 
-// Hack to make NoVertical work with MouseControls
-extern bool g_novertical_enabled;
+class NoVertical {
+public:
+    static size_t ID;
+};
 
 class MouseControls : public Effect {
 public:
@@ -47,7 +49,7 @@ public:
 
         self->pos_float.x = px;
         self->pos_x = px * 128.0f;
-        if (!g_novertical_enabled) {
+        if (!Effect::Infos[NoVertical::ID].enabled) {
             self->pos_float.y = py;
             self->pos_y = py * 128.0f;
         }

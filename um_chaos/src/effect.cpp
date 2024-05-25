@@ -1,9 +1,11 @@
 #include "effect.hpp"
+#include "util.hpp"
 
 size_t Effect::AllCount;
 EffectInfo Effect::Infos[Effect::MAX_EFFECTS];
 size_t Effect::EnabledCount;
 EnabledEffect Effect::Enabled[Effect::MAX_EFFECTS];
+size_t Effect::PossibleChoices[Effect::MAX_EFFECTS];
 
 void Effect::Enable(size_t id) {
     Util::Log("Enabling %s...\n", Infos[id].name);
@@ -17,14 +19,9 @@ void Effect::Enable(size_t id) {
 }
 
 void Effect::EnableRandom() {
-    static size_t choices[Effect::MAX_EFFECTS];
-    size_t choices_count = 0;
-    for (size_t i = 0; i < Effect::AllCount; i++) {
-        if (!Effect::Infos[i].enabled && !Effect::Infos[i].vote_choice)
-            choices[choices_count++] = i;
-    }
+    size_t choices_count = Effect::UpdatePossibleChoices();
     if (choices_count)
-        Effect::Enable(choices[Rand::Range(0, choices_count - 1)]);
+        Effect::Enable(Effect::PossibleChoices[Rand::Range(0, choices_count - 1)]);
 }
 
 void Effect::Disable(size_t idx) {
@@ -51,19 +48,36 @@ void Effect::DrawAll() {
 }
 
 bool Effect::VoteChoices(size_t *vote_choices, size_t vote_count) {
-    static size_t possible_choices[Effect::MAX_EFFECTS];
-    size_t choices_count = 0;
-    for (size_t i = 0; i < Effect::AllCount; i++) {
-        if (!Effect::Infos[i].enabled && !Effect::Infos[i].vote_choice)
-            possible_choices[choices_count++] = i;
-    }
+    size_t choices_count = Effect::UpdatePossibleChoices();
     if (choices_count < vote_count)
         return false;
 
     for (size_t i = choices_count; i > 1; i--)
-        std::swap(possible_choices[i - 1], possible_choices[Rand::Range(0, choices_count - 1)]);
+        std::swap(Effect::PossibleChoices[i - 1], Effect::PossibleChoices[Rand::Range(0, choices_count - 1)]);
     for (size_t i = 0; i < vote_count; i++)
-        Effect::Infos[i].vote_choice = true;
-    memcpy(vote_choices, possible_choices, vote_count * sizeof(size_t));
+        Effect::Infos[Effect::PossibleChoices[i]].vote_choice = true;
+    memcpy(vote_choices, Effect::PossibleChoices, vote_count * sizeof(size_t));
     return true;
+}
+
+size_t Effect::UpdatePossibleChoices() {
+    Util::Log("Updating possible choices...\n");
+    size_t choices_count = 0;
+    for (size_t i = 0; i < Effect::AllCount; i++) {
+        auto& effect = Effect::Infos[i];
+        if (effect.enabled) {
+            Util::Log("Skipping %s because it's already enabled\n", effect.name);
+            continue;
+        }
+        if (effect.vote_choice) {
+            Util::Log("Skipping %s because it's a vote choice\n", effect.name);
+            continue;
+        }
+        if (effect.allowed && !effect.allowed()) {
+            Util::Log("Skipping %s because it doesn't want to be enabled\n", effect.name);
+            continue;
+        }
+        Effect::PossibleChoices[choices_count++] = i;
+    }
+    return choices_count;
 }

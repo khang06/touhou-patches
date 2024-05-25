@@ -219,9 +219,6 @@
         "?DecryptString@MsgVM@@SIPADPAD@Z": {
             "addr": "0x4419F0"
         },
-        "?EtNewCave@BulletWrap@@2UCodeCave@@A": {
-            "addr": "codecave:bulletwrap_etnew_cave"
-        },
         "?ShootShooter@BulletManager@@QAEHPAVEnemyShooter@@HHM@Z": {
             "addr": "0x424FE0"
         },
@@ -230,6 +227,18 @@
         },
         "?Cur@Input@@2IA": {
             "addr": "0x4CA210"
+        },
+        "?QueueDeletionByID@AnmManager@@SAXI@Z": {
+            "addr": "0x488CF0"
+        },
+        "?Destroy@Bullet@@QAEXH@Z": {
+            "addr": "0x428E90"
+        },
+        "?Funds@Globals@@3HA": {
+            "addr": "0x4CCD34"
+        },
+        "?Instance@ItemManager@@2PAV1@A": {
+            "addr": "0x4CF2EC"
         }
     },
     "imports": {
@@ -620,6 +629,10 @@
         "move_fps_counter": {
             "addr": "0x43A3A2",
             "code": "B8<obj:_g_fps_pos> <nop:19>"
+        },
+        "disable_title_demo": {
+            "addr": "0x464F82",
+            "code": "E9[0x46507B] 90"
         }
     },
     "codecaves": {
@@ -711,10 +724,6 @@
         "bulletspeedmul_cave": {
             "access": "rx",
             "code": "0F12843EB4050000 0F120D<obj:_bullet_speed_mul> 0F59C1 0F13843EB4050000 E9[0x436417]"
-        },
-        "bulletwrap_etnew_cave": {
-            "access": "rx",
-            "code": "66C7840EE00500000010 C6840ED005000001 C6840ED40500000F C684B9184E000001 E9[0x436417]"
         },
     }
 }

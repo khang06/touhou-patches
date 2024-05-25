@@ -8,8 +8,8 @@ public:
     AnmVM* disable_vm = nullptr;
 
     NoBomb() {
-        uint8_t patch[] = {0x33, 0xC0, 0xC3}; // xor eax, eax; ret
-        patches.Add(0x420420, patch, sizeof(patch));
+        static constexpr uint8_t patch[] = {0x33, 0xC0, 0xC3}; // xor eax, eax; ret
+        patches.Add(0x420420, (void*)&patch, sizeof(patch));
 
         uint32_t id;
         auto anm = AnmManager::Instance->Preload(18, "chaos.anm");

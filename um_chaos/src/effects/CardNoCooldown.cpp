@@ -4,8 +4,7 @@
 
 class CardNoCooldown : public Effect {
 public:
-    // Not sure if people will even notice this being active...
-    int timer = Rand::RangeEffectTime(10, 5 * 60);
+    int timer = Rand::RangeEffectTime(10, 2 * 60);
 
     virtual bool Update() {
         auto* cur = &AbilityManager::Instance->card_list;

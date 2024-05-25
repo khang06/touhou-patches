@@ -29,7 +29,7 @@ extern "C" __thiscall int common_draw_bullets_hook(BulletManager* self) {
 }
 
 extern "C" __thiscall int common_add_vertices_hook(AnmManager* self, ZunVertex* vertices) {
-    if (CommonHooks::LeSanae && !CommonHooks::CopyingPlayfield) {
+    if (__builtin_expect(CommonHooks::LeSanae && !CommonHooks::CopyingPlayfield, 0)) {
         vertices[0].u = 0.0f;
         vertices[0].v = 0.0f;
         vertices[1].u = 1.0f;
@@ -39,13 +39,13 @@ extern "C" __thiscall int common_add_vertices_hook(AnmManager* self, ZunVertex* 
         vertices[3].u = 1.0f;
         vertices[3].v = 1.0f;
     }
-    if (CommonHooks::TitleScreenShake) {
+    if (__builtin_expect(CommonHooks::TitleScreenShake, 0)) {
         for (int i = 0; i < 4; i++) {
             vertices[i].x += Rand::Range(-CommonHooks::TitleScreenShake, CommonHooks::TitleScreenShake) * Window::Instance.game_scale;
             vertices[i].y += Rand::Range(-CommonHooks::TitleScreenShake, CommonHooks::TitleScreenShake) * Window::Instance.game_scale;
         }
     }
-    if (CommonHooks::BulletFade && CommonHooks::DrawingBullets) {
+    if (__builtin_expect(CommonHooks::BulletFade && CommonHooks::DrawingBullets, 0)) {
         /*
         float player_x = Player::Instance->pos_float.x + Main::Instance.cameras[3].x + 192.0f + 12.0f;
         float player_y = Player::Instance->pos_float.y + Main::Instance.cameras[3].y + 12.0f;
@@ -72,7 +72,7 @@ extern "C" __thiscall int common_add_vertices_hook(AnmManager* self, ZunVertex* 
         for (int i = 0; i < 4; i++)
             vertices[i].color = new_col[i];
     }
-    if (CommonHooks::Spin && !CommonHooks::CopyingPlayfield) {
+    if (__builtin_expect(CommonHooks::Spin && !CommonHooks::CopyingPlayfield, 0)) {
         float center_x = (vertices[0].x + vertices[1].x) / 2.0f;
         float center_y = (vertices[0].y + vertices[2].y) / 2.0f;
 

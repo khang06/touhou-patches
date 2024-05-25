@@ -9,8 +9,8 @@ public:
 
     YouGrowBigger() {
         // Allow shooting after size change
-        uint8_t patch[] = {0x66, 0x90};
-        patches.Add(0x45C978, patch, sizeof(patch));
+        static constexpr uint8_t patch[] = {0x66, 0x90};
+        patches.Add(0x45C978, (void*)&patch, sizeof(patch));
         
         // Don't reset scale on player reset
         patches.AddJmp(0x45ADA4, 0x45ADB8);

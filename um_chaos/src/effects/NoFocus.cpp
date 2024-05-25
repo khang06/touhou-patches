@@ -7,8 +7,8 @@ public:
     CodePatches patches;
 
     NoFocus() {
-        uint8_t patch[] = {0x33, 0xD2, 0x90}; // xor edx, edx; nop
-        patches.Add(0x45B403, patch, sizeof(patch));
+        static constexpr uint8_t patch[] = {0x33, 0xD2, 0x90}; // xor edx, edx; nop
+        patches.Add(0x45B403, (void*)&patch, sizeof(patch));
     }
 
     virtual bool Update() {

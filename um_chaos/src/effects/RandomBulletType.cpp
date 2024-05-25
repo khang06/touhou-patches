@@ -17,11 +17,11 @@ public:
     }
 
     static __thiscall int ReadType(void*, int) {
-        static constexpr int32_t MAX_COLORS[] = {
+        static constexpr uint8_t MAX_COLORS[] = {
             // 0 to 16
             15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
             // 17
-            3,
+            2,
             // 18 to 24
             7, 7, 7, 7, 7, 7, 7,
             // 25 to 28

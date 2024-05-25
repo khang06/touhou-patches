@@ -124,3 +124,112 @@ script 6 bomb_disable {
 +20: // 20
     stop();
 }
+
+entry {
+    path: "lily_junko.png",
+    img_width: 256,
+    img_height: 128,
+    memory_priority: 0,
+    sprites: {
+        lily_junko_sprite0: {x: 0.0, y: 0.0, w: 64.0, h: 64.0},
+        lily_junko_sprite1: {x: 64.0, y: 0.0, w: 64.0, h: 64.0},
+        lily_junko_sprite2: {x: 128.0, y: 0.0, w: 64.0, h: 64.0},
+        lily_junko_sprite3: {x: 192.0, y: 0.0, w: 64.0, h: 64.0},
+        lily_junko_sprite4: {x: 0.0, y: 64.0, w: 64.0, h: 64.0},
+        lily_junko_sprite5: {x: 64.0, y: 64.0, w: 64.0, h: 64.0},
+        lily_junko_sprite6: {x: 128.0, y: 64.0, w: 64.0, h: 64.0},
+        lily_junko_sprite7: {x: 192.0, y: 64.0, w: 64.0, h: 64.0},
+    },
+}
+
+script 7 lily_junko_script0 {
+    layer(8);
+    loop {
+        sprite(lily_junko_sprite0);
++5: // 5
+        sprite(lily_junko_sprite1);
++5: // 10
+        sprite(lily_junko_sprite2);
++5: // 15
+        sprite(lily_junko_sprite3);
++5: // 20
+    }
+}
+
+
+script 8 lily_junko_script1 {
+    layer(8);
+    flipX();
+    sprite(lily_junko_sprite4);
++4: // 4
+    sprite(lily_junko_sprite5);
+    stop();
+}
+
+
+script 9 lily_junko_script2 {
+    layer(8);
+    sprite(lily_junko_sprite4);
++4: // 4
+    sprite(lily_junko_sprite5);
+    stop();
+}
+
+
+script 10 lily_junko_script3 {
+    layer(8);
+    flipX();
+    sprite(lily_junko_sprite5);
++4: // 4
+    sprite(lily_junko_sprite4);
+    loop {
++5: // 9
+        sprite(lily_junko_sprite0);
++5: // 14
+        sprite(lily_junko_sprite1);
++5: // 19
+        sprite(lily_junko_sprite2);
++5: // 24
+        sprite(lily_junko_sprite3);
+    }
+}
+
+
+script 11 lily_junko_script4 {
+    layer(8);
+    sprite(lily_junko_sprite5);
++4: // 4
+    sprite(lily_junko_sprite4);
+    loop {
++5: // 9
+        sprite(lily_junko_sprite0);
++5: // 14
+        sprite(lily_junko_sprite1);
++5: // 19
+        sprite(lily_junko_sprite2);
++5: // 24
+        sprite(lily_junko_sprite3);
+    }
+}
+
+script 12 lily_junko_script5 {
+    layer(8);
+    sprite(lily_junko_sprite7);
+    stop();
+}
+
+entry {
+    path: "free.png",
+    img_width: 32,
+    img_height: 32,
+    memory_priority: 0,
+    sprites: {
+        free_sprite: {x: 0.0, y: 0.0, w: 32.0, h: 32.0},
+    },
+}
+
+script 13 free_script {
+    layer(8);
+    sprite(free_sprite);
+    stop();
+}

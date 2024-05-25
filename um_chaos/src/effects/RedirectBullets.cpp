@@ -11,6 +11,7 @@ public:
             if (abs(pos.x - player_pos.x) > 0.001 && abs(pos.y - player_pos.y) > 0.001) {
                 float mag = sqrtf(vel.x * vel.x + vel.y * vel.y);
                 float angle = atan2f(player_pos.y - pos.y, player_pos.x - pos.x);
+                cur->entry->angle = angle;
                 vel.x = mag * cosf(angle);
                 vel.y = mag * sinf(angle);
 

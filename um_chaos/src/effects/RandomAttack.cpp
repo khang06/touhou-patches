@@ -17,7 +17,10 @@ public:
 
     static __thiscall void ResolveSubHook(Enemy* self, const char* name) {
         auto len = strlen(name);
-        if ((len > 3 && !memcmp(&name[len - 3], "_at", 3)) || (len > 4 && !memcmp(&name[len - 4], "_at", 3))) {
+        if ((len > 3 && !memcmp(&name[len - 3], "_at", 3)) ||
+            (len > 4 && !memcmp(&name[len - 4], "_at", 3)) ||
+            (len >= 15 && !memcmp(name, "ItemCarryLilyAt", 15))
+        ) {
             const char* new_name = nullptr;
             if (!strncmp(name, "Boss", 4) || !strncmp(name, "MBoss", 5))
                 new_name = Assets::BossAttacks[Rand::Range(0, Assets::BossAttacks.size() - 1)];

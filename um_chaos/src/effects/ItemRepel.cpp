@@ -8,8 +8,8 @@ public:
     CodePatches patches;
 
     ItemRepel() {
-        uint8_t patch[] = {0x5C}; // addss -> subss
-        patches.Add(0x44611D, patch, sizeof(patch));
+        static constexpr uint8_t patch = 0x5C; // addss -> subss
+        patches.Add(0x44611D, (void*)&patch, sizeof(patch));
 
         // Don't reset item attract speed on player reset
         patches.AddJmp(0x45AE67, 0x45AE71);
