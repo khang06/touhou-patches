@@ -1,0 +1,65 @@
+{
+    "input": "gohei_debug.obj",
+    "output": "th14.v1.00b.js",
+    "prefix": "gohei_debug",
+    "options": {
+        
+    },
+    "externs": {
+        "?Create@CalcChain@@SGPAV1@P6IHPAX@Z@Z": {
+            "addr": "0x401570"
+        },
+        "?RegisterCalc@CalcChain@@SGHPAV1@H@Z": {
+            "addr": "0x401120"
+        },
+        "?RegisterDraw@CalcChain@@SGHPAV1@H@Z": {
+            "addr": "0x4011D0"
+        },
+        "?Draw@Ascii@@QAAXPAMPBDZZ": {
+            "addr": "0x40BDC0"
+        },
+        "?Instance@Ascii@@2PAV1@A": {
+            "addr": "0x4DB520"
+        },
+        "?Instance@Player@@2PAV1@A": {
+            "addr": "0x4DB67C"
+        },
+        "?Instance@Window@@2V1@A": {
+            "addr": "0x4F5A18"
+        },
+        "?Instance@AnmManager@@2PAV1@A": {
+            "addr": "0x4F56CC"
+        },
+        "?Instance@EnemyManager@@2PAV1@A": {
+            "addr": "0x4DB544"
+        },
+        "?GetBounds@AnmVM@@QAEXPAU_D3DVECTOR@@@Z": {
+            "addr": "0x479560"
+        },
+        "?GetByID@AnmManager@@QAEPAVAnmVM@@I@Z": {
+            "addr": "0x47F0A0"
+        },
+        "?FlushSprites@AnmManager@@QAEXXZ": {
+            "addr": "0x475EB0"
+        },
+        "?GetHomingTargetStupid@EnemyManager@@CQPAVEnemy@@HHPAU_D3DVECTOR@@MMM@Z": {
+            "addr": "0x42C310"
+        },
+        "_g_device": {
+            "addr": "0x4D8F68"
+        }
+    },
+    "imports": {
+        "d3dx9_43.dll": {
+            "D3DXCreateLine": {
+                "alias": "_D3DXCreateLine@8"
+            }
+        }
+    },
+    "binhacks": {
+        "gohei_debug_hook_jmp": {
+            "addr": "0x444FF4",
+            "code": "E9 [obj:_hook_entry]"
+        }
+    }
+}
