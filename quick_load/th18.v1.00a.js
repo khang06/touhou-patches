@@ -8,9 +8,13 @@
             addr: "0x464C28",
             code: "EB"
         },
-        quick_load_no_title_input_wait: {
+        quick_load_no_title_input_wait1: {
             addr: "0x465CCB",
             code: "<nop:6>"
+        },
+        quick_load_no_title_input_wait2: {
+            addr: "0x465C87",
+            code: "<nop:2>"
         }
     },
     codecaves: {
