@@ -4,27 +4,19 @@
 
 class GameSpeed : public Effect {
 public:
-    int timer;
-    float speed;
+    int timer = Rand::RangeEffectTime(10, 30);
+    float speed = Rand::NextFloat() + 0.5f;
 
     GameSpeed() {
-        if (true) {
-            timer = Rand::RangeEffectTime(0.25, 5);
-            speed = -1.0f;
-        } else {
-            timer = Rand::RangeEffectTime(10, 60);
-            speed = Rand::NextFloat() * 1.5f + 0.5f;
-        }
-
         Globals::GameSpeed = speed;
     }
 
     virtual ~GameSpeed() {
-        Globals::GameSpeed = 1.0f;
+        Globals::GameSpeed = copysignf(1.0f, Globals::GameSpeed);
     }
 
     virtual bool Update() {
-        Globals::GameSpeed = speed;
+        Globals::GameSpeed = copysignf(speed, Globals::GameSpeed);
         return --timer > 0;
     }
 };

@@ -7,7 +7,7 @@ public:
     static CodeCave Cave2;
     static CodeCave Cave3;
 
-    int timer = Rand::RangeEffectTime(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 60);
     CodePatches patches;
 
     DoubleBullets() {

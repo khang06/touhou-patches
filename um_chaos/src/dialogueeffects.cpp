@@ -85,19 +85,34 @@ void uwuify(char* src) {
     strncpy(src, temp, 255);
 }
 
-extern "C" char* __fastcall msgvm_decrypt_string_hook(char* input) {
+extern "C" char* __fastcall uwuify_hook(char* input) {
     input = MsgVM::DecryptString(input);
     uwuify(input);
+    return input;
+}
+
+extern "C" char* __fastcall aaaaaaaaaa_hook(char* input) {
+    input = MsgVM::DecryptString(input);
+
+    char* cur = input;
+    while (*cur)
+        *cur++ = 'A';
+
     return input;
 }
 
 extern "C" MsgVM* __thiscall msgvm_ctor_hook(MsgVM* self, uint32_t idk) {
     Util::Log("Dialogue started\n");
 
-    // uwuify :3
-    if (Rand::Range(1, 10) == 1) {
-        g_patches.AddCall(0x43F09C, (void*)&msgvm_decrypt_string_hook);
-        g_patches.AddCall(0x43E9E0, (void*)&msgvm_decrypt_string_hook);
+    auto rand = Rand::Range(1, 10);
+    if (rand == 1) {
+        // uwuify :3
+        g_patches.AddCall(0x43F09C, (void*)&uwuify_hook);
+        g_patches.AddCall(0x43E9E0, (void*)&uwuify_hook);
+    } else if (rand == 2) {
+        // AAAAAAAAAAAA
+        g_patches.AddCall(0x43F09C, (void*)&aaaaaaaaaa_hook);
+        g_patches.AddCall(0x43E9E0, (void*)&aaaaaaaaaa_hook);
     }
 
     return new (self) MsgVM(idk);

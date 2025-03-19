@@ -55,6 +55,9 @@ public:
             uint32_t visible : 1;
             uint32_t : 1;
             uint32_t __z_rotation : 1;
+            uint32_t : 19;
+            uint32_t anchor_x : 2;
+            uint32_t anchor_y : 2;
         };
     };
     union {
@@ -110,7 +113,10 @@ public:
     IDirect3DSurface9* bg_render_target;    // 0x1AC
     IDirect3DSurface9* game_render_target;  // 0x1B0
     IDirect3DSurface9* backbuffer;          // 0x1B4
-    char gap1B8[0x10];                      // 0x1B8
+    char gap1B8[4];                         // 0x1B8
+    AnmVM* screen_anm1;                     // 0x1BC
+    AnmVM* screen_anm2;                     // 0x1C0
+    AnmVM* screen_anm3;                     // 0x1C4
     AnmVM* screen_anm4;                     // 0x1C8
     char gap1CC[0x90];                      // 0x1CC
     Camera cameras[4];                      // 0x25C
@@ -334,6 +340,7 @@ public:
     static Player* Instance;
 
     int CalcMove();
+    void Kill();
 
     char gap0[0x620];               // 0x0
     D3DVECTOR pos_float;            // 0x620
@@ -800,3 +807,28 @@ enum BulletEffectType : uint32_t {
 };
 
 #define ECL_NULL -999999
+
+class MenuSystem {
+public:
+    int32_t cur_pos;                // 0x0
+    int32_t last_pos;               // 0x4
+    int32_t entry_count;            // 0x8
+    int32_t cur_pos_stack[16];      // 0xC
+    int32_t entry_count_stack[16];  // 0x4C
+    int32_t stack_height;           // 0x8C
+    char pad90[0x48];               // 0x90
+};
+
+class PauseMenu {
+public:
+    static PauseMenu* Instance;
+
+    void Pause();
+
+    char gap0[0xC];         // 0x0
+    Timer transition_timer; // 0xC
+    char gap20[0x14];       // 0x20
+    MenuSystem menu;        // 0x34
+    char gap10C[0xE8];      // 0x10C
+    uint32_t submenu;       // 0x1F4
+};

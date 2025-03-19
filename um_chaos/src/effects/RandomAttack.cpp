@@ -4,7 +4,7 @@
 
 class RandomAttack : public Effect {
 public:
-    int timer = Rand::RangeEffectTime(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 60);
     CodePatches patches;
 
     RandomAttack() {
@@ -34,4 +34,6 @@ public:
         }
     }
 };
-REGISTER_EFFECT(RandomAttack);
+
+// This is really broken and not in a fun way
+//REGISTER_EFFECT(RandomAttack);

@@ -57,6 +57,8 @@ extern "C" int game_threadproc_hook() {
         LARGE_INTEGER qpc;
         QueryPerformanceCounter(&qpc);
         Rand::Seed(qpc.LowPart);
+        for (int i = 0; i < 100; i++)
+            Rand::Next();
         g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
         g_vote_state = VOTE_INACTIVE;
         twitch_voting(false);
@@ -207,15 +209,19 @@ int __fastcall post_frame_calc(void*) {
     }
 
     if (g_effect_req != -1) {
-        if (Effect::Infos[g_effect_req].enabled) {
-            for (int i = 0; i < Effect::EnabledCount; i++) {
-                if (Effect::Enabled[i].id == g_effect_req) {
-                    Effect::Disable(i);
-                    break;
+        if (g_effect_req < Effect::AllCount) {
+            if (Effect::Infos[g_effect_req].enabled) {
+                for (int i = 0; i < Effect::EnabledCount; i++) {
+                    if (Effect::Enabled[i].id == g_effect_req) {
+                        Effect::Disable(i);
+                        break;
+                    }
                 }
+            } else {
+                Effect::Enable(g_effect_req);
             }
         } else {
-            Effect::Enable(g_effect_req);
+            printf("Invalid effect ID %d\n", g_effect_req);
         }
         g_effect_req = -1;
     }

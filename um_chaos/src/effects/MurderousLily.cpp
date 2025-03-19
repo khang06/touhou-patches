@@ -1,6 +1,7 @@
 #include "effect.hpp"
 #include "th18.hpp"
 
+// From Bravidunno
 class MurderousLily : public Effect {
 public:
     MurderousLily() {

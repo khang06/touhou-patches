@@ -3,7 +3,14 @@
     "output": "th18.v1.00a.js",
     "prefix": "um_chaos",
     "options": {
-        
+        "um_chaos_scorefile": {
+            "type": "s",
+            "val": "scoreth18chaos.dat"
+        },
+        "um_chaos_scorefile_backup": {
+            "type": "s",
+            "val": "scoreth18chaosbak.dat"
+        }
     },
     "externs": {
         "?AddVertices@AnmManager@@QAEHPAUZunVertex@@@Z": {
@@ -239,6 +246,15 @@
         },
         "?Instance@ItemManager@@2PAV1@A": {
             "addr": "0x4CF2EC"
+        },
+        "?Kill@Player@@QAEXXZ": {
+            "addr": "0x45D3A0"
+        },
+        "?Instance@PauseMenu@@2PAV1@A": {
+            "addr": "0x4CF40C"
+        },
+        "?Pause@PauseMenu@@QAEXXZ": {
+            "addr": "0x458680"
         }
     },
     "imports": {
@@ -401,6 +417,42 @@
             },
             "GetKeyboardState": {
                 "alias": "_GetKeyboardState@4"
+            },
+            "UpdateLayeredWindow": {
+                "alias": "_UpdateLayeredWindow@36"
+            },
+            "PeekMessageA": {
+                "alias": "_PeekMessageA@20"
+            },
+            "DispatchMessageA": {
+                "alias": "_DispatchMessageA@4"
+            },
+            "TranslateMessage": {
+                "alias": "_TranslateMessage@4"
+            },
+            "UpdateWindow": {
+                "alias": "_UpdateWindow@4"
+            },
+            "ShowWindow": {
+                "alias": "_ShowWindow@8"
+            },
+            "CreateWindowExA": {
+                "alias": "_CreateWindowExA@48"
+            },
+            "RegisterClassExA": {
+                "alias": "_RegisterClassExA@4"
+            },
+            "DefWindowProcA": {
+                "alias": "_DefWindowProcA@16"
+            },
+            "ReleaseDC": {
+                "alias": "_ReleaseDC@8"
+            },
+            "GetDC": {
+                "alias": "_GetDC@4"
+            },
+            "DestroyWindow": {
+                "alias": "_DestroyWindow@4"
             }
         },
         "advapi32.dll": {
@@ -498,6 +550,20 @@
             },
             "DnsQuery_W": {
                 "alias": "_DnsQuery_W_dll@24"
+            }
+        },
+        "gdi32.dll": {
+            "DeleteDC": {
+                "alias": "_DeleteDC@4"
+            },
+            "SelectObject": {
+                "alias": "_SelectObject@8"
+            },
+            "CreateCompatibleDC": {
+                "alias": "_CreateCompatibleDC@4"
+            },
+            "CreateDIBSection": {
+                "alias": "_CreateDIBSection@24"
             }
         }
     },
@@ -633,20 +699,36 @@
         "disable_title_demo": {
             "addr": "0x464F82",
             "code": "E9[0x46507B] 90"
+        },
+        "patch_scorefile_write": {
+            "addr": "0x41352F",
+            "code": "68<option:um_chaos_scorefile>"
+        },
+        "patch_scorefile_read": {
+            "addr": "0x4638C5",
+            "code": "B9<option:um_chaos_scorefile>"
+        },
+        "patch_scorefile_backup_write": {
+            "addr": "0x413524",
+            "code": "68<option:um_chaos_scorefile_backup>"
+        },
+        "patch_scorefile_backup_read": {
+            "addr": "0x46382B",
+            "code": "B9<option:um_chaos_scorefile_backup>"
         }
     },
     "codecaves": {
         "doublebullets_cave1": {
             "access": "rx",
-            "code": "8B843E040A0000 D1E0 89843E040A0000 E9[0x436417]"
+            "code": "668B843E040A0000 D1E0 6689843E040A0000 E9[0x436417]"
         },
         "doublebullets_cave2": {
             "access": "rx",
-            "code": "8B86040A0000 D1E0 8986040A0000 E9[0x436417]"
+            "code": "668B86040A0000 D1E0 668986040A0000 E9[0x436417]"
         },
         "doublebullets_cave3": {
             "access": "rx",
-            "code": "8B840F040A0000 D1E0 89840F040A0000 E9[0x436417]"
+            "code": "668B840F040A0000 D1E0 6689840F040A0000 E9[0x436417]"
         },
         "eclwaitmul_diffwait_cave": {
             "access": "rx",

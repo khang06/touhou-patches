@@ -9,7 +9,7 @@ public:
 class AlwaysPoC : public Effect {
 public:
     static size_t ID;
-    int timer = Rand::RangeEffectTime(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 60);
     CodePatches patches;
 
     AlwaysPoC() {

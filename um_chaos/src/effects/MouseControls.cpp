@@ -9,7 +9,7 @@ public:
 
 class MouseControls : public Effect {
 public:
-    int timer = Rand::RangeEffectTime(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 60);
     CodePatches patches;
 
     MouseControls() {

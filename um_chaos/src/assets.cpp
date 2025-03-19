@@ -13,6 +13,8 @@ IDirect3DTexture9* Assets::LeSanae = nullptr;
 HICON Assets::LeSanaeIcon = NULL;
 IDirect3DTexture9* Assets::Flashlight = nullptr;
 HICON Assets::GameIcon = NULL;
+HBITMAP Assets::BlueFairy;
+HBITMAP Assets::Kogasa;
 
 IDirect3DPixelShader9* Assets::JPEGPass1PS = NULL;
 IDirect3DPixelShader9* Assets::JPEGPass2PS = NULL;
@@ -41,6 +43,47 @@ HICON load_icon(const char* filename) {
     void* ico = GameUtil::LoadFile(filename, &ico_size, 0);
     HICON ret = CreateIconFromResource((PBYTE)ico, ico_size, TRUE, 0x30000);
     free(ico);
+    return ret;
+}
+
+HBITMAP load_rgba_bitmap(const char* filename, LONG width, LONG height, LONG scale) {
+    uint32_t rgba_size = 0;
+    uint32_t* rgba = (uint32_t*)GameUtil::LoadFile(filename, &rgba_size, 0);
+
+    LONG scaled_width = width * scale;
+    LONG scaled_height = height * scale;
+    HDC screen = GetDC(NULL);
+    BITMAPINFO info = {
+        .bmiHeader = {
+            .biSize = sizeof(BITMAPINFOHEADER),
+            .biWidth = scaled_width,
+            .biHeight = scaled_height,
+            .biPlanes = 1,
+            .biBitCount = 32,
+            .biCompression = BI_RGB,
+            .biSizeImage = (DWORD)(scaled_width * scaled_height * 4)
+        }
+    };
+    uint32_t* bmp_bits = nullptr;
+    HBITMAP ret = CreateDIBSection(screen, &info, DIB_RGB_COLORS, (void**)&bmp_bits, NULL, 0);
+    ReleaseDC(NULL, screen);
+
+    // TODO: This is probably really slow
+    if (scale == 1) {
+        memcpy(bmp_bits, rgba, info.bmiHeader.biSizeImage);
+    } else {
+        for (LONG y = 0; y < height; y++) {
+            for (LONG x = 0; x < width; x++) {
+                uint32_t pix = rgba[y * width + x];
+                for (LONG i = 0; i < scale; i++)
+                    bmp_bits[(y * scaled_width + x) * scale + i] = pix;
+            }
+            for (LONG i = 1; i < scale; i++)
+                memcpy(&bmp_bits[(y * scale + i) * scaled_width], &bmp_bits[y * scaled_width * scale], scaled_width * 4);
+        }
+    }
+
+    free(rgba);
     return ret;
 }
 
@@ -110,6 +153,16 @@ extern "C" void unload_default_pool_assets() {
     }
 }
 
+LRESULT WINAPI FollowerMouseWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) {
+    switch (Msg) {
+        case WM_CLOSE: {
+            // Nope
+            return 0;
+        }
+    }
+    return DefWindowProcA(hWnd, Msg, wParam, lParam);
+}
+
 void Assets::Load() {
     Assets::LeSanae = load_img("lesanae.png");
     Assets::LeSanaeIcon = load_icon("lesanae.png");
@@ -127,6 +180,16 @@ void Assets::Load() {
     };
     Main::Instance.d3d9_device->CreateVertexDeclaration(minimal_vertex_decl, &Assets::VoteVertexDecl);
     load_vs("vote_vs.fxc", &Assets::VoteVS);
+
+    //Assets::BlueFairy = load_rgba_bitmap("bluefairy.rgba", 1536, 64);
+    Assets::Kogasa = load_rgba_bitmap("kogasa.rgba", 337, 256, 4);
+    WNDCLASSEXA wc = {
+        .cbSize = sizeof(WNDCLASSEXA),
+        .lpfnWndProc = FollowerMouseWndProc,
+        .hCursor = LoadCursorA(nullptr, IDC_ARROW),
+        .lpszClassName = "FollowerMouseClass",
+    };
+    RegisterClassExA(&wc);
 
     load_default_pool_assets();
 }

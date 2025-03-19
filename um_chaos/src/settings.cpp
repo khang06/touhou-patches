@@ -451,7 +451,7 @@ SettingsPage g_debug_page = {
             }
         },
         {
-            .label = "Allow multiple votes",
+            .label = "Allow multiple votes per user",
             .update_value = [](SettingsButton* button) {
                 bool_update_value(button, Settings::MultiVote);
             },

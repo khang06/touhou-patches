@@ -162,6 +162,17 @@ void Follower() {
     die();
 }
 
+void FollowerMouseDummy() {
+    setHurtbox(24.0f, 24.0f);
+    setHitbox(16.0f, 16.0f);
+    anmSelect(2);
+    anmSetMain(0, 0);
+    flagSet(128 | 16 | 8 | 4 | 2 | 1); // FLAG_NO_DELETE | FLAG_INVINCIBLE | FLAG_OFFSCREEN_UD | FLAG_OFFSCREEN_LR | FLAG_NO_HITBOX | FLAG_NO_HURTBOX
+    movePosTime(60, 5, 0.0f, 64.0f);
+    wait(60);
+    delete();
+}
+
 void FairyJumpscare() {
     setHurtbox(24.0f, 24.0f);
     setHitbox(16.0f, 16.0f);

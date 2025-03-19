@@ -4,7 +4,7 @@
 
 class ChimataKnives : public Effect {
 public:
-    int timer = Rand::RangeEffectTime(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 60);
 
     virtual bool Update() {
         // -1 = divide color by 2

@@ -6,7 +6,7 @@ class FairyJumpscare : public Effect {
 public:
     FairyJumpscare() {
         auto& player_pos = Player::Instance->pos_float;
-        float angle = (abs(player_pos.x) > 0.001 && abs(224.0f - player_pos.y) > 0.001) ? atan2f(224.0f - player_pos.y, -player_pos.x) : 1.570796f;
+        float angle = (abs(player_pos.x) > 0.001f || abs(224.0f - player_pos.y) > 0.001f) ? atan2f(224.0f - player_pos.y, -player_pos.x) : 1.570796f;
         EnemyInitData init = {
             .pos = {
                 .x = 600.0f * cosf(angle) - 192.0f,
@@ -15,8 +15,8 @@ public:
             },
             .hp = 1000,
             .ecl_int_vars = {
-                Rand::Range(1, 5) == 1,
-                Rand::Range(1, 5) == 1,
+                Rand::Range(1, 4) == 1,
+                Rand::Range(1, 4) == 1,
             }
         };
         EnemyManager::Instance->MakeEnemy("FairyJumpscare", &init, 0);

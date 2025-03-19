@@ -73,8 +73,19 @@ extern "C" __thiscall int common_add_vertices_hook(AnmManager* self, ZunVertex* 
             vertices[i].color = new_col[i];
     }
     if (__builtin_expect(CommonHooks::Spin && !CommonHooks::CopyingPlayfield, 0)) {
-        float center_x = (vertices[0].x + vertices[1].x) / 2.0f;
-        float center_y = (vertices[0].y + vertices[2].y) / 2.0f;
+        float x_min = vertices[0].x;
+        float x_max = vertices[0].x;
+        float y_min = vertices[0].y;
+        float y_max = vertices[0].y;
+        for (int i = 1; i < 4; i++) {
+            x_min = min(x_min, vertices[i].x);
+            x_max = max(x_max, vertices[i].x);
+            y_min = min(y_min, vertices[i].y);
+            y_max = max(y_max, vertices[i].y);
+        }
+
+        float center_x = (x_min + x_max) / 2.0f;
+        float center_y = (y_min + y_max) / 2.0f;
 
         for (int i = 0; i < 4; i++) {
             vertices[i].x -= center_x;

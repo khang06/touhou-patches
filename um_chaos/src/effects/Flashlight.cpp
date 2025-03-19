@@ -3,12 +3,17 @@
 #include "th18.hpp"
 #include "util.hpp"
 
+class FirstPerson {
+public:
+    static size_t ID;
+};
+
 // Also known as "Not Mystia"
 // This is (not really) a direct port from osu!
 // See https://github.com/ppy/osu/blob/master/osu.Game.Rulesets.Osu/Mods/OsuModFlashlight.cs
 class Flashlight : public Effect {
 public:
-    int timer = Rand::RangeEffectTime(10, 2 * 60);
+    int timer = Rand::RangeEffectTime(10, 60);
     D3DVECTOR pos = Player::Instance->pos_float;
     float radius = 6400.0f;
     float target_radius = 750.0f;
@@ -23,7 +28,12 @@ public:
 
         //pos.x += (Player::Instance->pos_float.x - pos.x) * 0.25848765432f;
         //pos.y += (Player::Instance->pos_float.y - pos.y) * 0.25848765432f;
-        pos = Player::Instance->pos_float;
+        if (Effect::Infos[FirstPerson::ID].enabled) {
+            pos.x = 0.0f;
+            pos.y = 224.0f; 
+        } else {
+            pos = Player::Instance->pos_float;
+        }
 
         if (timer < 30)
             target_radius = 6400.0f;
