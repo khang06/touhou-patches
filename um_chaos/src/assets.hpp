@@ -19,6 +19,7 @@ public:
     static HICON GameIcon;
     static HBITMAP BlueFairy;
     static HBITMAP Kogasa;
+    static IDirect3DTexture9* SubwaySurfers;
 
     static IDirect3DPixelShader9* JPEGPass1PS;
     static IDirect3DPixelShader9* JPEGPass2PS;

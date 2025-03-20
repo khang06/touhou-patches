@@ -57,7 +57,7 @@ extern "C" int game_threadproc_hook() {
         LARGE_INTEGER qpc;
         QueryPerformanceCounter(&qpc);
         Rand::Seed(qpc.LowPart);
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 256; i++)
             Rand::Next();
         g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
         g_vote_state = VOTE_INACTIVE;

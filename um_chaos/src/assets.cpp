@@ -15,6 +15,7 @@ IDirect3DTexture9* Assets::Flashlight = nullptr;
 HICON Assets::GameIcon = NULL;
 HBITMAP Assets::BlueFairy;
 HBITMAP Assets::Kogasa;
+IDirect3DTexture9* Assets::SubwaySurfers = nullptr;
 
 IDirect3DPixelShader9* Assets::JPEGPass1PS = NULL;
 IDirect3DPixelShader9* Assets::JPEGPass2PS = NULL;
@@ -168,6 +169,7 @@ void Assets::Load() {
     Assets::LeSanaeIcon = load_icon("lesanae.png");
     Assets::Flashlight = load_img("flashlight.png");
     Assets::GameIcon = LoadIconA((HINSTANCE)0x400000, "IDI_ICON3");
+    Assets::SubwaySurfers = load_img("subwaysurfers.png");
 
     load_ps("jpeg1_ps.fxc", &Assets::JPEGPass1PS);
     load_ps("jpeg2_ps.fxc", &Assets::JPEGPass2PS);

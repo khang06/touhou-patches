@@ -19,7 +19,7 @@ public:
         pause->menu.cur_pos = Rand::Next() & 1;
         pause->transition_timer.set(20);
 
-        Patches.AddCall(0x4595D4, (void*)&MenuSystemSetPosHook);
+        Patches.AddCall(0x4595D4, (void*)MenuSystemSetPosHook);
     }
 };
 REGISTER_EFFECT(AlmostQuit);

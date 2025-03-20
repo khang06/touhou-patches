@@ -107,12 +107,12 @@ extern "C" MsgVM* __thiscall msgvm_ctor_hook(MsgVM* self, uint32_t idk) {
     auto rand = Rand::Range(1, 10);
     if (rand == 1) {
         // uwuify :3
-        g_patches.AddCall(0x43F09C, (void*)&uwuify_hook);
-        g_patches.AddCall(0x43E9E0, (void*)&uwuify_hook);
+        g_patches.AddCall(0x43F09C, (void*)uwuify_hook);
+        g_patches.AddCall(0x43E9E0, (void*)uwuify_hook);
     } else if (rand == 2) {
         // AAAAAAAAAAAA
-        g_patches.AddCall(0x43F09C, (void*)&aaaaaaaaaa_hook);
-        g_patches.AddCall(0x43E9E0, (void*)&aaaaaaaaaa_hook);
+        g_patches.AddCall(0x43F09C, (void*)aaaaaaaaaa_hook);
+        g_patches.AddCall(0x43E9E0, (void*)aaaaaaaaaa_hook);
     }
 
     return new (self) MsgVM(idk);

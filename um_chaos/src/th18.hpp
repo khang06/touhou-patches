@@ -543,8 +543,8 @@ class SoundManager {
 public:
     static SoundManager Instance;
 
-    char gap0[0xC];
-    LPDIRECTSOUND8* dsound;
+    char gap0[0x1C];            // 0x0
+    int queued_sound_ids[12];   // 0x1C
 
     static void StopAllSounds();
 

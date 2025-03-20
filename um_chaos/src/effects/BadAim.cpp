@@ -18,8 +18,8 @@ public:
     }
 
     BadAim() {
-        patches.AddJmp(0x45CC18, (void*)&AngleToPlayerHook);
-        patches.AddCall(0x4278C9, (void*)&ShootShooterHook);
+        patches.AddJmp(0x45CC18, (void*)AngleToPlayerHook);
+        patches.AddCall(0x4278C9, (void*)ShootShooterHook);
     }
 
     virtual bool Update() {

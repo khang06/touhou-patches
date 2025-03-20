@@ -24,7 +24,7 @@ public:
             patches.Add(0x42465C, (void*)&patch, sizeof(patch));
         }
 
-        patches.AddCall(0x425AC3, (void*)&CalcExHook);
+        patches.AddCall(0x425AC3, (void*)CalcExHook);
     }
 
     virtual bool Update() {
