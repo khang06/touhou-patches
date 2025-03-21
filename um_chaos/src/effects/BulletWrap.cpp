@@ -3,7 +3,7 @@
 
 class BulletWrap : public Effect {
 public:
-    int timer = Rand::RangeEffectTime(10, 60);
+    int timer = Rand::RangeEffectTime(5, 30);
     CodePatches patches;
 
     BulletWrap() {

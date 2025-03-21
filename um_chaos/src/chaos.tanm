@@ -233,3 +233,37 @@ script 13 free_script {
     sprite(free_sprite);
     stop();
 }
+
+entry {
+    path: "book.png",
+    img_width: 128,
+    img_height: 64,
+    memory_priority: 0,
+    sprites: {
+        book_sprite: {x: 0.0, y: 0.0, w: 32.0, h: 32.0},
+        pentagram_sprite: {x: 64.0, y: 0.0, w: 64.0, h: 64.0},
+    },
+}
+
+script 14 book_script {
+    layer(8);
+    sprite(book_sprite);
+    alpha(0);
+    alphaTime(30, 0, 255);
+    loop {
+        posTime(60, 4, 0.0, -4.0, 0.0);
++60:
+        posTime(60, 4, 0.0, 4.0, 0.0);
++60:
+    }
+}
+
+script 15 pentagram_script {
+    layer(7);
+    sprite(pentagram_sprite);
+    blendMode(1);
+    color(0xE0, 0xE0, 0xFF);
+    alpha(0);
+    alphaTime(30, 0, 255);
+    stop();
+}

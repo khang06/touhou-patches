@@ -255,6 +255,12 @@
         },
         "?Pause@PauseMenu@@QAEXXZ": {
             "addr": "0x458680"
+        },
+        "?Difficulty@Globals@@3HA": {
+            "addr": "0x4CCD00"
+        },
+        "_update_dinput@4": {
+            "addr": "0x401650"
         }
     },
     "imports": {

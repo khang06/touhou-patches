@@ -509,8 +509,87 @@ void YYDOAt() {
     return;
 }
 
+void EoSDBooksMain() {
+    flagSet(32); // FLAG_INTANGIBLE
+
+    enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 32.0f, 3500, 2000, 0);
+    wait(40);
+    enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 128.0f, 3500, 2000, 0);
+    wait(40);
+    enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 144.0f, 3500, 2000, 0);
+    wait(50);
+    enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 64.0f, 3500, 2000, 0);
+    wait(50);
+    enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 80.0f, 3500, 2000, 0);
+    wait(60);
+    enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 96.0f, 3500, 2000, 0);
+}
+
+void EoSDBooksEnemy() {
+    anmSelect(0x40000007);
+    anmSetSprite(0, 14);
+    anmSetSprite(1, 15);
+    flagSet(3);
+
+    wait(30);
+    setInterrupt(0, 0, -1, "EoSDBooksFade");
+    flagClear(3);
+    setHurtbox(28.0f, 28.0f);
+    setHitbox(28.0f, 28.0f);
+
+    // EoSD uses bullet flags 0x4 | 0x1 for both spawners
+    // 0x4 puts the bullet in state 3, which makes it play a spawn effect and it moves at a 2.5x slowdown
+    // 0x1 only kicks in after the spawn effect is done and it interpolates the velocity from +5 to +0 over 16 frames
+    // UM simply divides the speed by 2 during the spawning animation
+
+    etNew(0);
+    etSprite(0, 0, 10);
+    etSound(0, 25, -1);
+    etCountD(0, 7, 11, 12, 15, 1, 1, 2, 2);
+    etSpeedD(0, 0.96f, 0.96f, 1.28f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f); // Initial speed is divided by 2.5 and multiplied by 2
+    etEx(0, 1, 2, 1, -999999, -999999.0f, -999999.0f); // Spawn effect
+    etEx(0, 0, 4, 1, -999999, 5.24f : 5.24f : 5.32f : 5.4f, -999999.0f); // Adjust speed from (x * 0.8f) to (x + 5.0f)
+    etEx(0, 0, 4, 16, -999999, -0.3125f, -999999.0f); // Slow down again
+    etAim(0, 2);
+
+    etNew(1);
+    etSprite(1, 4, 10);
+    etSound(1, -1, -1);
+    etCountD(1, 7, 11, 12, 15, 1, 1, 2, 2);
+    etSpeedD(1, 0.96f, 0.96f, 1.28f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f); // Initial speed is divided by 2.5 and multiplied by 2
+    etEx(1, 1, 2, 1, -999999, -999999.0f, -999999.0f); // Spawn effect
+    etEx(1, 0, 4, 1, -999999, 5.24f : 5.24f : 5.32f : 5.4f, -999999.0f); // Adjust speed from (x * 0.8f) to (x + 5.0f)
+    etEx(1, 0, 4, 16, -999999, -0.3125f, -999999.0f); // Slow down again
+    etAim(1, 2);
+
+    int IC0 = 60;
+    float diff = 0.44879895 : 0.28559932 : 0.28559932 : 0.28559932;
+    while (IC0-- > 0) {
+        // EoSD uses the parameter slot for this for some reason???
+        float FPAR = %RANDRAD;
+        etAngle(0, FPAR, 0.0f);
+        etOn(0);
+        etAngle(1, FPAR + diff, 0.0f);
+        etOn(1);
+        wait(50);
+    }
+
+    EoSDBooksFade();
+}
+
+void EoSDBooksFade() {
+    flagSet(3);
+    lifeSet(1);
+    anmAlphaTime(0, 30, 0, 0);
+    anmAlphaTime(1, 120, 0, 0);
+
+    wait(120);
+    delete();
+}
+
 /* !!! RANDOM ATTACK HELL ZONE !!! */
 
+/*
 void STAGE_Cir00_at_ST1()
 {
     var A;
@@ -10188,3 +10267,4 @@ Boss_at1_ST7_624:
     if ($G--) goto Boss_at1_ST7_480 @ 0;
     return;
 }
+*/

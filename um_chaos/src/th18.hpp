@@ -380,6 +380,7 @@ public:
 namespace Globals {
     extern float GameSpeed;
     extern int Funds;
+    extern int Difficulty;
 };
 
 class Card {
