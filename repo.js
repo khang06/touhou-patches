@@ -8,7 +8,7 @@
 		"real_bullet_size_th06_retexture": "Same as real_bullet_size_th06, but with support for the retexture",
 		"resizable-window": "Pass different flags into CreateWindowExA to allow resizing and maximizing",
 		"ultra_port": "(TH10) thcrap port of NiL's ultra patch",
-		"um_chaos": "(TH18, WIP) Unconnected Marketeers: Chaos Edition"
+		"um_chaos": "(TH18, WIP) Unconnected Marketeers Chaos Edition"
 	},
 	"servers": [
 		"https://raw.githubusercontent.com/khang06/touhou-patches/master/"

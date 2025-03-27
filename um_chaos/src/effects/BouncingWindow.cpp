@@ -23,8 +23,8 @@ public:
     }
 
     virtual bool Update() {
-        // Don't try to move the window if the window got minimized or the game is in fullscreen
-        if (!IsIconic(Main::Window) && !Window::IsFullscreen()) {
+        // Don't try to move the window if the window got minimized
+        if (!IsIconic(Main::Window)) {
             RECT window_rect;
             GetWindowRect(Main::Window, &window_rect);
 
@@ -40,6 +40,10 @@ public:
             SetWindowPos(Main::Window, NULL, window_rect.left + x_vel, window_rect.top + y_vel, 0, 0, SWP_NOSIZE | SWP_NOREDRAW);
         }
         return --timer > 0;
+    }
+
+    static bool Allowed() {
+        return !Window::IsFullscreen();
     }
 };
 REGISTER_EFFECT(BouncingWindow);

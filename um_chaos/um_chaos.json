@@ -261,6 +261,33 @@
         },
         "_update_dinput@4": {
             "addr": "0x401650"
+        },
+        "?UpdateBombs@Gui@@QAEXHHH@Z": {
+            "addr": "0x4420E0"
+        },
+        "?Bombs@Globals@@3HA": {
+            "addr": "0x4CCD58"
+        },
+        "?BombPieces@Globals@@3HA": {
+            "addr": "0x4CCD5C"
+        },
+        "?MaxBombs@Globals@@3HA": {
+            "addr": "0x4CCD64"
+        },
+        "?UpdateLives@Gui@@QAEXHHH@Z": {
+            "addr": "0x441F10"
+        },
+        "?Lives@Globals@@3HA": {
+            "addr": "0x4CCD48"
+        },
+        "?LifePieces@Globals@@3HA": {
+            "addr": "0x4CCD4C"
+        },
+        "?MaxLives@Globals@@3HA": {
+            "addr": "0x4CCD54"
+        },
+        "?Instance@Gui@@2PAV1@A": {
+            "addr": "0x4CF2E0"
         }
     },
     "imports": {

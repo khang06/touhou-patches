@@ -381,6 +381,14 @@ namespace Globals {
     extern float GameSpeed;
     extern int Funds;
     extern int Difficulty;
+
+    extern int Lives;
+    extern int LifePieces;
+    extern int MaxLives;
+
+    extern int Bombs;
+    extern int BombPieces;
+    extern int MaxBombs;
 };
 
 class Card {
@@ -752,6 +760,9 @@ public:
     static inline bool is_msg_active() {
         return Instance->msg_vm != NULL;
     }
+
+    void UpdateLives(int lives, int life_pieces, int max_lives);
+    void UpdateBombs(int bombs, int bomb_pieces, int max_bombs);
 };
 
 enum InputFlags : uint32_t {
