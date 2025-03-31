@@ -75,3 +75,15 @@ namespace Util {
         va_end(va2);
     }
 }
+
+const char* CREDITS[CREDITS_COUNT] = {
+    "Bravidunno: Effect ideas, MurderousLily",
+    "Guy: Effect ideas",
+    "Khangaroo: Lead procrastinator",
+    "NeoNickz: Effect ideas, ECL help",
+    "rory618: JPEG/DCT shader (HLSL port by Matsilagi)",
+    "Schotsl: Original uwuifer implementation",
+    "TESM: Effect ideas",
+    "zero318: Effect ideas, IcePhysics, Twitch IRC code, RE and ECL help",
+    "Everyone in ZUNcode: Being very cool people",
+};

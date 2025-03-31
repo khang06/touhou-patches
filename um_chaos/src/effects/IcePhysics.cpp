@@ -6,7 +6,7 @@ class IcePhysics : public Effect {
 public:
     static CodeCave Cave;
 
-    int timer = Rand::RangeEffectTime(10, 60);
+    int timer = Rand::RangeEffectTime(5, 30);
     CodePatches patches;
 
     IcePhysics() {

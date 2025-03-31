@@ -24,7 +24,7 @@ public:
         SetCursor(LoadCursorA(NULL, IDC_ARROW));
     }
 
-    ~MouseControls() {
+    virtual ~MouseControls() {
         if (Window::IsFullscreen())
             SetCursor(LoadCursorA(NULL, NULL));
     }

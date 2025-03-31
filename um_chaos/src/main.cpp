@@ -1,3 +1,5 @@
+#define _CRT_RAND_S
+#include <atomic>
 #include <Windows.h>
 #include <cmath>
 #include <commctrl.h>
@@ -53,18 +55,26 @@ extern "C" int game_threadproc_hook() {
 
     Util::Log("Game started\n");
 
-    if (!g_game_stage_transition) {
-        LARGE_INTEGER qpc;
-        QueryPerformanceCounter(&qpc);
-        Rand::Seed(qpc.LowPart);
-        for (int i = 0; i < 256; i++)
-            Rand::Next();
+    if (!g_game_stage_transition) { 
+        Util::Log("Running new run init code\n");
+
+        uint32_t seed;
+        rand_s(&seed);
+        Rand::Seed(seed);
         g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
         g_vote_state = VOTE_INACTIVE;
         twitch_voting(false);
         g_vote_state_timer = Rand::RangeFrames(Settings::MinVoteTime, Settings::MaxVoteTime);
         //g_vote_state_timer = 120; // debug
         g_pie_angle = 0.0f;
+
+        // For CharacterSwap
+        // Loads in ANM slots normally resolved for ending
+        static constexpr const char* anm_files[] = {"pl00.anm", "pl01.anm", "pl02.anm", "pl03.anm"};
+        for (int i = 0; i < 4; i++) {
+            if (i != Globals::Character)
+                AnmManager::Instance->Preload(20 + i, anm_files[i]);
+        }
     }
     g_game_loaded = true;
     return 0;
@@ -87,6 +97,10 @@ extern "C" int __thiscall switch_mode_hook(Main* self) {
                 }
                 twitch_voting(false);
                 g_fps_pos.x = 588.0f;
+                for (int i = 0; i < 4; i++) {
+                    if (i != Globals::Character)
+                        AnmManager::Instance->Unpreload(20 + i);
+                }
             } else {
                 g_game_stage_transition = true;
             }
@@ -471,12 +485,17 @@ DWORD __stdcall console_input_proc(void*) {
     return 0;
 }
 
-extern "C" void custom_anm_handler() {
-    LARGE_INTEGER qpc;
-    QueryPerformanceCounter(&qpc);
-    Rand::Seed(qpc.LowPart);
-    SoundManager::Instance.PlaySE(51, 0.0f);
-    CommonHooks::TitleScreenShake = 60;
+extern "C" void __thiscall custom_anm_handler(AnmVM* self) {
+    // Too lazy to parse parameters
+    if (self->I[0] == 114514) {
+        SoundManager::Instance.PlaySE(2, -192.0f);
+    } else {
+        LARGE_INTEGER qpc;
+        QueryPerformanceCounter(&qpc);
+        Rand::Seed(qpc.LowPart);
+        SoundManager::Instance.PlaySE(51, 0.0f);
+        CommonHooks::TitleScreenShake = 60;
+    }
 }
 
 extern "C" EnemyManager* __fastcall enemy_manager_create_hook(const char* filename) {
@@ -517,9 +536,33 @@ extern "C" int __thiscall enemy_get_global_hook(Enemy* self, int idx) {
 
 // (disabled) Automatically run the unlock code on boot
 // This is here because the scorefile path gets overridden (scoreth18chaos.dat)
+// Conveniently in the right spot to preload stuff for the loading screen edit
+std::atomic_bool g_chaos_anm_loaded = false;
 extern "C" void scorefile_init_hook() {
     ScoreFile::Init();
     //ScoreFile::UnlockCode();
+    AnmManager::Instance->Preload(18, "chaos.anm");
+    g_chaos_anm_loaded = true;
+}
+
+extern "C" int loading_screen_draw_hook() {
+    static bool sprites_loaded = false;
+    static bool sprites_deleted = false;
+    static AnmVM* vm = nullptr;
+    if (g_chaos_anm_loaded && !sprites_loaded) {
+        auto anm = AnmManager::Instance->Preload(18, "chaos.anm");
+        uint32_t id;
+        vm = AnmManager::AllocateVM();
+        anm->MakeVM(vm, 16);
+        AnmManager::AddToUIBack(&id, vm);
+
+        sprites_loaded = true;
+    }
+    if (sprites_loaded && !sprites_deleted && Window::Instance.loading_complete) {
+        vm->pending_interrupt = 1;
+        sprites_deleted = true;
+    }
+    return 1;
 }
 
 // Runs after the game is mostly initialized (e.g. D3D9 device ready)

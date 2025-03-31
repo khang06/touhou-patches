@@ -68,7 +68,7 @@ public:
         EnemyManager::Instance->MakeEnemy("FollowerMouseDummy", &init, 0);
     }
 
-    ~FollowerMouse() {
+    virtual ~FollowerMouse() {
         DestroyWindow(overlay);
         if (Window::IsFullscreen())
             SetCursor(LoadCursorA(NULL, NULL));

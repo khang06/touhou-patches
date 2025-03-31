@@ -6,7 +6,7 @@
 
 class Wind : public Effect {
 public:
-    int timer = Rand::RangeEffectTime(10, 60);
+    int timer = Rand::RangeEffectTime(5, 30);
     float strength = 0.0f;
     bool fade_in_finished = false;
     float unit_x;

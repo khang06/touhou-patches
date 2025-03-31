@@ -288,6 +288,42 @@
         },
         "?Instance@Gui@@2PAV1@A": {
             "addr": "0x4CF2E0"
+        },
+        "?HandlePowerUp@PlayerData@@QAEXH@Z": {
+            "addr": "0x45D5E0"
+        },
+        "?sht_on_hit@@3PAIA": {
+            "addr": "0x4B41F0"
+        },
+        "?sht_on_draw@@3PAIA": {
+            "addr": "0x4CF414"
+        },
+        "?sht_on_calc@@3PAIA": {
+            "addr": "0x4B4210"
+        },
+        "?sht_on_init@@3PAIA": {
+            "addr": "0x4B4230"
+        },
+        "??1AnmVM@@QAE@XZ": {
+            "addr": "0x41B6F0"
+        },
+        "?Character@Globals@@3HA": {
+            "addr": "0x4CCCF4"
+        },
+        "?HandlePreload@AnmLoaded@@SGPAV1@PAV1@@Z": {
+            "addr": "0x486920"
+        },
+        "?Unpreload@AnmManager@@QAEXH@Z": {
+            "addr": "0x486FC0"
+        },
+        "?Initialize@Player@@QAEHXZ": {
+            "addr": "0x45A7A0"
+        },
+        "?InterpEasing@@YQMHMMM@Z": {
+            "addr": "0x402FB0"
+        },
+        "?Cave@FlipShots@@2UCodeCave@@A": {
+            "addr": "codecave:flipshots_cave"
         }
     },
     "imports": {
@@ -486,6 +522,15 @@
             },
             "DestroyWindow": {
                 "alias": "_DestroyWindow@4"
+            },
+            "SetLayeredWindowAttributes": {
+                "alias": "_SetLayeredWindowAttributes@16"
+            },
+            "SetWindowLongA": {
+                "alias": "_SetWindowLongA@12"
+            },
+            "GetWindowLongA": {
+                "alias": "_GetWindowLongA@8"
             }
         },
         "advapi32.dll": {
@@ -748,6 +793,10 @@
         "patch_scorefile_backup_read": {
             "addr": "0x46382B",
             "code": "B9<option:um_chaos_scorefile_backup>"
+        },
+        "patch_loading_screen_draw_hook": {
+            "addr": "0x453456",
+            "code": "E9[obj:_loading_screen_draw_hook]"
         }
     },
     "codecaves": {
@@ -826,7 +875,7 @@
         },
         "custom_anm_handler_cave": {
             "access": "rx",
-            "code": "E8[obj:_custom_anm_handler] E9[0x47B6F3]"
+            "code": "89D9 E8[obj:_custom_anm_handler] E9[0x47B6F3]"
         },
         "title_draw_jump_table_cave": {
             "access": "r",
@@ -840,5 +889,9 @@
             "access": "rx",
             "code": "0F12843EB4050000 0F120D<obj:_bullet_speed_mul> 0F59C1 0F13843EB4050000 E9[0x436417]"
         },
+        "flipshots_cave": {
+            "access": "rx",
+            "code": "81774800000080 807E2102 E9[0x45E471]"
+        }
     }
 }

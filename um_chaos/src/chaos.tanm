@@ -121,8 +121,12 @@ script 6 bomb_disable {
     resolutionMode(2);
     alpha(0);
     alphaTime(20, 0, 255);
-+20: // 20
-    stop();
+
+    // Very cool workaround
+    loop {
+        pos(789.0, 228.0, 0.0);
++1:
+    }
 }
 
 entry {
@@ -266,4 +270,222 @@ script 15 pentagram_script {
     alpha(0);
     alphaTime(30, 0, 255);
     stop();
+}
+
+entry {
+    path: "loading_warning.png",
+    img_width: 2048,
+    img_height: 256,
+    memory_priority: 0,
+    sprites: {
+        khang_sprite: {x: 0.0, y: 0.0, w: 100.0, h: 100.0},
+        bubble_sprite2: {x: 224.0, y: 0.0, w: 96.0, h: 128.0},
+        bubble_sprite3: {x: 160.0, y: 0.0, w: 64.0, h: 128.0},
+        text_sprite: {x: 1024.0, y: 1.0, w: 666.0, h: 40.0},
+
+        exp0: {x: 0.0, y: 115.0, w: 100.0, h: 141.0},
+        exp1: {x: 100.0, y: 115.0, w: 100.0, h: 141.0},
+        exp2: {x: 200.0, y: 115.0, w: 100.0, h: 141.0},
+        exp3: {x: 300.0, y: 115.0, w: 100.0, h: 141.0},
+        exp4: {x: 400.0, y: 115.0, w: 100.0, h: 141.0},
+        exp5: {x: 500.0, y: 115.0, w: 100.0, h: 141.0},
+        exp6: {x: 600.0, y: 115.0, w: 100.0, h: 141.0},
+        exp7: {x: 700.0, y: 115.0, w: 100.0, h: 141.0},
+        exp8: {x: 800.0, y: 115.0, w: 100.0, h: 141.0},
+        exp9: {x: 900.0, y: 115.0, w: 100.0, h: 141.0},
+        exp10: {x: 1000.0, y: 115.0, w: 100.0, h: 141.0},
+        exp11: {x: 1100.0, y: 115.0, w: 100.0, h: 141.0},
+        exp12: {x: 1200.0, y: 115.0, w: 100.0, h: 141.0},
+        exp13: {x: 1300.0, y: 115.0, w: 100.0, h: 141.0},
+        exp14: {x: 1400.0, y: 115.0, w: 100.0, h: 141.0},
+        exp15: {x: 1500.0, y: 115.0, w: 100.0, h: 141.0},
+        exp16: {x: 1600.0, y: 115.0, w: 100.0, h: 141.0},
+    },
+}
+
+// Truth doesn't allow cropping images like this
+entry {
+    path: "loading_warning2.png",
+    img_width: 32,
+    img_height: 128,
+    memory_priority: 0,
+    sprites: {
+        bubble_sprite1: {x: 0.0, y: 0.0, w: 32.0, h: 128.0},
+    },
+}
+
+script 16 loading_script {
+    type(0);
+    sprite(khang_sprite);
+    ins_431(1);
+    randMode(1);
+    pos(50.0, -50.0, 0.01);
+    layer(45);
+    resolutionMode(2);
+    resampleMode(1);
+
++30:
+    posTime(15, 4, 50.0, 0.0, 0.01);
+
++15:
+    scriptNew(bubble_script1); // script173
+    scriptNew(bubble_script2); // script220
+    scriptNew(bubble_script3); // script238
+    scriptNew(text_script);
+    stop();
+
+interrupt[1]:
+    type(1);
+
+    // This RNG sucks so much
+    int count = 128;
+    float val;
+    while (true) {
+        if (--count) {
+            val = %RANDF;
+        } else { 
+            break;
+        }
+    }
+
+    if (val < 0.1) {
+        posTime(45, 1, 50.0, 910.0, 0.01);
+        rotateTime(45, 1, 0.0, 0.0, 3.14159265);
++90:
+        flipX();
++45:
+        flipX();
++45:
+        posTime(45, 1, -50.0, 910.0, 0.01);
+    } else {
+        posTime(45, 1, 50.0, 960.0, 0.01);
+        rotateTime(45, 1, 0.0, 0.0, 1.0);
+    }
++45:
+        $I0 = 114514;
+        khang_custom_shit();
+        scriptNewRoot(explosion_script);
+    delete();
+}
+
+script 17 bubble_script1 {
+    sprite(bubble_sprite1);
+    ins_431(1);
+    randMode(1);
+    anchor(1, 1);
+    type(0);
+    resampleMode(1);
+    F0 = 610.0;
+    layer(31);
+    resolutionMode(2);
+    pos(96.0, 24.0, 0.0);
+    zoomOut(0.0, 1.0);
+    scale(0.0, 1.0);
+    alpha(0);
++1: // 1
+    alphaTime(5, 4, 255);
+
+    F1 = F0 / 32.0;
+    scaleTime(8, 0, F1, 1.0);
+    zoomOutTime(8, 0, F1, 1.0);
+    stop();
+}
+
+script 18 bubble_script2 {
+    sprite(bubble_sprite2);
+    ins_431(1);
+    randMode(1);
+    anchor(1, 1);
+    type(0);
+    resampleMode(1);
+    layer(31);
+    resolutionMode(2);
+    pos(0.0, 24.0, 0.0);
+    alpha(0);
++1: // 1
+    alphaTime(5, 4, 255);
+    stop();
+}
+
+script 19 bubble_script3 {
+    sprite(bubble_sprite3);
+    ins_431(1);
+    randMode(1);
+    anchor(1, 1);
+    type(0);
+    resampleMode(1);
+    F0 = 610.0;
+    layer(31);
+    resolutionMode(2);
+    pos(96.0, 24.0, 0.0);
+    alpha(0);
++1: // 1
+    alphaTime(5, 4, 255);
+
+    F0 += 96.0;
+    posTime(8, 0, F0, 24.0, 0.0);
+    stop();
+}
+
+script 20 text_script {
+    sprite(text_sprite);
+    anchor(1, 1);
+    pos(48.0, 70.0, 0.0);
+    layer(32);
+    resolutionMode(2);
+    alpha(0);
+
+    scale(0.0, 1.0);
+    scaleTime(9, 0, 1.0, 1.0);
+    alpha(0);
+    alphaTime(8, 0, 255);
++8: // 8
+    stop();
+}
+
+script 21 explosion_script {
+    type(0);
+    sprite(exp0);
+    ins_431(1);
+    randMode(1);
+    pos(12.5, -12.5, 0.01);
+    scale(4.0, 4.0);
+    layer(45);
+    resolutionMode(2);
+    resampleMode(1);
+
++2:
+    sprite(exp1);
++2:
+    sprite(exp2);
++2:
+    sprite(exp3);
++2:
+    sprite(exp4);
++2:
+    sprite(exp5);
++2:
+    sprite(exp6);
++2:
+    sprite(exp7);
++2:
+    sprite(exp8);
++2:
+    sprite(exp9);
++2:
+    sprite(exp10);
++2:
+    sprite(exp11);
++2:
+    sprite(exp12);
++2:
+    sprite(exp13);
++2:
+    sprite(exp14);
++2:
+    sprite(exp15);
++2:
+    sprite(exp16);
++2:
+    delete();
 }

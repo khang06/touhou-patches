@@ -32,7 +32,8 @@ class AnmVM {
 public:
     char gap0[0x18];            // 0x0
     uint32_t layer;             // 0x18
-    char gap1C[0x8];            // 0x1C
+    uint32_t preloaded_idx1;    // 0x1C
+    uint32_t preloaded_idx2;    // 0x20
     int32_t sprite_id;          // 0x24
     char gap28[0x8];            // 0x28
     D3DVECTOR position;         // 0x30
@@ -45,7 +46,10 @@ public:
     float scroll_speed_v;       // 0x3D0
     char gap3D4[0xC0];          // 0x3D4
     int32_t pending_interrupt;  // 0x494
-    char gap498[0x8C];          // 0x498
+    char gap498[0xC];           // 0x498
+    int I[4];                   // 0x4A4
+    float F[4];                 // 0x4B4
+    char gap4C4[0x60];          // 0x4C4
     DWORD color1;               // 0x524
     DWORD color2;               // 0x528
     char gap52C[0x8];           // 0x52C
@@ -69,6 +73,9 @@ public:
             uint32_t colorize_children : 1;
         };
     };
+    char gap53C[0xD0];
+
+    ~AnmVM();
 
     static void __stdcall QueueDeletion(AnmVM* vm);
 };
@@ -81,10 +88,12 @@ public:
 
 class AnmLoaded {
 public:
-    char gap0[0x124];
-    AnmEntry* entries;
+    char gap0[0x124];       // 0x0
+    AnmEntry* entries;      // 0x124
+    int load_queued_idx;    // 0x128
 
     void MakeVM(AnmVM* vm, uint32_t script_id);
+    static AnmLoaded* __stdcall HandlePreload(AnmLoaded* anm);
 };
 
 class Camera {
@@ -154,6 +163,8 @@ public:
     int DrawSprite(AnmVM* anm);
     int AddVertices(ZunVertex* vertices);
     AnmLoaded* Preload(int id, const char* filename);
+    AnmLoaded* PreloadInner(int id, const char* filename);
+    void Unpreload(int id);
     void FlushSprites();
     AnmVM* GetByID(uint32_t id);
     int DrawLayer(uint32_t layer);
@@ -335,35 +346,75 @@ public:
     char gap8[0xE8];    // 0x8
 };
 
+struct ShtShooter {
+    int8_t fire_rate;   // 0x0
+    char gap1[0x2B];    // 0x1
+    uint32_t on_init;   // 0x2C
+    uint32_t on_calc;   // 0x30
+    uint32_t on_draw;   // 0x34
+    uint32_t on_hit;    // 0x38
+    char gap3C[0x20];   // 0x3C
+};
+
+struct ShtFile {
+    char gap0[2];           // 0x0
+    uint16_t sht_off_cnt;   // 0x2
+    char gap4[0xC];         // 0x4 
+    float player_data[16];  // 0x10
+    char gap50[0x90];       // 0x50
+    uint32_t sht_off[];     // 0xE0
+};
+
+// Should've been in Player but I don't want to fix up all of the references
+class PlayerData {
+public:
+    void HandlePowerUp(int);
+};
+
 class Player {
 public:
     static Player* Instance;
 
     int CalcMove();
     void Kill();
+    int Initialize();
 
-    char gap0[0x620];               // 0x0
-    D3DVECTOR pos_float;            // 0x620
-    int32_t pos_x;                  // 0x62C
-    int32_t pos_y;                  // 0x630
-    Timer death_timer;              // 0x634
-    char gap648[0x28];              // 0x648
-    PlayerOption options[4];        // 0x670
-    PlayerOption equipment[12];     // 0xA30
-    char gap1570[0x4613C];          // 0x1570
-    uint32_t death_state;           // 0x476AC
-    char gap476B0[0xC4];            // 0x476B0
-    Timer invuln_timer;             // 0x47774
-    char gap47788[0x14];            // 0x47788
-    uint32_t flags;                 // 0x4779C
-    char gap477A0[0x24];            // 0x477A0
-    D3DVECTOR cur_vel;              // 0x477C4
-    D3DVECTOR last_vel;             // 0x477D0
-    char gap477DC[0x170];           // 0x477DC
-    ZUNInterp<float> scale_interp;  // 0x4794C
-    float scale;                    // 0x4797C
-    char gap47980[8];               // 0x47980
-    float item_attract_speed;       // 0x47988
+    char gap0[0xC];                         // 0x0
+    AnmLoaded* main_anm;                    // 0xC
+    AnmLoaded* option_anm;                  // 0x10
+    AnmVM anm_vm;                           // 0x14
+    D3DVECTOR pos_float;                    // 0x620
+    int32_t pos_x;                          // 0x62C
+    int32_t pos_y;                          // 0x630
+    Timer death_timer;                      // 0x634
+    char gap648[0x28];                      // 0x648
+    PlayerOption options[4];                // 0x670
+    PlayerOption equipment[12];             // 0xA30
+    char gap1570[0x4613C];                  // 0x1570
+    uint32_t death_state;                   // 0x476AC
+    char gap476B0[0xC4];                    // 0x476B0
+    Timer invuln_timer;                     // 0x47774
+    char gap47788[0x14];                    // 0x47788
+    uint32_t flags;                         // 0x4779C
+    char gap477A0[0x14];                    // 0x477A0
+    int32_t move_speed;                     // 0x477B4
+    int32_t move_speed_focused;             // 0x477B8
+    int32_t diagonal_move_speed;            // 0x477BC
+    int32_t diagonal_move_speed_focused;    // 0x477C0
+    D3DVECTOR cur_vel;                      // 0x477C4
+    D3DVECTOR last_vel;                     // 0x477D0
+    char gap477DC[0x164];                   // 0x477DC
+    ShtFile* sht_file;                      // 0x47940
+    char gap47944[8];                       // 0x47944
+    ZUNInterp<float> scale_interp;          // 0x4794C
+    float scale;                            // 0x4797C
+    char gap47980[8];                       // 0x47980
+    float item_attract_speed;               // 0x47988
+
+    inline void HandlePowerUp() {
+        auto data = (PlayerData*)((uint8_t*)this + 0x620);
+        data->HandlePowerUp(UNUSED_DWORD);
+    }
 };
 
 // Called "GameThread" in ExpHP's repo, but I think that name is misleading
@@ -381,6 +432,7 @@ namespace Globals {
     extern float GameSpeed;
     extern int Funds;
     extern int Difficulty;
+    extern int Character;
 
     extern int Lives;
     extern int LifePieces;
@@ -701,6 +753,8 @@ public:
     int backbuffer_width;   // 0x2068
     int backbuffer_height;  // 0x206C
     float game_scale;       // 0x2070
+    char pad2074[0x5C];     // 0x2074
+    int loading_complete;   // 0x20D0
 };
 
 class ScoreFile {

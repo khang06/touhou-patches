@@ -3,5 +3,5 @@
 	"servers": [
 		"https://raw.githubusercontent.com/khang06/touhou-patches/master/um_chaos/"
 	],
-	"title": "(TH18, WIP) Unconnected Marketeers Chaos Edition"
+	"title": "(TH18) Unconnected Marketeers Chaos Edition"
 }

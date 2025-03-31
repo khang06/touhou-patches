@@ -7,7 +7,7 @@ public:
     static size_t ID;
     int timer = Rand::RangeEffectTime(10, 60);
 
-    ~FirstPerson() {
+    virtual ~FirstPerson() {
         auto anm = Main::Instance.screen_anm4;
         bool anchor_x = anm->anchor_x;
         bool anchor_y = anm->anchor_y;

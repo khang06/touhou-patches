@@ -1,10 +1,12 @@
 #include <cstdint>
+#include <deque>
 #include <stdio.h>
 #include <math.h>
 #include <shlwapi.h>
 #include "settings.hpp"
 #include "th18.hpp"
 #include "twitch_irc.hpp"
+#include "util.hpp"
 
 // Using the non-wide APIs could break stuff for people who put their games in Unicode paths
 // I don't want to deal with wide conversion for ASCII-only strings, so this seems like the best solution
@@ -106,17 +108,26 @@ uint32_t Settings::MaxVoteTime;
 bool Settings::DebugConsole;
 bool Settings::MultiVote;
 
+struct CreditsString {
+    int pos;
+    int width;
+    const char* str;
+};
+
 struct SettingsPage;
 
 static SettingsPage* g_cur_page = nullptr;
 static size_t g_button_count = 0;
 static int g_selected = 0;
+static size_t g_selected_frame = 0;
 static int g_alpha = 0;
 static size_t g_frame_count = 0;
 static bool g_take_over_input = false;
 static BYTE g_cur_kbd[256] = {};
 static BYTE g_last_kbd[256] = {};
 static bool g_twitch_reload_queued = false;
+static std::deque<CreditsString> g_credits_strings;
+static int g_cur_credit = 0;
 
 struct SettingsButton {
     const char* label;
@@ -481,6 +492,8 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
     if (!title->transition_state) {
         change_page(title, &g_main_page);
         g_alpha = 0;
+        g_selected_frame = 0;
+        g_credits_strings.clear();
         title->transition_state = 1;
     } else {
         g_alpha = min(g_alpha + 16, 255);
@@ -496,6 +509,7 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
             else
                 g_selected--;
         } while (g_cur_page->buttons[g_selected].label[0] == '\0');
+        g_selected_frame = g_frame_count;
         SoundManager::Instance.PlaySE(10, 0.0f);
     }
 
@@ -506,6 +520,7 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
             else
                 g_selected++;
         } while (g_cur_page->buttons[g_selected].label[0] == '\0');
+        g_selected_frame = g_frame_count;
         SoundManager::Instance.PlaySE(10, 0.0f);
     }
 
@@ -515,8 +530,18 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
 
     if (pressed & INPUT_BOMB && !g_take_over_input) {
         g_selected = g_button_count - 1;
+        g_selected_frame = g_frame_count;
         SoundManager::Instance.PlaySE(9, 0.0f);
     }
+
+    if (g_credits_strings.empty() || g_credits_strings.back().pos + g_credits_strings.back().width <= 640) {
+        g_credits_strings.emplace_back(640, strlen(CREDITS[g_cur_credit]) * 6 + 24, CREDITS[g_cur_credit]);
+        g_cur_credit = (g_cur_credit + 1) % CREDITS_COUNT;
+    }
+    if (g_credits_strings.front().pos + g_credits_strings.front().width <= 0)
+        g_credits_strings.pop_front();
+    for (auto& str : g_credits_strings)
+        str.pos -= 2;
 }
 
 extern "C" void __thiscall manual_draw_hook(TitleScreen* title) {
@@ -544,8 +569,16 @@ extern "C" void __thiscall manual_draw_hook(TitleScreen* title) {
                                             (g_take_over_input ? D3DCOLOR_ARGB(g_alpha, 0xFF, 0x80, 0x00) : D3DCOLOR_ARGB(g_alpha, 0xFF, 0x80, 0x80)) :
                                             D3DCOLOR_ARGB(g_alpha, 0xFF, 0xFF, 0xFF);
 
+        if (i == g_selected) {
+            float t = 1.0f - min((g_frame_count - g_selected_frame) / 8.0f, 1.0f);
+            name_pos.x -= (1.0f - t * t * t) * 4.0f;
+        }
+
         AsciiManager::Instance->hor_align = 1;
         AsciiManager::Instance->DrawShadowText(&name_pos, "%s", g_cur_page->buttons[i].label);
+
+        if (i == g_selected)
+            name_pos.x = 125.0f;
 
         AsciiManager::Instance->hor_align = 2;
         AsciiManager::Instance->DrawShadowText(&val_pos, "%s", g_cur_page->buttons[i].value);
@@ -553,6 +586,14 @@ extern "C" void __thiscall manual_draw_hook(TitleScreen* title) {
         name_pos.y += 24.0f;
         val_pos.y += 24.0f;
     }
-    AsciiManager::Instance->color = 0xFFFFFFFF;
-    AsciiManager::Instance->style = 0;
+
+    AsciiManager::Instance->color = D3DCOLOR_ARGB(g_alpha, 0xFF, 0xFF, 0xFF);
+    AsciiManager::Instance->style = 1;
+    AsciiManager::Instance->ver_align = 0;
+    AsciiManager::Instance->hor_align = 1;
+    D3DVECTOR credits_pos = { 0.0f, 470.0f, 0.0f };
+    for (auto& str : g_credits_strings) {
+        credits_pos.x = str.pos;
+        AsciiManager::Instance->DrawShadowText(&credits_pos, "%s", str.str);
+    }
 }

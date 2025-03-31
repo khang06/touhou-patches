@@ -100,3 +100,6 @@ namespace Util {
 }
 
 static constexpr float TWO_PI = 6.2831855f;
+
+static constexpr size_t CREDITS_COUNT = 9;
+extern const char* CREDITS[CREDITS_COUNT];

@@ -4,7 +4,7 @@
 class NoVertical : public Effect {
 public:
     static size_t ID;
-    int timer = Rand::RangeEffectTime(10, 60);
+    int timer = Rand::RangeEffectTime(5, 30);
     CodePatches patches;
 
     NoVertical() {

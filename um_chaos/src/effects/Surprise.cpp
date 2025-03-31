@@ -64,7 +64,7 @@ public:
         }
     }
 
-    ~Surprise() {
+    virtual ~Surprise() {
         DestroyWindow(overlay);
     }
 
