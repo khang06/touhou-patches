@@ -6,3 +6,4 @@ src/
 Makefile
 *.bat
 um_chaos.json
+compile_flags.txt
