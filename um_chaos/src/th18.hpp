@@ -26,7 +26,7 @@ static inline constexpr T garbage_value(void) {
 
 namespace GameUtil {
     void* __fastcall LoadFile(const char* path, uint32_t* bytes_read, uint32_t mode);
-}    
+}
 
 class AnmVM {
 public:
@@ -155,6 +155,9 @@ struct ZunVertex {
 class AnmManager {
 public:
     static AnmManager* Instance;
+    
+    char gap0[0x312072C];       // 0x0
+    AnmLoaded* preloaded[33];   // 0x312072C
 
     static AnmVM* AllocateVM();
     static uint32_t* __stdcall AddToUIBack(uint32_t* id, AnmVM* vm);
@@ -168,6 +171,7 @@ public:
     void FlushSprites();
     AnmVM* GetByID(uint32_t id);
     int DrawLayer(uint32_t layer);
+    void QueueDeletionForLoaded(AnmLoaded* loaded);
 };
 
 // Stripped down a bit
@@ -261,12 +265,12 @@ struct ZUNInterp { //       0x58    0x44    0x30
     inline void set_end_time(int32_t time) {
         this->end_time = time;
     }
-    
+
     // Float3Ex: 0x439950
     inline void set_current(const T& value) {
         this->current = value;
     }
-    
+
     // float: 0x41B790
     // Float2: 0x4395C0
     // Float3Ex: 0x439900
@@ -359,7 +363,7 @@ struct ShtShooter {
 struct ShtFile {
     char gap0[2];           // 0x0
     uint16_t sht_off_cnt;   // 0x2
-    char gap4[0xC];         // 0x4 
+    char gap4[0xC];         // 0x4
     float player_data[16];  // 0x10
     char gap50[0x90];       // 0x50
     uint32_t sht_off[];     // 0xE0
@@ -626,7 +630,9 @@ public:
     char pad0[0x19228];     // 0x0
     uint32_t color;         // 0x19228
     uint32_t shadow_color;  // 0x1922C
-    char pad19230[0x14];    // 0x19230
+    float scale_x;          // 0x19230
+    float scale_y;          // 0x19234
+    char pad19238[0xC];     // 0x19238
     uint32_t style;         // 0x19244
     uint32_t field_19248;   // 0x19248
     uint32_t field_1924C;   // 0x1924C
@@ -726,7 +732,7 @@ public:
     AnmLoaded* enemy_ecls[6];
     EclFileManager* file_manager;
 
-    static EnemyManager* __fastcall Create(const char* filename); 
+    static EnemyManager* __fastcall Create(const char* filename);
     Enemy* MakeEnemy(const char* sub, EnemyInitData* init_data, int unused);
 };
 
@@ -765,8 +771,12 @@ public:
 
 class TitleScreen {
 public:
-    char pad0[0x20];
-    uint32_t transition_state;
+    static TitleScreen* Instance;
+
+    char pad0[0x18];        // 0x0
+    uint32_t cur_state;     // 0x18
+    uint32_t prev_state;    // 0x1C
+    uint32_t submenu;       // 0x20
 
     void SwitchMenuState(uint32_t state);
 };
@@ -807,10 +817,10 @@ public:
 class Gui {
 public:
     static Gui* Instance;
-    
+
     char pad0[0x1B0];       // 0x0
     MsgVM* msg_vm;          // 0x1B0
-    
+
     static inline bool is_msg_active() {
         return Instance->msg_vm != NULL;
     }

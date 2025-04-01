@@ -1,6 +1,11 @@
 #include "effect.hpp"
 #include "util.hpp"
 
+class MomoyoButterflies {
+public:
+    static size_t ID;
+};
+
 class NoVertical : public Effect {
 public:
     static size_t ID;
@@ -28,6 +33,10 @@ public:
 
     virtual bool Update() {
         return --timer > 0;
+    }
+
+    static bool Allowed() {
+        return !Effect::Infos[MomoyoButterflies::ID].enabled || Effect::Infos[MomoyoButterflies::ID].vote_choice;
     }
 };
 REGISTER_EFFECT(NoVertical);

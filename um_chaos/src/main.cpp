@@ -421,7 +421,7 @@ int __fastcall post_frame_draw(void*) {
         return 1;
 
     if (Main::Instance.cur_mode == 4) {
-        D3DVECTOR pos = { 4.0f, 460.0f, 0.0f };
+        D3DVECTOR pos = { 4.0f, TitleScreen::Instance && TitleScreen::Instance->cur_state == 17 ? 440.0f : 460.0f, 0.0f };
         AsciiManager::Instance->style = 6;
         AsciiManager::Instance->shadow_color = D3DCOLOR_XRGB(0x00, 0x00, 0x00);
         AsciiManager::Instance->ver_align = 1;

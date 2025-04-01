@@ -79,5 +79,9 @@ size_t Effect::UpdatePossibleChoices() {
         }
         Effect::PossibleChoices[choices_count++] = i;
     }
+    for (int i = 0; i < choices_count - 2; i++) {
+        int j = Rand::Range(i, choices_count - 1 - 2);
+        std::swap(Effect::PossibleChoices[i], Effect::PossibleChoices[j]);
+    }
     return choices_count;
 }

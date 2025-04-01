@@ -1,8 +1,14 @@
 #include "effect.hpp"
 #include "th18.hpp"
 
+class NoVertical {
+public:
+    static size_t ID;
+};
+
 class MomoyoButterflies : public Effect {
 public:
+    static size_t ID;
     int timer = Rand::RangeEffectTime(10, 60);
 
     MomoyoButterflies() {
@@ -39,5 +45,11 @@ public:
         }
         return --timer > 0;
     }
+    
+    static bool Allowed() {
+        return !Effect::Infos[NoVertical::ID].enabled || Effect::Infos[NoVertical::ID].vote_choice;
+    }
 };
 REGISTER_EFFECT(MomoyoButterflies);
+
+size_t MomoyoButterflies::ID;

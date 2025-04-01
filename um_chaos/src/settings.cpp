@@ -109,7 +109,7 @@ bool Settings::DebugConsole;
 bool Settings::MultiVote;
 
 struct CreditsString {
-    int pos;
+    float pos;
     int width;
     const char* str;
 };
@@ -489,12 +489,12 @@ SettingsPage g_debug_page = {
 };
 
 extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
-    if (!title->transition_state) {
+    if (!title->submenu) {
         change_page(title, &g_main_page);
         g_alpha = 0;
         g_selected_frame = 0;
         g_credits_strings.clear();
-        title->transition_state = 1;
+        title->submenu = 1;
     } else {
         g_alpha = min(g_alpha + 16, 255);
     }
@@ -534,18 +534,18 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
         SoundManager::Instance.PlaySE(9, 0.0f);
     }
 
-    if (g_credits_strings.empty() || g_credits_strings.back().pos + g_credits_strings.back().width <= 640) {
-        g_credits_strings.emplace_back(640, strlen(CREDITS[g_cur_credit]) * 6 + 24, CREDITS[g_cur_credit]);
+    if (g_credits_strings.empty() || g_credits_strings.back().pos + g_credits_strings.back().width <= 640.0f) {
+        g_credits_strings.emplace_back(640.0f, strlen(CREDITS[g_cur_credit]) * 6 + 24, CREDITS[g_cur_credit]);
         g_cur_credit = (g_cur_credit + 1) % CREDITS_COUNT;
     }
     if (g_credits_strings.front().pos + g_credits_strings.front().width <= 0)
         g_credits_strings.pop_front();
     for (auto& str : g_credits_strings)
-        str.pos -= 2;
+        str.pos -= 1.5f;
 }
 
 extern "C" void __thiscall manual_draw_hook(TitleScreen* title) {
-    if (!title->transition_state || title->transition_state == 4 || !g_cur_page)
+    if (!title->submenu || title->submenu == 4 || !g_cur_page)
         return;
 
     static constexpr D3DVECTOR title_pos = { 320.0f, 80.0f, 0.0f };
@@ -587,11 +587,19 @@ extern "C" void __thiscall manual_draw_hook(TitleScreen* title) {
         val_pos.y += 24.0f;
     }
 
-    AsciiManager::Instance->color = D3DCOLOR_ARGB(g_alpha, 0xFF, 0xFF, 0xFF);
+    AsciiManager::Instance->color = D3DCOLOR_ARGB(g_alpha, 0xFF, 0x87, 0xF7);
     AsciiManager::Instance->style = 1;
     AsciiManager::Instance->ver_align = 0;
     AsciiManager::Instance->hor_align = 1;
-    D3DVECTOR credits_pos = { 0.0f, 470.0f, 0.0f };
+
+    D3DVECTOR credits_pos = { 4.0f, 465.0f, 0.0f };
+    AsciiManager::Instance->DrawShadowText(&credits_pos, "This project was made possible by:");
+    AsciiManager::Instance->hor_align = 2;
+    credits_pos.x = 634.0f;
+    AsciiManager::Instance->DrawShadowText(&credits_pos, "I hope you enjoyed it! <3");
+    AsciiManager::Instance->hor_align = 1;
+
+    credits_pos.y = 476.0f;
     for (auto& str : g_credits_strings) {
         credits_pos.x = str.pos;
         AsciiManager::Instance->DrawShadowText(&credits_pos, "%s", str.str);

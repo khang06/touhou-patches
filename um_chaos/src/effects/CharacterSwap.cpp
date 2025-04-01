@@ -66,6 +66,12 @@ public:
         return 0;
     }
 
+    static void __thiscall AnmDeletionHook(AnmManager* self, AnmLoaded* loaded) {
+        self->QueueDeletionForLoaded(loaded);
+        for (int i = 0; i < 4; i++)
+            self->QueueDeletionForLoaded(self->preloaded[20 + i]);
+    }
+
     CharacterSwap() {
         auto player = Player::Instance;
         orig_sht = player->sht_file;
@@ -89,6 +95,7 @@ public:
         patches.Clear();
 
         patches.AddCall(0x45AFF5, (void*)PlayerInitHook);
+        patches.AddCall(0x45B108, (void*)AnmDeletionHook);
     }
 
     virtual ~CharacterSwap() {

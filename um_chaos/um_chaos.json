@@ -324,6 +324,12 @@
         },
         "?Cave@FlipShots@@2UCodeCave@@A": {
             "addr": "codecave:flipshots_cave"
+        },
+        "?QueueDeletionForLoaded@AnmManager@@QAEXPAVAnmLoaded@@@Z": {
+            "addr": "0x488DA0"
+        },
+        "?Instance@TitleScreen@@2PAV1@A": {
+            "addr": "0x4CF43C"
         }
     },
     "imports": {

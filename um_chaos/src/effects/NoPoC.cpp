@@ -23,7 +23,7 @@ public:
     }
 
     static bool Allowed() {
-        return !Effect::Infos[NoPoC::ID].enabled || Effect::Infos[AlwaysPoC::ID].vote_choice;
+        return !Effect::Infos[AlwaysPoC::ID].enabled || Effect::Infos[AlwaysPoC::ID].vote_choice;
     }
 };
 REGISTER_EFFECT(NoPoC);

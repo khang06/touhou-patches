@@ -12,6 +12,9 @@ public:
     }
 
     AlmostQuit() {
+        static constexpr uint8_t nop7[] = {0x0F, 0x1F, 0x80, 0x00, 0x00, 0x00, 0x00};
+        Patches.Add(0x4586A5, (void*)nop7, sizeof(nop7));
+
         auto pause = PauseMenu::Instance;
         pause->Pause();
         pause->submenu = 9;

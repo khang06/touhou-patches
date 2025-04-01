@@ -513,16 +513,19 @@ void EoSDBooksMain() {
     flagSet(32); // FLAG_INTANGIBLE
 
     enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 32.0f, 3500, 2000, 0);
-    wait(40);
++40:
     enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 128.0f, 3500, 2000, 0);
-    wait(40);
++40:
     enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 144.0f, 3500, 2000, 0);
-    wait(50);
++50:
     enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 64.0f, 3500, 2000, 0);
-    wait(50);
++50:
     enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 80.0f, 3500, 2000, 0);
-    wait(60);
++60:
     enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 96.0f, 3500, 2000, 0);
++440:
+    enmKillAll();
+    etClearAll();
 }
 
 void EoSDBooksEnemy() {

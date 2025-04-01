@@ -111,22 +111,17 @@ entry {
 }
 
 script 6 bomb_disable {
+    layer(25);
     sprite(disable);
     resampleMode(1);
     ins_431(1);
     randMode(1);
     pos(789.0, 228.0, 0.0);
     anchor(1, 1);
-    layer(25);
     resolutionMode(2);
     alpha(0);
     alphaTime(20, 0, 255);
-
-    // Very cool workaround
-    loop {
-        pos(789.0, 228.0, 0.0);
-+1:
-    }
+    stop();
 }
 
 entry {
