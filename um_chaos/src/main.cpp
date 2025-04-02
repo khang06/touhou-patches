@@ -565,6 +565,13 @@ extern "C" int loading_screen_draw_hook() {
     return 1;
 }
 
+// Disables fastfail so thcrap can get crash logs
+extern "C" BOOL __stdcall IsProcessorFeaturePresent_hook(DWORD ProcessorFeature) {
+    if (ProcessorFeature == PF_FASTFAIL_AVAILABLE)
+        return FALSE;
+    return IsProcessorFeaturePresent(ProcessorFeature);
+}
+
 // Runs after the game is mostly initialized (e.g. D3D9 device ready)
 extern "C" int entry_hook() {
     // Load config

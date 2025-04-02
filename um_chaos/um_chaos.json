@@ -383,6 +383,9 @@
             },
             "FreeConsole": {
                 "alias": "_FreeConsole@0"
+            },
+            "IsProcessorFeaturePresent": {
+                "alias": "_IsProcessorFeaturePresent@4"
             }
         },
         "ucrtbase.dll": {
@@ -803,6 +806,10 @@
         "patch_loading_screen_draw_hook": {
             "addr": "0x453456",
             "code": "E9[obj:_loading_screen_draw_hook]"
+        },
+        "patch_fastfail_check": {
+            "addr": "0x4AD170",
+            "code": "<obj:_IsProcessorFeaturePresent_hook@4>"
         }
     },
     "codecaves": {
