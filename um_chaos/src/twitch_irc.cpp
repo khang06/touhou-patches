@@ -800,7 +800,7 @@ bool __fastcall start_twitch_thread(const char* channel_name) {
 
             //u_long mode = 1;
             //auto yeetus2 = ioctlsocket(socket.sock, FIONBIO, &mode);
-            DWORD timeout = 250;
+            DWORD timeout = 2000;
             setsockopt(twitch_socket.sock, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
 
             size_t data_length = twitch_socket.receive(receive_buffer, receive_buffer_size);
