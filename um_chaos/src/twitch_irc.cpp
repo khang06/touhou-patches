@@ -804,8 +804,8 @@ bool __fastcall start_twitch_thread(const char* channel_name) {
             setsockopt(twitch_socket.sock, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
 
             size_t data_length = twitch_socket.receive(receive_buffer, receive_buffer_size);
-            //receive_buffer[data_length] = '\0';
-            //printf("%s", receive_buffer);
+            receive_buffer[data_length] = '\0';
+            printf("Twitch recv: %s\n", receive_buffer);
 
             if (expect(
                 data_length != 0 &&
