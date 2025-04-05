@@ -532,7 +532,7 @@ void EoSDBooksEnemy() {
     anmSelect(0x40000007);
     anmSetSprite(0, 14);
     anmSetSprite(1, 15);
-    flagSet(3);
+    flagSet(0x1403);
 
     wait(30);
     setInterrupt(0, 0, -1, "EoSDBooksFade");

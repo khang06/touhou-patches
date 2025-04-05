@@ -5,7 +5,7 @@
 	"th18.v1.00a.js": 971294654,
 	"th18/bluefairy.rgba": 3803572457,
 	"th18/chaos.anm": 3247567946,
-	"th18/chaos.ecl": 3285820189,
+	"th18/chaos.ecl": 2213156868,
 	"th18/flashlight.png": 3672876312,
 	"th18/jpeg1_ps.fxc": 2135997162,
 	"th18/jpeg2_ps.fxc": 612030049,
