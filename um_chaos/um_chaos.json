@@ -330,6 +330,9 @@
         },
         "?Instance@TitleScreen@@2PAV1@A": {
             "addr": "0x4CF43C"
+        },
+        "_GameGlobals_UseBomb": {
+            "addr": "0x4574D0"
         }
     },
     "imports": {
@@ -814,6 +817,10 @@
         "rewind_boss_crash_workaround": {
             "addr": "0x405183",
             "code": "83"
+        },
+        "GameGlobals_UseBomb_hook": {
+            "addr": "0x4203B7",
+            "code": "E8[obj:_GameGlobals_UseBomb_hook]"
         }
     },
     "codecaves": {

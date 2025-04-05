@@ -794,7 +794,8 @@ class Bomb {
 public:
     static Bomb* Instance;
 
-    char gap0[0x64];    // 0x0
+    uint32_t vtbl;      // 0x0
+    char gap4[0x60];    // 0x4
     uint32_t anm_id;    // 0x64
 };
 

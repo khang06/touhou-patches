@@ -572,6 +572,17 @@ extern "C" BOOL __stdcall IsProcessorFeaturePresent_hook(DWORD ProcessorFeature)
     return IsProcessorFeaturePresent(ProcessorFeature);
 }
 
+// All bomb structs are exactly the same size and the same constructors
+// The vtable needs to be swapped out at runtime for CharacterSwap to not explode
+// This only happens on bomb activation because doing it any other time might have some terrible consequences
+extern "C" void __thiscall GameGlobals_UseBomb(void*);
+extern "C" void __thiscall GameGlobals_UseBomb_hook(void* self) {
+    GameGlobals_UseBomb(self);
+    
+    static constexpr uint32_t BOMB_VTBLS[4] = {0x4B6330, 0x4B6310, 0x4B62F0, 0x4B62D0};
+    Bomb::Instance->vtbl = BOMB_VTBLS[Globals::Character];
+}
+
 // Runs after the game is mostly initialized (e.g. D3D9 device ready)
 extern "C" int entry_hook() {
     // Load config
