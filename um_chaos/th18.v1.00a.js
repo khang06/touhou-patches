@@ -725,5 +725,9 @@
             addr: "0x4AD170",
             code: "(<codecave:um_chaos.text0>+0x36e0)",
         },
+        rewind_boss_crash_workaround: {
+            addr: "0x405183",
+            code: "83",
+        },
     },
 }

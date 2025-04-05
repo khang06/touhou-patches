@@ -810,6 +810,10 @@
         "patch_fastfail_check": {
             "addr": "0x4AD170",
             "code": "<obj:_IsProcessorFeaturePresent_hook@4>"
+        },
+        "rewind_boss_crash_workaround": {
+            "addr": "0x405183",
+            "code": "83"
         }
     },
     "codecaves": {
