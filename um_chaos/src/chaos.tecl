@@ -523,9 +523,6 @@ void EoSDBooksMain() {
     enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 80.0f, 3500, 2000, 0);
 +60:
     enmCreateA("EoSDBooksEnemy", %RANDF2 * 192.0f, 96.0f, 3500, 2000, 0);
-+440:
-    enmKillAll();
-    etClearAll();
 }
 
 void EoSDBooksEnemy() {
@@ -535,7 +532,7 @@ void EoSDBooksEnemy() {
     flagSet(0x1403);
 
     wait(30);
-    setInterrupt(0, 0, -1, "EoSDBooksFade");
+    //setInterrupt(0, 0, -1, "EoSDBooksFade"); // Possibly caused crashing
     flagClear(3);
     setHurtbox(28.0f, 28.0f);
     setHitbox(28.0f, 28.0f);
@@ -565,7 +562,7 @@ void EoSDBooksEnemy() {
     etEx(1, 0, 4, 16, -999999, -0.3125f, -999999.0f); // Slow down again
     etAim(1, 2);
 
-    int IC0 = 60;
+    int IC0 = 15; // Nerfed from 60 because the books don't get automatically deleted after 440 frames anymore
     float diff = 0.44879895 : 0.28559932 : 0.28559932 : 0.28559932;
     while (IC0-- > 0) {
         // EoSD uses the parameter slot for this for some reason???
