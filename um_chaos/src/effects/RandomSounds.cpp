@@ -20,6 +20,14 @@ public:
         }
 
         patches.AddCall(0x453499, (void*)HandleMsg_hook);
+        
+        static constexpr uint8_t no_loop_patch[] = {
+            // push 0
+            0x6A, 0x00,
+            // nop
+            0x90
+        };
+        patches.Add(0x477672, (void*)no_loop_patch, sizeof(no_loop_patch));
     }
 
     virtual bool Update() {
@@ -28,7 +36,7 @@ public:
 
     static int __thiscall HandleMsg_hook(SoundManager* self) {
         for (int i = 0; i < _countof(self->queued_sound_ids); i++) {
-            if (i < 0)
+            if (self->queued_sound_ids[i] < 0)
                 break;
             self->queued_sound_ids[i] = shuffle_table[self->queued_sound_ids[i]];
         }

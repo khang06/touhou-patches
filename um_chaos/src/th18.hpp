@@ -425,7 +425,9 @@ public:
 class GameState {
 public:
     static GameState* Instance;
+    static int Unloaded;
 
+    ~GameState();
     void ClearStage();
 
     char gap0[0xB0];    // 0x0

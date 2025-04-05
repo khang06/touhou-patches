@@ -333,6 +333,15 @@
         },
         "_GameGlobals_UseBomb": {
             "addr": "0x4574D0"
+        },
+        "_EclThread_GetFloatPtrArg": {
+            "addr": "0x48D7C0"
+        },
+        "??1GameState@@QAE@XZ": {
+            "addr": "0x4432C0"
+        },
+        "?Unloaded@GameState@@2HA": {
+            "addr": "0x507648"
         }
     },
     "imports": {
@@ -821,6 +830,26 @@
         "GameGlobals_UseBomb_hook": {
             "addr": "0x4203B7",
             "code": "E8[obj:_GameGlobals_UseBomb_hook]"
+        },
+        "EclThread_GetFloatPtrArg_hook": {
+            "addr": "0x48B9BE",
+            "code": "E8[obj:_EclThread_GetFloatPtrArg_hook]"
+        },
+        "GameState_dtor_hook1": {
+            "addr": "0x443847",
+            "code": "E8[obj:_GameState_dtor_hook]"
+        },
+        "GameState_dtor_hook2": {
+            "addr": "0x453CC2",
+            "code": "E8[obj:_GameState_dtor_hook]"
+        },
+        "gamestate_dont_zero_instance_ptr": {
+           "addr": "0x443717",
+           "code": "<nop:10>"
+        },
+        "gamestate_dont_set_unloaded": {
+           "addr": "0x44377F",
+           "code": "<nop:10>"
         }
     },
     "codecaves": {

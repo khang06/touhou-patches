@@ -583,6 +583,25 @@ extern "C" void __thiscall GameGlobals_UseBomb_hook(void* self) {
     Bomb::Instance->vtbl = BOMB_VTBLS[Globals::Character];
 }
 
+// Works around some crash that happens with EoSDBooks(?)
+// Specifically it seems to happen in EoSDBooksFade in the setf() (idx 45) handler
+// No idea how that instruction is getting read in the first place...
+extern "C" float* __thiscall EclThread_GetFloatPtrArg(void*, int);
+extern "C" float* __thiscall EclThread_GetFloatPtrArg_hook(void* self, int idx) {
+    static float dummy = 0.0f;
+    float* ret = EclThread_GetFloatPtrArg(self, idx);
+    return ret ? ret : &dummy;
+}
+
+// Works around a crash when RestartStage happens at the same time as OpenShop
+extern "C" void __thiscall GameState_dtor_hook(GameState* self) {
+    self->~GameState();
+    
+    // Normally this happens before the shop gets deleted, causing a crash if it's a stage transition
+    GameState::Instance = nullptr;
+    GameState::Unloaded = 1;
+}
+
 // Runs after the game is mostly initialized (e.g. D3D9 device ready)
 extern "C" int entry_hook() {
     // Load config

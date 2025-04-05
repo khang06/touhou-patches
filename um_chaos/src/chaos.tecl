@@ -532,7 +532,7 @@ void EoSDBooksEnemy() {
     flagSet(0x1403);
 
     wait(30);
-    //setInterrupt(0, 0, -1, "EoSDBooksFade"); // Possibly caused crashing
+    setInterrupt(0, 0, -1, "EoSDBooksFade"); // Possibly caused crashing
     flagClear(3);
     setHurtbox(28.0f, 28.0f);
     setHitbox(28.0f, 28.0f);
