@@ -8,7 +8,7 @@ public:
         PostMessage(Main::Window, WM_SYSCOMMAND, SC_MINIMIZE, 0);
     }
 
-    virtual bool Allowed() {
+    static bool Allowed() {
         return !Window::IsFullscreen();
     }
 };
