@@ -364,10 +364,8 @@ SettingsPage g_twitch_page = {
                     for (int key : VALID_KEYS) {
                         if (key_pressed(key) && Settings::TwitchUsername[sizeof(Settings::TwitchUsername) - 2] == '\0') {
                             if (key == VK_OEM_MINUS) {
-                                if (g_cur_kbd[VK_SHIFT] & 0x80) {
-                                    Settings::TwitchUsername[value_len] = '_';
-                                    SoundManager::Instance.PlaySE(1, 0.0f);
-                                }
+                                Settings::TwitchUsername[value_len] = '_';
+                                SoundManager::Instance.PlaySE(1, 0.0f);
                             } else if (key >= 'A' && key <= 'Z') {
                                 Settings::TwitchUsername[value_len] = (g_cur_kbd[VK_SHIFT] & 0x80) ? key : (key | 0x20);
                                 SoundManager::Instance.PlaySE(1, 0.0f);
