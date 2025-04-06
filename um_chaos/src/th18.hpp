@@ -828,6 +828,9 @@ public:
         return Instance->msg_vm != NULL;
     }
 
+    static Gui* Create();
+
+    ~Gui();
     void UpdateLives(int lives, int life_pieces, int max_lives);
     void UpdateBombs(int bombs, int bomb_pieces, int max_bombs);
 };

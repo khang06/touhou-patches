@@ -111,7 +111,7 @@ entry {
 }
 
 script 6 bomb_disable {
-    layer(25);
+    layer(26);
     sprite(disable);
     resampleMode(1);
     ins_431(1);
@@ -119,8 +119,14 @@ script 6 bomb_disable {
     pos(789.0, 228.0, 0.0);
     anchor(1, 1);
     resolutionMode(2);
+
+interrupt[2]:
     alpha(0);
+    stop();
+
+interrupt[1]:
     alphaTime(20, 0, 255);
++20:
     stop();
 }
 

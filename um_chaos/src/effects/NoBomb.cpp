@@ -5,21 +5,19 @@ class NoBomb : public Effect {
 public:
     int timer = Rand::RangeEffectTime(10, 60);
     CodePatches patches;
-    AnmVM* disable_vm = nullptr;
+    static AnmVM* disable_vm;
 
     NoBomb() {
         static constexpr uint8_t patch[] = {0x33, 0xC0, 0xC3}; // xor eax, eax; ret
         patches.Add(0x420420, (void*)&patch, sizeof(patch));
 
-        uint32_t id;
-        auto anm = AnmManager::Instance->Preload(18, "chaos.anm");
-        disable_vm = AnmManager::AllocateVM();
-        anm->MakeVM(disable_vm, 6);
-        AnmManager::AddToUIBack(&id, disable_vm);
+        if (disable_vm)
+            disable_vm->pending_interrupt = 1;
     }
 
     virtual ~NoBomb() {
-        AnmVM::QueueDeletion(disable_vm);
+        if (disable_vm)
+            disable_vm->pending_interrupt = 2;
     }
 
     virtual bool Update() {
@@ -27,3 +25,23 @@ public:
     }
 };
 REGISTER_EFFECT(NoBomb);
+
+AnmVM* NoBomb::disable_vm = nullptr;
+
+extern "C" Gui* Gui_Create_hook() {
+    Gui* ret = Gui::Create();
+
+    uint32_t id;
+    auto anm = AnmManager::Instance->Preload(18, "chaos.anm");
+    NoBomb::disable_vm = AnmManager::AllocateVM();
+    anm->MakeVM(NoBomb::disable_vm, 6);
+    AnmManager::AddToUIBack(&id, NoBomb::disable_vm);
+
+    return ret;
+}
+
+extern "C" void __thiscall Gui_dtor_hook(Gui* self) {
+    self->~Gui();
+    AnmVM::QueueDeletion(NoBomb::disable_vm);
+    NoBomb::disable_vm = nullptr;
+}

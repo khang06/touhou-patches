@@ -342,6 +342,12 @@
         },
         "?Unloaded@GameState@@2HA": {
             "addr": "0x507648"
+        },
+        "??1Gui@@QAE@XZ": {
+            "addr": "0x43B560"
+        },
+        "?Create@Gui@@SAPAV1@XZ": {
+            "addr": "0x43B800"
         }
     },
     "imports": {
@@ -850,6 +856,14 @@
         "gamestate_dont_set_unloaded": {
            "addr": "0x44377F",
            "code": "<nop:10>"
+        },
+        "Gui_Create_hook": {
+            "addr": "0x442C1E",
+            "code": "E8[obj:_Gui_Create_hook]"
+        },
+        "Gui_dtor_hook": {
+            "addr": "0x4434A5",
+            "code": "E8[obj:_Gui_dtor_hook]"
         }
     },
     "codecaves": {
