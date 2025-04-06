@@ -352,6 +352,8 @@ void update_vote_pie(const std::array<size_t, 4>& votes) {
 }
 
 void draw_voting_overlay() {
+    auto ascii = AsciiManager::Instance;
+
     auto votes = get_votes();
     if (Assets::VotePieResetPending || memcmp(votes.data(), g_last_votes, sizeof(votes))) {
         update_vote_pie(votes);
@@ -364,23 +366,23 @@ void draw_voting_overlay() {
         (1.0f - powf(g_vote_transition / 24.0f, 3.0f));
     float y_offset = interp * 56.0f;
     g_fps_pos.x = 588.0f + (1.0f - interp) * 6.0f;
-    AsciiManager::Instance->style = 1;
-    AsciiManager::Instance->color = D3DCOLOR_XRGB(0xFF, 0xFF, 0xFF);
-    AsciiManager::Instance->shadow_color = D3DCOLOR_XRGB(0x00, 0x00, 0x00);
-    AsciiManager::Instance->ver_align = 1;
-    AsciiManager::Instance->hor_align = 1;
+    ascii->style = 1;
+    ascii->color = D3DCOLOR_XRGB(0xFF, 0xFF, 0xFF);
+    ascii->shadow_color = D3DCOLOR_XRGB(0x00, 0x00, 0x00);
+    ascii->ver_align = 1;
+    ascii->hor_align = 1;
     for (int i = 0; i < votes.size(); i++) {
         const D3DVECTOR pos = { 421.0f, 431.0f + i * 12.0f + y_offset, 0.0f };
         int alpha = (g_vote_state == VOTE_RESULTS_END && g_vote_chosen_idx != i) ? 0x80000000 : 0xFF000000;
-        AsciiManager::Instance->color = (VOTE_COLORS[i] & 0xFFFFFF) | alpha;
-        AsciiManager::Instance->DrawShadowText(&pos, "%d %s (%d)\n",
+        ascii->color = (VOTE_COLORS[i] & 0xFFFFFF) | alpha;
+        ascii->DrawShadowText(&pos, "%d %s (%d)\n",
             i + (voting_is_high_numbers() ? 5 : 1), Effect::Infos[g_vote_choices[i]].name, votes[i]);
     }
 
     const D3DVECTOR pos = { 640.0f - 4.0f, 427.0f + y_offset, 0.0f };
-    AsciiManager::Instance->color = D3DCOLOR_XRGB(0xFF, 0xFF, 0xFF);
-    AsciiManager::Instance->hor_align = 2;
-    AsciiManager::Instance->DrawShadowText(&pos, "%.2fs", g_vote_state == VOTE_ACTIVE ? (g_vote_state_timer / 60.0f) : 0.0f);
+    ascii->color = D3DCOLOR_XRGB(0xFF, 0xFF, 0xFF);
+    ascii->hor_align = 2;
+    ascii->DrawShadowText(&pos, "%.2fs", g_vote_state == VOTE_ACTIVE ? (g_vote_state_timer / 60.0f) : 0.0f);
 
     auto d3d9_dev = Main::Instance.d3d9_device;
     DWORD z_enable;
@@ -418,28 +420,37 @@ void draw_voting_overlay() {
 }
 
 int __fastcall post_frame_draw(void*) {
-    if (!AsciiManager::Instance)
+    auto ascii = AsciiManager::Instance;
+    if (!ascii)
         return 1;
+    
+    uint32_t orig_color = ascii->color;
+    uint32_t orig_shadow_color = ascii->shadow_color;
+    float orig_scale_x = ascii->scale_x;
+    float orig_scale_y = ascii->scale_y;
+    uint32_t orig_style = ascii->style;
+    uint32_t orig_hor_align = ascii->hor_align;
+    uint32_t orig_ver_align = ascii->ver_align;
 
     if (Main::Instance.cur_mode == 4) {
         D3DVECTOR pos = { 4.0f, TitleScreen::Instance && TitleScreen::Instance->cur_state == 17 ? 440.0f : 460.0f, 0.0f };
-        AsciiManager::Instance->style = 6;
-        AsciiManager::Instance->shadow_color = D3DCOLOR_XRGB(0x00, 0x00, 0x00);
-        AsciiManager::Instance->ver_align = 1;
-        AsciiManager::Instance->hor_align = 1;
+        ascii->style = 6;
+        ascii->shadow_color = D3DCOLOR_XRGB(0x00, 0x00, 0x00);
+        ascii->ver_align = 1;
+        ascii->hor_align = 1;
 
         switch (g_twitch_status) {
             case TWITCH_INIT_PENDING:
-                AsciiManager::Instance->color = D3DCOLOR_XRGB(0xFF, 0xFF, 0xFF);
-                AsciiManager::Instance->DrawShadowText(&pos, "Connecting to %s...", g_twitch_last_user);
+                ascii->color = D3DCOLOR_XRGB(0xFF, 0xFF, 0xFF);
+                ascii->DrawShadowText(&pos, "Connecting to %s...", g_twitch_last_user);
                 break;
             case TWITCH_INITIALIZED:
-                AsciiManager::Instance->color = D3DCOLOR_XRGB(0x91, 0x46, 0xFF);
-                AsciiManager::Instance->DrawShadowText(&pos, "Connected to %s", g_twitch_last_user);
+                ascii->color = D3DCOLOR_XRGB(0x91, 0x46, 0xFF);
+                ascii->DrawShadowText(&pos, "Connected to %s", g_twitch_last_user);
                 break;
             case TWITCH_FAILED:
-                AsciiManager::Instance->color = D3DCOLOR_XRGB(0xFF, 0x00, 0x00);
-                AsciiManager::Instance->DrawShadowText(&pos, "Failed to connect to %s!", g_twitch_last_user);
+                ascii->color = D3DCOLOR_XRGB(0xFF, 0x00, 0x00);
+                ascii->DrawShadowText(&pos, "Failed to connect to %s!", g_twitch_last_user);
                 break;
             case TWITCH_DISABLED:
                 break;
@@ -449,28 +460,36 @@ int __fastcall post_frame_draw(void*) {
     if (Main::Instance.cur_mode == 4 && Window::IsFullscreen()) {
         D3DVECTOR pos1 = { 4.0f, 4.0f, 0.0f };
         D3DVECTOR pos2 = { 4.0f, 20.0f, 0.0f };
-        AsciiManager::Instance->style = 6;
-        AsciiManager::Instance->color = D3DCOLOR_XRGB(0xFF, 0xFF, 0x00);
-        AsciiManager::Instance->shadow_color = D3DCOLOR_XRGB(0x00, 0x00, 0x00);
-        AsciiManager::Instance->ver_align = 1;
-        AsciiManager::Instance->hor_align = 1;
-        AsciiManager::Instance->DrawShadowText(&pos1, "Some effects only work in windowed mode!");
-        AsciiManager::Instance->DrawShadowText(&pos2, "You can switch modes by pressing Alt+Enter.");
+        ascii->style = 6;
+        ascii->color = D3DCOLOR_XRGB(0xFF, 0xFF, 0x00);
+        ascii->shadow_color = D3DCOLOR_XRGB(0x00, 0x00, 0x00);
+        ascii->ver_align = 1;
+        ascii->hor_align = 1;
+        ascii->DrawShadowText(&pos1, "Some effects only work in windowed mode!");
+        ascii->DrawShadowText(&pos2, "You can switch modes by pressing Alt+Enter.");
     }
 
-    AsciiManager::Instance->style = 1;
+    ascii->style = 1;
     for (int i = 0; i < Effect::EnabledCount; i++) {
         D3DVECTOR pos = { 4.0f, 470.0f - i * 10.0f, 0.0f };
         //auto fade = min(0xFF, Effect::Enabled[i].frames_active * 8);
         auto fade = Effect::Enabled[i].frames_active > 60 ? 0xFF : (Effect::Enabled[i].frames_active % 8 < 4 ? 0x00 : 0xFF);
-        AsciiManager::Instance->color = D3DCOLOR_XRGB(0xFF, fade, fade);
-        AsciiManager::Instance->DrawShadowText(&pos, "%s", Effect::Enabled[i].name);
+        ascii->color = D3DCOLOR_XRGB(0xFF, fade, fade);
+        ascii->DrawShadowText(&pos, "%s", Effect::Enabled[i].name);
     }
-    AsciiManager::Instance->color = 0xFFFFFFFF;
+    ascii->color = 0xFFFFFFFF;
 
     Effect::DrawAll();
     if (g_vote_state != VOTE_INACTIVE)
         draw_voting_overlay();
+    
+    ascii->color = orig_color;
+    ascii->shadow_color = orig_shadow_color;
+    ascii->scale_x = orig_scale_x;
+    ascii->scale_y = orig_scale_y;
+    ascii->style = orig_style;
+    ascii->hor_align = orig_hor_align;
+    ascii->ver_align = orig_ver_align;
 
     return 1;
 }
