@@ -10,6 +10,7 @@ cbuffer cbPerFrame : register(c0)
 {
     float2 inv_resolution : register(c0);
     float strength : register(c1);
+    float texcoord_scale : register(c2);
 };
 
 #define pi 3.14159265358979323846

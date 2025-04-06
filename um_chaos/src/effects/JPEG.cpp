@@ -57,15 +57,16 @@ public:
         CHECK(d3d9_dev->SetTransform(D3DTS_TEXTURE0, &identity));
 
         if (!fade_in_finished) {
-            strength = min(strength + 0.01f, 2.0f);
-            if (strength == 2.0f)
+            strength = min(strength + 0.01f, 1.5f);
+            if (strength == 1.5f)
                 fade_in_finished = true;
         }
-        float constant[8] = {
-            1.0f / Window::Instance.backbuffer_width, 1.0f / Window::Instance.backbuffer_height, 0.0f, 0.0f,
+        float constant[12] = {
+            1.0f / 640.0f, 1.0f / 480.0f, 0.0f, 0.0f,
             strength, 0.0f, 0.0f, 0.0f,
+            1.0f / (Window::Instance.backbuffer_width / 640.0f), 0.0f, 0.0f, 0.0f,
         };
-        CHECK(d3d9_dev->SetPixelShaderConstantF(0, constant, 2));
+        CHECK(d3d9_dev->SetPixelShaderConstantF(0, constant, 3));
 
         CHECK(d3d9_dev->SetRenderTarget(0, Assets::JPEGPass1RT));
         CHECK(d3d9_dev->SetPixelShader(Assets::JPEGPass1PS));

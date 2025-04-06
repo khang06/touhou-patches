@@ -10,6 +10,7 @@ cbuffer cbPerFrame : register(c0)
 {
     float2 inv_resolution : register(c0);
     float strength : register(c1);
+    float texcoord_scale : register(c2);
 };
 
 #define pi 3.14159265358979323846
@@ -43,7 +44,7 @@ float3 IDCT8x8(float2 coord, float2 xy ) {
 
 
 float4 main(float2 txcoord : TEXCOORD, float2 pos : VPOS) : SV_TARGET {
-    float2 texcoord = pos;
+    float2 texcoord = pos * texcoord_scale;
     float2 uv = floor(texcoord-8.0*floor(texcoord/8.0));
     return float4(toRGB(IDCT8x8(8.*floor(texcoord/8.),uv)/256.+.5), 1.0f);
 }

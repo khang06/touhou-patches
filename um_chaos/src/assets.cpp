@@ -127,7 +127,7 @@ extern "C" void unload_default_pool_assets() {
 extern "C" void load_default_pool_assets() {
     auto d3d9_dev = Main::Instance.d3d9_device;
     HRESULT res = d3d9_dev->CreateTexture(
-        Window::Instance.backbuffer_width, Window::Instance.backbuffer_height, 1, D3DUSAGE_RENDERTARGET,
+        640, 480, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_A32B32G32R32F, D3DPOOL_DEFAULT, &Assets::JPEGPass1Tex, NULL
     );
     printf("JPEGPass1Tex CreateTexture: 0x%lx\n", res);
