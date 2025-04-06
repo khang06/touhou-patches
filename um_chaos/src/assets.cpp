@@ -30,6 +30,8 @@ IDirect3DIndexBuffer9* Assets::VoteIB = NULL;
 std::vector<const char*> Assets::StageAttacks;
 std::vector<const char*> Assets::BossAttacks;
 
+bool Assets::VotePieResetPending = false;
+
 IDirect3DTexture9* load_img(const char* filename) {
     IDirect3DTexture9* ret = NULL;
     uint32_t img_size = 0;
@@ -102,17 +104,39 @@ void load_ps(const char* filename, IDirect3DPixelShader9** out) {
     free(ps);
 }
 
+extern "C" void unload_default_pool_assets() {
+    if (Assets::JPEGPass1RT) {
+        Assets::JPEGPass1RT->Release();
+        Assets::JPEGPass1RT = NULL;
+    }
+    if (Assets::JPEGPass1Tex) {
+        Assets::JPEGPass1Tex->Release();
+        Assets::JPEGPass1Tex = NULL;
+    }
+    if (Assets::VoteVB) {
+        Assets::VoteVB->Release();
+        Assets::VoteVB = NULL;
+    }
+    if (Assets::VoteIB) {
+        Assets::VoteIB->Release();
+        Assets::VoteIB = NULL;
+    }
+}
+
 // This needs to be separate because D3DPOOL_DEFAULT objects need to be manually released and recreated for device resets
 extern "C" void load_default_pool_assets() {
     auto d3d9_dev = Main::Instance.d3d9_device;
-    d3d9_dev->CreateTexture(
+    HRESULT res = d3d9_dev->CreateTexture(
         Window::Instance.backbuffer_width, Window::Instance.backbuffer_height, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_A32B32G32R32F, D3DPOOL_DEFAULT, &Assets::JPEGPass1Tex, NULL
     );
+    printf("JPEGPass1Tex CreateTexture: 0x%lx\n", res);
     Assets::JPEGPass1Tex->GetSurfaceLevel(0, &Assets::JPEGPass1RT);
 
-    d3d9_dev->CreateVertexBuffer(1024 * sizeof(VoteVertex), 0, D3DFVF_XYZ | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &Assets::VoteVB, NULL);
-    d3d9_dev->CreateIndexBuffer(1024 * sizeof(uint16_t), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &Assets::VoteIB, NULL);
+    res = d3d9_dev->CreateVertexBuffer(1024 * sizeof(VoteVertex), 0, D3DFVF_XYZ | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &Assets::VoteVB, NULL);
+    printf("VoteVB CreateVertexBuffer: 0x%lx\n", res);
+    res = d3d9_dev->CreateIndexBuffer(1024 * sizeof(uint16_t), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &Assets::VoteIB, NULL);
+    printf("VoteIB CreateIndexBuffer: 0x%lx\n", res);
 
     static constexpr VoteVertex initial_vb[] = {
         {418, 424, 1, 0, 0, 0xCD000000},
@@ -133,25 +157,8 @@ extern "C" void load_default_pool_assets() {
     Assets::VoteIB->Lock(0, 0, (void**)&ib, 0);
     memcpy(ib, initial_ib, sizeof(initial_ib));
     Assets::VoteIB->Unlock();
-}
-
-extern "C" void unload_default_pool_assets() {
-    if (Assets::JPEGPass1RT) {
-        Assets::JPEGPass1RT->Release();
-        Assets::JPEGPass1RT = NULL;
-    }
-    if (Assets::JPEGPass1Tex) {
-        Assets::JPEGPass1Tex->Release();
-        Assets::JPEGPass1Tex = NULL;
-    }
-    if (Assets::VoteVB) {
-        Assets::VoteVB->Release();
-        Assets::VoteVB = NULL;
-    }
-    if (Assets::VoteIB) {
-        Assets::VoteIB->Release();
-        Assets::VoteIB = NULL;
-    }
+    
+    Assets::VotePieResetPending = true;
 }
 
 LRESULT WINAPI FollowerMouseWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) {

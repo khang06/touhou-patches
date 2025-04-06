@@ -353,9 +353,10 @@ void update_vote_pie(const std::array<size_t, 4>& votes) {
 
 void draw_voting_overlay() {
     auto votes = get_votes();
-    if (memcmp(votes.data(), g_last_votes, sizeof(votes))) {
+    if (Assets::VotePieResetPending || memcmp(votes.data(), g_last_votes, sizeof(votes))) {
         update_vote_pie(votes);
         memcpy(g_last_votes, votes.data(), sizeof(g_last_votes));
+        Assets::VotePieResetPending = false;
     }
 
     float interp = g_vote_state == VOTE_ACTIVE ?

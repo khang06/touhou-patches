@@ -33,4 +33,6 @@ public:
     
     static std::vector<const char*> StageAttacks;
     static std::vector<const char*> BossAttacks;
+    
+    static bool VotePieResetPending;
 };
