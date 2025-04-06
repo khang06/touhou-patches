@@ -1,6 +1,6 @@
 {
 	"compile_flags.txt": null,
-	"patch.js": 3949445799,
+	"patch.js": 1241955806,
 	"stringdefs.js": 3074951790,
 	"th18.v1.00a.js": 2256340254,
 	"th18/bluefairy.rgba": 3803572457,
