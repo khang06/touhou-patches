@@ -864,6 +864,10 @@
         "Gui_dtor_hook": {
             "addr": "0x4434A5",
             "code": "E8[obj:_Gui_dtor_hook]"
+        },
+        "sanae_snake_crash_fix": {
+            "addr": "0x460DE7",
+            "code": "E9[codecave:sanae_snake_crash_fix_cave]"
         }
     },
     "codecaves": {
@@ -959,6 +963,10 @@
         "flipshots_cave": {
             "access": "rx",
             "code": "81774800000080 807E2102 E9[0x45E471]"
+        },
+        "sanae_snake_crash_fix_cave": {
+            "access": "rx",
+            "code": "83BA8C01000000 740C 83BE9000000000 E9[0x460DEE] C7869000000000000000 E9[0x460EE0]"
         }
     }
 }

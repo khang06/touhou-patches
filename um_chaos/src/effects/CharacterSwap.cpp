@@ -10,7 +10,7 @@ extern uint32_t sht_on_hit[];
 
 class CharacterSwap : public Effect {
 public:
-    int timer = Rand::RangeEffectTime(10, 30);
+    int timer = Rand::RangeEffectTime(10, 60);
     CodePatches patches;
     static int old_char_id;
     static ShtFile* orig_sht;
