@@ -725,10 +725,6 @@
             addr: "0x453456",
             code: "E9([codecave:um_chaos.text0]+0x35c0)",
         },
-        patch_fastfail_check: {
-            addr: "0x4AD170",
-            code: "(<codecave:um_chaos.text0>+0x3660)",
-        },
         rewind_boss_crash_workaround: {
             addr: "0x405183",
             code: "83",
