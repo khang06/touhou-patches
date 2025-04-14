@@ -19,4 +19,4 @@ public:
         return --timer > 0;
     }
 };
-REGISTER_EFFECT(Rewind);
+//REGISTER_EFFECT(Rewind);
