@@ -346,9 +346,11 @@ struct ZUNInterp { //       0x58    0x44    0x30
 
 class PlayerOption {
 public:
-    int state;          // 0x0
-    uint32_t anm_id;    // 0x4
-    char gap8[0xE8];    // 0x8
+    int state;                              // 0x0
+    uint32_t anm_id;                        // 0x4
+    char gap8[0xE0];                        // 0x8
+    int (__thiscall *calc)(PlayerOption *); // 0x58
+    char gapEC[4];                          // 0xEC
 };
 
 struct ShtShooter {

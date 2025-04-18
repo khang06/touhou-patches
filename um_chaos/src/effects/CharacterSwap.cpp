@@ -42,6 +42,8 @@ public:
         player->diagonal_move_speed = sht->player_data[2] * 128.0f;
         player->diagonal_move_speed_focused = sht->player_data[3] * 128.0f;
 
+        for (size_t i = 0; i < _countof(player->options); i++)
+            player->options[i].calc = nullptr;
         player->HandlePowerUp();
     }
 
