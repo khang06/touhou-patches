@@ -72,7 +72,7 @@ public:
         ShowWindow(overlay, SW_SHOWNOACTIVATE);
         UpdateWindow(overlay);
         
-        int offset = min(frames_active++ * 128, 1024);
+        int offset = std::min(frames_active++ * 128, 1024u);
         if (frames_active > 60)
             offset = 1024 - (frames_active - 60) * 32;
         SetWindowPos(overlay, HWND_TOP, overlay_x, overlay_y - offset, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);

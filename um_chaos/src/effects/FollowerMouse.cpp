@@ -125,7 +125,7 @@ public:
         if (anim_frame++ >= 17)
             sprite_idx = ANIM_TABLE[anim_idx][4 + (anim_frame - 17) / 5 % 4];
         else
-            sprite_idx = ANIM_TABLE[anim_idx][min(anim_frame / 4, 3)];
+            sprite_idx = ANIM_TABLE[anim_idx][std::min(anim_frame / 4, 3)];
 
         if (sprite_idx != last_sprite_idx) {
             HDC dc = CreateCompatibleDC(NULL);

@@ -44,8 +44,8 @@ public:
         POINT p;
         GetCursorPos(&p);
         ScreenToClient(Main::Window, &p);
-        float px = max(-184.0f, min(GameToPlayfieldX(WindowToGameX(p.x)) - 192.0f, 184.0f));
-        float py = max(32.0f, min(GameToPlayfieldY(WindowToGameY(p.y)), 432.0f));
+        float px = std::max(-184.0f, std::min(GameToPlayfieldX(WindowToGameX(p.x)) - 192.0f, 184.0f));
+        float py = std::max(32.0f, std::min(GameToPlayfieldY(WindowToGameY(p.y)), 432.0f));
 
         self->pos_float.x = px;
         self->pos_x = px * 128.0f;

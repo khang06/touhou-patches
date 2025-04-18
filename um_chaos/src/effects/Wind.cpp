@@ -20,7 +20,7 @@ public:
 
     virtual bool Update() {
         if (!fade_in_finished) {
-            strength = min(strength + 0.01f, 3.0f);
+            strength = std::min(strength + 0.01f, 3.0f);
             if (strength >= 2.5f)
                 fade_in_finished = true;
         }
@@ -44,7 +44,7 @@ public:
         }
 
         if (timer <= 0) {
-            strength = max(0.0f, strength - 0.01f);
+            strength = std::max(0.0f, strength - 0.01f);
             if (strength <= 0.0f)
                 return false;
         } else {

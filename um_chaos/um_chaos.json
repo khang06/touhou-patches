@@ -348,6 +348,12 @@
         },
         "?Create@Gui@@SAPAV1@XZ": {
             "addr": "0x43B800"
+        },
+        "_EclThread_GetFloatArg": {
+            "addr": "0x48D5A0"
+        },
+        "_EclThread_GetIntArg": {
+            "addr": "0x48D4F0"
         }
     },
     "imports": {
@@ -868,6 +874,14 @@
         "sanae_snake_crash_fix": {
             "addr": "0x460DE7",
             "code": "E9[codecave:sanae_snake_crash_fix_cave]"
+        },
+        "EclThread_GetIntArg_wait_hook": {
+            "addr": "0x48B72B",
+            "code": "E8[obj:_EclThread_GetIntArg_wait_hook]"
+        },
+        "EclThread_GetFloatArg_waitf_hook": {
+            "addr": "0x48B74C",
+            "code": "E8[obj:_EclThread_GetFloatArg_waitf_hook]"
         }
     },
     "codecaves": {

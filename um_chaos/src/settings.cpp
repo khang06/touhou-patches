@@ -494,7 +494,7 @@ extern "C" void __thiscall manual_calc_hook(TitleScreen* title) {
         g_credits_strings.clear();
         title->submenu = 1;
     } else {
-        g_alpha = min(g_alpha + 16, 255);
+        g_alpha = std::min(g_alpha + 16, 255);
     }
     g_frame_count++;
 
@@ -568,7 +568,7 @@ extern "C" void __thiscall manual_draw_hook(TitleScreen* title) {
                                             D3DCOLOR_ARGB(g_alpha, 0xFF, 0xFF, 0xFF);
 
         if (i == g_selected) {
-            float t = 1.0f - min((g_frame_count - g_selected_frame) / 8.0f, 1.0f);
+            float t = 1.0f - std::min((g_frame_count - g_selected_frame) / 8.0f, 1.0f);
             name_pos.x -= (1.0f - t * t * t) * 4.0f;
         }
 

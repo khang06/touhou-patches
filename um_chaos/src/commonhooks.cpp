@@ -52,7 +52,7 @@ extern "C" __thiscall int common_add_vertices_hook(AnmManager* self, ZunVertex* 
         for (int i = 0; i < 4; i++) {
             float dist_x = player_x - vertices[i].x;
             float dist_y = player_y - vertices[i].y;
-            uint32_t alpha = (vertices[i].color >> 24) * min((dist_x * dist_x + dist_y * dist_y) / 8192.0f, 1.0f);
+            uint32_t alpha = (vertices[i].color >> 24) * std::min((dist_x * dist_x + dist_y * dist_y) / 8192.0f, 1.0f);
             vertices[i].color = (vertices[i].color & 0xFFFFFF) | (alpha << 24);
         }
         */
@@ -78,10 +78,10 @@ extern "C" __thiscall int common_add_vertices_hook(AnmManager* self, ZunVertex* 
         float y_min = vertices[0].y;
         float y_max = vertices[0].y;
         for (int i = 1; i < 4; i++) {
-            x_min = min(x_min, vertices[i].x);
-            x_max = max(x_max, vertices[i].x);
-            y_min = min(y_min, vertices[i].y);
-            y_max = max(y_max, vertices[i].y);
+            x_min = std::min(x_min, vertices[i].x);
+            x_max = std::max(x_max, vertices[i].x);
+            y_min = std::min(y_min, vertices[i].y);
+            y_max = std::max(y_max, vertices[i].y);
         }
 
         float center_x = (x_min + x_max) / 2.0f;

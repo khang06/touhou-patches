@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <d3d9.h>
 #include <stdint.h>
+#include <algorithm>
 
 // Thanks zero318 for the stupid MSVC calling convention BS workaround
 #pragma clang diagnostic push

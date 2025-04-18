@@ -22,9 +22,9 @@ public:
 
     virtual bool Update() {
         if (radius > target_radius)
-            radius = max(radius - 160.0f, target_radius);
+            radius = std::max(radius - 160.0f, target_radius);
         else if (radius < target_radius)
-            radius = min(radius + 160.0f, target_radius);
+            radius = std::min(radius + 160.0f, target_radius);
 
         //pos.x += (Player::Instance->pos_float.x - pos.x) * 0.25848765432f;
         //pos.y += (Player::Instance->pos_float.y - pos.y) * 0.25848765432f;
@@ -77,9 +77,9 @@ public:
         vertices[3].y = py + scaled_radius;
 
         if (dim > target_dim)
-            dim = max(dim - 32, target_dim);
+            dim = std::max(dim - 32, target_dim);
         else if (dim < target_dim)
-            dim = min(dim + 32, target_dim);
+            dim = std::min(dim + 32, target_dim);
 
         DWORD dim_col = dim << 24;
         for (int i = 4; i < 8; i++)

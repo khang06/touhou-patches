@@ -57,7 +57,7 @@ public:
         CHECK(d3d9_dev->SetTransform(D3DTS_TEXTURE0, &identity));
 
         if (!fade_in_finished) {
-            strength = min(strength + 0.01f, 1.5f);
+            strength = std::min(strength + 0.01f, 1.5f);
             if (strength == 1.5f)
                 fade_in_finished = true;
         }
@@ -92,7 +92,7 @@ public:
 
     virtual bool Update() {
         if (timer <= 0) {
-            strength = max(0.0f, strength - 0.01f);
+            strength = std::max(0.0f, strength - 0.01f);
             if (strength == 0.0f)
                 return false;
         } else {

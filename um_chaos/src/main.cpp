@@ -5,6 +5,7 @@
 #include <commctrl.h>
 #include <numeric>
 #include <stdio.h>
+#include <algorithm>
 #include "assets.hpp"
 #include "commonhooks.hpp"
 #include "effect.hpp"
@@ -60,6 +61,8 @@ extern "C" int game_threadproc_hook() {
 
         uint32_t seed;
         rand_s(&seed);
+        if (!seed)
+            seed = 1;
         Rand::Seed(seed);
         g_next_effect_timer = Rand::RangeFrames(Settings::MinRandomTime, Settings::MaxRandomTime);
         g_vote_state = VOTE_INACTIVE;
@@ -209,7 +212,7 @@ int __fastcall post_frame_calc(void*) {
                 break;
             }
             case VOTE_RESULTS_END: {
-                g_vote_transition = max(0, min(g_vote_state_timer - 1, 24));
+                g_vote_transition = std::max(0, std::min(g_vote_state_timer - 1, 24));
                 if (--g_vote_state_timer <= 0) {
                     Util::Log("Vote results finished\n");
                     g_vote_state = VOTE_INACTIVE;
@@ -262,7 +265,7 @@ void update_vote_pie(const std::array<size_t, 4>& votes) {
         if (has_votes && votes[i] == 0)
             continue;
         float proportion = has_votes ? (votes[i] / total_votes) : 0.25f;
-        int res = max(1, proportion * 50);
+        int res = std::max(1.0f, proportion * 50);
 
         // Draw vote arc
         size_t center_vertex = cur_vertex;
@@ -472,7 +475,7 @@ int __fastcall post_frame_draw(void*) {
     ascii->style = 1;
     for (int i = 0; i < Effect::EnabledCount; i++) {
         D3DVECTOR pos = { 4.0f, 470.0f - i * 10.0f, 0.0f };
-        //auto fade = min(0xFF, Effect::Enabled[i].frames_active * 8);
+        //auto fade = std::min(0xFF, Effect::Enabled[i].frames_active * 8);
         auto fade = Effect::Enabled[i].frames_active > 60 ? 0xFF : (Effect::Enabled[i].frames_active % 8 < 4 ? 0x00 : 0xFF);
         ascii->color = D3DCOLOR_XRGB(0xFF, fade, fade);
         ascii->DrawShadowText(&pos, "%s", Effect::Enabled[i].name);
@@ -659,6 +662,19 @@ extern "C" int entry_hook() {
     CalcChain::RegisterDraw(draw, 87);
 
     return 0;
+}
+
+// RandomEasing intentionally breaks all of the interpolators,
+// but unfortunately some scripts (e.g. Lily) use the interpolator value as the wait value
+// This should prevent that from freezing the game
+extern "C" int __thiscall EclThread_GetIntArg(void*, int);
+extern "C" int __thiscall EclThread_GetIntArg_wait_hook(void* self, int pos) {
+    return std::max(1, EclThread_GetIntArg(self, pos));
+}
+
+extern "C" float __thiscall EclThread_GetFloatArg(void*, int);
+extern "C" float __thiscall EclThread_GetFloatArg_waitf_hook(void* self, int pos) {
+    return std::max(1.0f, EclThread_GetFloatArg(self, pos));
 }
 
 // Runs as early as possible

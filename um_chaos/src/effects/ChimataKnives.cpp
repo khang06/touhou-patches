@@ -84,7 +84,7 @@ public:
                             new_color = bullet->color;
                             break;
                         case -3:
-                            new_color = min(bullet->color * 2 + 1, 6);
+                            new_color = std::min(bullet->color * 2 + 1, 6);
                             break;
                     }
 
