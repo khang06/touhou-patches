@@ -8,11 +8,15 @@
 bool CommonHooks::LeSanae = false;
 bool CommonHooks::BulletFade = false;
 bool CommonHooks::Spin = false;
+bool CommonHooks::Rainbow = false;
 bool CommonHooks::CopyingPlayfield = false;
 bool CommonHooks::DrawingBullets = false;
 int32_t CommonHooks::TitleScreenShake = 0;
 float CommonHooks::SpinSin = 0.0f;
 float CommonHooks::SpinCos = 1.0f;
+uint8_t CommonHooks::RainbowRed = 0xFF;
+uint8_t CommonHooks::RainbowGreen = 0xFF;
+uint8_t CommonHooks::RainbowBlue = 0xFF;
 
 extern "C" __thiscall int common_draw_sprite_playfield_hook(AnmManager* self, AnmVM* anm) {
     CommonHooks::CopyingPlayfield = true;
@@ -94,6 +98,15 @@ extern "C" __thiscall int common_add_vertices_hook(AnmManager* self, ZunVertex* 
             float temp_x = center_x + vertices[i].x * CommonHooks::SpinCos - vertices[i].y * CommonHooks::SpinSin;
             vertices[i].y = center_y + vertices[i].x * CommonHooks::SpinSin + vertices[i].y * CommonHooks::SpinCos;
             vertices[i].x = temp_x;
+        }
+    }
+    if (__builtin_expect(CommonHooks::Rainbow, 0)) {
+        for (size_t i = 0; i < 4; i++) {
+            uint32_t orig = vertices[i].color;
+            uint32_t r = CommonHooks::RainbowRed * (orig & 0xFF) / 0xFF;
+            uint32_t g = CommonHooks::RainbowGreen * ((orig & 0xFF00) >> 8) / 0xFF;
+            uint32_t b = CommonHooks::RainbowBlue * ((orig & 0xFF0000) >> 16) / 0xFF;
+            vertices[i].color = D3DCOLOR_ARGB(orig >> 24, r, g, b);
         }
     }
     return self->AddVertices(vertices);
