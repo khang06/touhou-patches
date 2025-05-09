@@ -2,7 +2,7 @@
 	"compile_flags.txt": null,
 	"patch.js": 1241955806,
 	"stringdefs.js": 3074951790,
-	"th18.v1.00a.js": 3104149632,
+	"th18.v1.00a.js": 2763696276,
 	"th18/bluefairy.rgba": 3803572457,
 	"th18/chaos.anm": 3378956210,
 	"th18/chaos.ecl": 1313932183,

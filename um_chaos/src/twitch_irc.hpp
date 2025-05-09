@@ -25,7 +25,7 @@ void __fastcall twitch_voting(bool state);
 bool __fastcall voting_is_high_numbers();
 
 // Gets the current vote totals
-std::array<size_t, 4> __fastcall get_votes();
+std::array<size_t, 4> get_votes();
 
 // Finalizes the current vote totals and resets to the other set of numbers
 std::array<size_t, 4> __fastcall get_final_votes();
