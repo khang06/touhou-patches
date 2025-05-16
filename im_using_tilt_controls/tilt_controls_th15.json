@@ -1,49 +1,31 @@
 {
-    "input": "tilt_controls.obj",
-    "output": "th14.v1.00b.js",
+    "input": "tilt_controls_th15.obj",
+    "output": "th15.v1.00b.js",
     "prefix": "tilt_controls",
     "options": {
         
     },
     "externs": {
         "?Create@CCalcChain@@SGPAV1@P6IHPAX@Z@Z": {
-            "addr": "0x401570"
+            "addr": "0x4017E0"
         },
         "?RegisterCalc@CCalcChain@@SGHPAV1@H@Z": {
-            "addr": "0x401120"
-        },
-        "?RegisterDraw@CCalcChain@@SGHPAV1@H@Z": {
-            "addr": "0x4011D0"
-        },
-        "?Draw@CAscii@@QAAXPAMPBDZZ": {
-            "addr": "0x40BDC0"
-        },
-        "?Instance@CAscii@@2PAV1@A": {
-            "addr": "0x4DB520"
-        },
-        "?CopyPlayfield@CRenderer@@QAEHXZ": {
-            "addr": "0x447250"
+            "addr": "0x401390"
         },
         "_g_device": {
-            "addr": "0x4D8F68"
+            "addr": "0x4E77D8"
         },
         "_g_joypad": {
-            "addr": "0x4D8F84"
+            "addr": "0x4E77F4"
         },
         "_g_present_params": {
-            "addr": "0x4D9054"
+            "addr": "0x4E78C4"
         },
         "_g_input": {
-            "addr": "0x4D6878"
+            "addr": "0x4E6D10"
         },
         "_log_mboxf": {
             "addr": "log_mboxf"
-        },
-        "_atan2": {
-            "addr": "0x4A7530"
-        },
-        "_sqrt": {
-            "addr": "0x4A9404"
         }
     },
     "imports": {
@@ -122,16 +104,16 @@
     },
     "binhacks": {
         "tilt_controls_hook_jmp": {
-            "addr": "0x444FF4",
+            "addr": "0x44CBE4",
             "code": "E9 [obj:_hook_entry]"
         },
         "tilt_controls_flush_sprites": {
-            "addr": "0x447291",
+            "addr": "0x44EF91",
             "code": "E8 [obj:@flush_sprites@4]"
         },
         "tilt_controls_move": {
-            "addr": "0x44D621",
-            "code": "8B1D <obj:_g_vel> A1 (<obj:_g_vel>+4) EB48"
+            "addr": "0x4543DC",
+            "code": "8B15<obj:_g_vel> A1(<obj:_g_vel>+4) 8954240C EB4A"
         }
     }
 }

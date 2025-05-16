@@ -1,0 +1,137 @@
+{
+    "input": "tilt_controls_th14.obj",
+    "output": "th14.v1.00b.js",
+    "prefix": "tilt_controls",
+    "options": {
+        
+    },
+    "externs": {
+        "?Create@CCalcChain@@SGPAV1@P6IHPAX@Z@Z": {
+            "addr": "0x401570"
+        },
+        "?RegisterCalc@CCalcChain@@SGHPAV1@H@Z": {
+            "addr": "0x401120"
+        },
+        "?RegisterDraw@CCalcChain@@SGHPAV1@H@Z": {
+            "addr": "0x4011D0"
+        },
+        "?Draw@CAscii@@QAAXPAMPBDZZ": {
+            "addr": "0x40BDC0"
+        },
+        "?Instance@CAscii@@2PAV1@A": {
+            "addr": "0x4DB520"
+        },
+        "?CopyPlayfield@CRenderer@@QAEHXZ": {
+            "addr": "0x447250"
+        },
+        "_g_device": {
+            "addr": "0x4D8F68"
+        },
+        "_g_joypad": {
+            "addr": "0x4D8F84"
+        },
+        "_g_present_params": {
+            "addr": "0x4D9054"
+        },
+        "_g_input": {
+            "addr": "0x4D6878"
+        },
+        "_log_mboxf": {
+            "addr": "log_mboxf"
+        },
+        "_atan2": {
+            "addr": "0x4A7530"
+        },
+        "_sqrt": {
+            "addr": "0x4A9404"
+        }
+    },
+    "imports": {
+        "kernel32.dll": {
+            "CreateThread": {
+                "alias": "_CreateThread@24"
+            },
+            "VirtualProtect": {
+                "alias": "_VirtualProtect@16"
+            }
+        },
+        "ws2_32.dll": {
+            "WSAStartup": {
+                "alias": "_WSAStartup@8"
+            },
+            "recvfrom": {
+                "alias": "_recvfrom@24"
+            },
+            "bind": {
+                "alias": "_bind@12"
+            },
+            "socket": {
+                "alias": "_socket@12"
+            },
+            "htons": {
+                "alias": "_htons@4"
+            },
+            "inet_pton": {
+                "alias": "_inet_pton@12"
+            },
+            "sendto": {
+                "alias": "_sendto@24"
+            },
+            "WSAGetLastError": {
+                "alias": "_WSAGetLastError@0"
+            }
+        },
+        "winmm.dll": {
+            "timeGetTime": {
+                "alias": "_timeGetTime@0"
+            }
+        },
+        // thcrap loads this dll anyway
+        "zlib-ng.dll": {
+            "crc32_z": {
+                "alias": "_crc32_z"
+            }
+        },
+        // DDC loads this dll anyway
+        "d3dx9_43.dll": {
+            "D3DXMatrixPerspectiveFovLH": {
+                "alias": "_D3DXMatrixPerspectiveFovLH@20"
+            },
+            "D3DXMatrixLookAtLH": {
+                "alias": "_D3DXMatrixLookAtLH@16"
+            },
+            "D3DXMatrixTranslation": {
+                "alias": "_D3DXMatrixTranslation@16"
+            },
+            "D3DXMatrixRotationQuaternion": {
+                "alias": "_D3DXMatrixRotationQuaternion@8"
+            },
+            "D3DXMatrixRotationYawPitchRoll": {
+                "alias": "_D3DXMatrixRotationYawPitchRoll@16"
+            },
+            "D3DXMatrixMultiply": {
+                "alias": "_D3DXMatrixMultiply@12"
+            },
+            "D3DXQuaternionInverse": {
+                "alias": "_D3DXQuaternionInverse@8"
+            },
+            "D3DXQuaternionMultiply": {
+                "alias": "_D3DXQuaternionMultiply@12"
+            }
+        }
+    },
+    "binhacks": {
+        "tilt_controls_hook_jmp": {
+            "addr": "0x444FF4",
+            "code": "E9 [obj:_hook_entry]"
+        },
+        "tilt_controls_flush_sprites": {
+            "addr": "0x447291",
+            "code": "E8 [obj:@flush_sprites@4]"
+        },
+        "tilt_controls_move": {
+            "addr": "0x44D621",
+            "code": "8B1D <obj:_g_vel> A1 (<obj:_g_vel>+4) EB48"
+        }
+    }
+}

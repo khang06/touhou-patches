@@ -1,4 +1,9 @@
-// clang++ -m32 -msse -msse2 -mfpmath=sse -O2 -c tilt_controls.cpp -o tilt_controls.obj
+// clang++ -m32 -msse -msse2 -mfpmath=sse -O2 -c tilt_controls.cpp -DGAME=14 -o tilt_controls_th14.obj
+// clang++ -m32 -msse -msse2 -mfpmath=sse -O2 -c tilt_controls.cpp -DGAME=15 -o tilt_controls_th15.obj
+
+#ifndef GAME
+#define GAME 15
+#endif
 
 #include <WinSock2.h>
 #include <Windows.h>
@@ -305,6 +310,7 @@ struct ZunVertex {
     float u, v;
 };
 
+#if GAME == 14
 class CAnmManager {
 public:
     char gap0[0xCC];
@@ -314,10 +320,27 @@ public:
     char gapBC8194[0x5C];
     uint32_t sprite_count;
     char gapBC81F4[0x380000];
-    ZunVertex *next_vertex_buffer;
-    ZunVertex *vertex_buffer;
+    ZunVertex* next_vertex_buffer;
+    ZunVertex* vertex_buffer;
     char gapF481FC[0xAD0D8];
 };
+#elif GAME == 15
+class CAnmManager {
+public:
+    char gap0[204];
+    uint32_t flush_count;
+    char gapD0[25688795];
+    char blend_op;
+    char gap187FBAC[92];
+    uint32_t sprite_count;
+    char gap187FC0C[3670016];
+    ZunVertex* next_vertex_buffer;
+    ZunVertex* vertex_buffer;
+    char gap1BFFC14[720228];
+    int field_1CAF978;
+};
+
+#endif
 
 extern "C" IDirect3DDevice9* g_device;
 extern "C" LPDIRECTINPUTDEVICE8A g_joypad;
@@ -452,6 +475,7 @@ int __fastcall calc_func(void*) {
     return 1;
 }
 
+/*
 int __fastcall draw_func(void*) {
     float pos[3] = {0.0, 0.0, 0.0};
     if (CAscii::Instance) {
@@ -468,6 +492,7 @@ int __fastcall draw_func(void*) {
     }
     return 1;
 }
+*/
 
 extern "C" int hook_entry() {
     WSAData data;
@@ -479,9 +504,11 @@ extern "C" int hook_entry() {
     calc->flags |= 2;
     CCalcChain::RegisterCalc(calc, 1);
 
+    /*
     auto draw = CCalcChain::Create(draw_func);
     draw->flags |= 2;
     CCalcChain::RegisterDraw(draw, 66);
+    */
 
     // Set up matrices
     // Translate to the origin, rotate, look at, perspective project, translate again
