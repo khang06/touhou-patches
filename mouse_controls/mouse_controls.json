@@ -1,0 +1,36 @@
+{
+    "input": "mouse_controls.obj",
+    "output": "th11.v1.00a.js",
+    "prefix": "mouse_controls",
+    "options": {},
+    "externs": {
+        "_g_window": {
+            "addr": "0x4C3D88"
+        },
+        "_g_window_flags": {
+            "addr": "0x4C3DC0"
+        },
+        "?CalcMove@Player@@SGHPAU1@@Z": {
+            "addr": "0x430290"
+        }
+    },
+    "imports": {
+        "user32.dll": {
+            "ScreenToClient": {
+                "alias": "_ScreenToClient@8"
+            },
+            "GetCursorPos": {
+                "alias": "_GetCursorPos@4"
+            },
+            "IsIconic": {
+                "alias": "_IsIconic@4"
+            }
+        }
+    },
+    "binhacks": {
+        "mouse_controls_hook_calc_move": {
+            "addr": "0x43121B",
+            "code": "E8 [obj:_calc_move_hook@4]"
+        }
+    }
+}
