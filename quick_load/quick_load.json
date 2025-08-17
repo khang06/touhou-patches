@@ -1,0 +1,19 @@
+{
+    "input": "quick_load.obj",
+    "output": "global.js",
+    "prefix": "quick_load",
+    "options": {
+        
+    },
+    "externs": {
+
+    },
+    "imports": {
+        
+    },
+    "binhacks": {
+        "quick_load_unlzss_hook": {
+            "code": "E9[obj:@unlzss_fast@16]"
+        }
+    }
+}

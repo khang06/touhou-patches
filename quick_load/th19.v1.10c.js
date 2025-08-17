@@ -15,7 +15,22 @@
         quick_load_no_title_input_wait2: {
             addr: "Rx15A303",
             code: "<nop:2>"
-        }
+        },
+        quick_load_unlzss_hook: {
+            addr: "Rx15D770"
+        },
+        quick_load_unlzss_stack_fixup1: {
+            addr: "Rx1504AC",
+            code: "20"
+        },
+        quick_load_unlzss_stack_fixup2: {
+            addr: ["Rx151C67", "Rx15E7E6"],
+            code: "<nop:3>"
+        },
+        quick_load_unlzss_stack_fixup3: {
+            addr: "Rx15E101",
+            code: "10"
+        },
     },
     codecaves: {
         quick_load_cave: {

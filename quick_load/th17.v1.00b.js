@@ -15,6 +15,9 @@
         quick_load_no_title_input_wait2: {
             addr: "0x45200F",
             code: "<nop:6>"
+        },
+        quick_load_unlzss_hook: {
+            addr: "0x45ECF0"
         }
     },
     codecaves: {
