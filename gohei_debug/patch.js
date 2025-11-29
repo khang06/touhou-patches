@@ -1,7 +1,7 @@
 {
-	"id": "im_using_tilt_controls",
+	"id": "gohei_debug",
 	"servers": [
-		"https://raw.githubusercontent.com/khang06/touhou-patches/master/im_using_tilt_controls/"
+		"https://raw.githubusercontent.com/khang06/touhou-patches/master/gohei_debug/"
 	],
-	"title": "(TH14) Gyro movement via Cemuhook UDP protocol"
+	"title": "(TH14) Gohei dupe debug"
 }

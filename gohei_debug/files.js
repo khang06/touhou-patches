@@ -1,9 +1,13 @@
 {
-	".clangd": 157117833,
+	".clangd": 3250343002,
+	".gitignore": 1605948533,
 	".vscode/c_cpp_properties.json": 2155048940,
-	"patch.js": 1531490583,
-	"th14.v1.00b.js": 2856676863,
-	"tilt_controls.cpp": 2544765099,
-	"tilt_controls.json": 2095938815,
-	"tilt_controls.obj": 1015769109
+	"gohei_debug.cpp": 1359205649,
+	"gohei_debug.json": 1923922954,
+	"gohei_debug.obj": 3819478103,
+	"patch.js": 3729388247,
+	"th14.v1.00b.js": 2205051649,
+	"tilt_controls.cpp": null,
+	"tilt_controls.json": null,
+	"tilt_controls.obj": null
 }

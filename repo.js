@@ -3,6 +3,7 @@
 	"id": "Khangaroo",
 	"patches": {
 		"bullet_offset_fix": "(TH20) Bullet Offset Fix",
+		"gohei_debug": "(TH14) Gohei dupe debug",
 		"im_using_tilt_controls": "(TH14) Gyro movement via Cemuhook UDP protocol",
 		"mouse_controls": "(TH11) Quick and dirty mouse controls patch (no replay support)",
 		"no_stone": "(TH20) No Stone",
